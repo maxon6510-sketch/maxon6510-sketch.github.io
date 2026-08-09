@@ -131,7 +131,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .rarity-legendary { color:#ff8000; }
 .rarity-mythic { color:#e74c3c; }
 
-/* ===== INVENTORY (с прокруткой) ===== */
+/* ===== INVENTORY ===== */
 .inv-container {
   display:flex; gap:16px; align-items:flex-start;
   max-height:360px; overflow-y:auto;
@@ -275,15 +275,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   color:#ff8c1a; font-size:20px; font-weight:bold; letter-spacing:2px;
   text-shadow:0 0 10px rgba(255,140,26,0.8); display:none;
 }
-/* Крест (прицел) убран */
-
-/* ===== BUY TIMER IN SHOP ===== */
-#buyTimerWrap {
-  display:none; text-align:center; margin-bottom:12px;
-}
-#buyTimerWrap.active { display:block; }
-#buyTimerLabel { color:#999; font-size:11px; letter-spacing:3px; text-transform:uppercase; }
-#buyTimerVal { color:#fff; font-size:28px; font-weight:bold; letter-spacing:2px; }
 
 /* ===== PAUSE ===== */
 #pauseBtn {
@@ -469,7 +460,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   </div>
 </div>
 
-<!-- HUD (без креста) -->
+<!-- HUD -->
 <div id="hud">
   <div class="box">
     <div class="stat" id="hpStat">❤️ HP: <span id="hpVal">100</span>
@@ -499,10 +490,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   <div id="shopPanel">
     <div id="shopHeader">
       <h2>МАГА<span>ЗИН</span></h2>
-      <div class="buy-timer-wrap" id="buyTimerWrapInShop">
-        <div class="label">⏳ Закупка</div>
-        <div class="value" id="buyTimerValInShop">5</div>
-      </div>
       <div class="shop-money" id="shopMoney">$2000</div>
     </div>
     <div class="shop-grid" id="shopContainer"></div>
@@ -563,8 +550,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       osc.frequency.exponentialRampToValueAtTime(100, now+0.08);
       gain.gain.exponentialRampToValueAtTime(0.01, now+0.08);
       osc.start(now); osc.stop(now+0.08);
-    } else if (type === 'shoot_smg') {
-      // не используется
     } else if (type === 'shoot_sniper') {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(1500, now);
@@ -1652,13 +1637,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const container=document.getElementById('shopContainer');
     container.innerHTML='';
     document.getElementById('shopMoney').textContent='$'+playerState.money;
-    const timerWrap = document.getElementById('buyTimerWrapInShop');
-    if (buyPhaseActive) {
-      timerWrap.style.display = 'block';
-      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter;
-    } else {
-      timerWrap.style.display = 'none';
-    }
 
     Object.values(WEAPONS).forEach(w=>{
       const div=document.createElement('div'); div.className='shop-item';
@@ -1686,42 +1664,11 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  function startBuyPhase(callback){
-    buyPhaseActive = true;
-    buyTimerCounter = BUY_PHASE_DURATION;
-    document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
-    document.getElementById('buyTimerOverlay').style.display = 'block';
-    shopOpen = true;
-    renderInGameShop();
-    document.getElementById('shopOverlay').style.display = 'flex';
-    if (buyTimerInterval) clearInterval(buyTimerInterval);
-    buyTimerInterval = setInterval(() => {
-      buyTimerCounter--;
-      document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
-      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter;
-      if (buyTimerCounter <= 0) {
-        clearInterval(buyTimerInterval);
-        buyTimerInterval = null;
-        buyPhaseActive = false;
-        document.getElementById('buyTimerOverlay').style.display = 'none';
-        shopOpen = false;
-        document.getElementById('shopOverlay').style.display = 'none';
-        if (callback) callback();
-      }
-    }, 1000);
-  }
-
-  function animate(){
-    requestAnimationFrame(animate);
-    const dt=Math.min(clock.getDelta(),0.1);
-    if(gameRunning && !shopOpen && !paused && !buyPhaseActive){
-      updateAim(); updatePlayer(dt); updateBots(dt); updateBullets(dt); updateCamera();
-    }
-    renderer.render(scene,camera);
-  }
-
-  function startGame(){
+  // Новая упрощённая функция старта игры (без таймера закупки)
+  function startGameDirectly() {
+    // Очищаем всё
     clearDynamicObjects();
+    // Строим карту
     if (selectedMap === 'sandstone') buildMapSandstone();
     else buildMapDust2();
 
@@ -1730,6 +1677,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     applyPlayerLoadout();
     spawnBots();
 
+    // Прячем меню, показываем HUD
     document.getElementById('menu').style.display = 'none';
     document.getElementById('gameOver').style.display = 'none';
     document.getElementById('shopOverlay').style.display = 'none';
@@ -1740,12 +1688,17 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
     shopOpen = false;
     paused = false;
-    gameRunning = false;
+    gameRunning = true; // Запускаем сразу
+    buyPhaseActive = false;
+    // Сбрасываем дельту
+    clock.getDelta();
+    console.log('Игра запущена (без закупки)');
+  }
 
-    startBuyPhase(() => {
-      gameRunning = true;
-      clock.getDelta();
-    });
+  // Заменяем старую функцию startGame
+  function startGame(){
+    // Вызываем прямой старт
+    startGameDirectly();
   }
 
   function returnToMenu(){
@@ -1774,6 +1727,16 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     botBullets.length=0;
     for(const o of obstacles){ scene.remove(o.mesh); }
     obstacles.length=0;
+  }
+
+  // Остальные функции (animate, UI HOOKS) остаются без изменений, но нужно убедиться, что animate работает
+  function animate(){
+    requestAnimationFrame(animate);
+    const dt=Math.min(clock.getDelta(),0.1);
+    if(gameRunning && !shopOpen && !paused){
+      updateAim(); updatePlayer(dt); updateBots(dt); updateBullets(dt); updateCamera();
+    }
+    renderer.render(scene,camera);
   }
 
   // UI HOOKS
@@ -1805,12 +1768,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   renderInventory();
   renderCases();
 
+  // Музыка – запускаем при первом клике по странице
   document.addEventListener('click', () => {
     initAudio();
     if (!musicPlaying && musicVolume > 0) {
       startMusic();
     }
   }, { once: true });
+
 })();
 </script>
 </body>
