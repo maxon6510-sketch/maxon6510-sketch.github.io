@@ -25,36 +25,36 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 .menu-content {
   position:relative; z-index:2;
-  width:90%; max-width:720px; background:rgba(15,13,10,0.85);
+  width:95%; max-width:1000px; background:rgba(15,13,10,0.85);
   border:1px solid rgba(255,140,26,0.3); border-radius:12px;
-  padding:30px 40px 40px;
+  padding:20px 30px 30px;
   box-shadow:0 0 60px rgba(255,140,26,0.15);
   backdrop-filter:blur(4px);
   text-align:center;
 }
 .menu-content h1 {
-  font-size:64px; font-weight:900; color:#fff; letter-spacing:3px;
+  font-size:44px; font-weight:900; color:#fff; letter-spacing:3px;
   text-shadow:0 0 40px rgba(255,140,26,0.5);
-  margin-bottom:8px;
+  margin-bottom:2px;
 }
 .menu-content h1 span { color:#ff8c1a; }
 .menu-content .sub {
-  color:#8a7455; letter-spacing:6px; font-size:12px; text-transform:uppercase;
-  margin-bottom:20px;
+  color:#8a7455; letter-spacing:4px; font-size:10px; text-transform:uppercase;
+  margin-bottom:12px;
 }
 .balance-bar {
-  display:flex; justify-content:flex-end; margin-bottom:15px;
-  color:#8fe38f; font-size:18px; font-weight:bold;
-  border-bottom:1px solid rgba(255,140,26,0.2); padding-bottom:12px;
+  display:flex; justify-content:flex-end; margin-bottom:10px;
+  color:#8fe38f; font-size:16px; font-weight:bold;
+  border-bottom:1px solid rgba(255,140,26,0.2); padding-bottom:8px;
 }
 .balance-bar span { color:#ffb86b; margin-left:8px; }
 .tabs {
-  display:flex; gap:6px; justify-content:center; margin-bottom:22px;
+  display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;
 }
 .tabs button {
   background:transparent; border:1px solid #333; color:#999;
-  padding:8px 20px; border-radius:6px; cursor:pointer; font-size:14px;
-  transition:0.2s; letter-spacing:1px;
+  padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px;
+  transition:0.2s; letter-spacing:1px; text-transform:uppercase;
 }
 .tabs button:hover { border-color:#ff8c1a; color:#ff8c1a; }
 .tabs button.active { background:#ff8c1a; color:#111; border-color:#ff8c1a; font-weight:bold; }
@@ -62,54 +62,127 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .tab-panel.active { display:block; }
 #tab-play input {
   background:#151515; border:2px solid #ff8c1a; color:#fff;
-  padding:14px 20px; font-size:18px; width:100%; max-width:300px;
-  outline:none; border-radius:6px; margin-bottom:16px;
+  padding:12px 18px; font-size:16px; width:100%; max-width:280px;
+  outline:none; border-radius:6px; margin-bottom:12px;
 }
-#tab-play button {
+#tab-play .start-btn {
   background:linear-gradient(180deg,#ff9d33,#e07000);
-  border:none; color:#111; font-weight:bold; font-size:22px;
-  padding:14px 40px; border-radius:6px; cursor:pointer;
+  border:none; color:#111; font-weight:bold; font-size:20px;
+  padding:12px 36px; border-radius:6px; cursor:pointer;
   box-shadow:0 4px 0 #a44f00; transition:0.1s;
 }
-#tab-play button:active { transform:translateY(4px); box-shadow:0 1px 0 #a44f00; }
+#tab-play .start-btn:active { transform:translateY(4px); box-shadow:0 1px 0 #a44f00; }
 .hint {
-  margin-top:16px; color:#666; font-size:13px; letter-spacing:0.5px; line-height:1.8;
+  margin-top:12px; color:#666; font-size:12px; letter-spacing:0.5px; line-height:1.8;
 }
 .hint b { color:#ff8c1a; }
 
-/* Стили для магазина скинов, инвентаря, кейсов */
-.skin-grid {
+/* ===== MAP SELECTION ===== */
+.map-grid {
   display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
   max-height:300px; overflow-y:auto; padding:4px;
 }
-.skin-card {
-  background:#161410; border:1px solid #332c1e; border-radius:8px;
-  padding:12px 16px; min-width:140px; flex:1 1 auto; text-align:center;
+.map-card {
+  background:rgba(20,18,14,0.7); border:2px solid #2a2620; border-radius:10px;
+  padding:12px; width:140px; text-align:center; cursor:pointer; transition:0.2s;
 }
-.skin-card .sname { font-weight:bold; color:#fff; font-size:14px; }
-.skin-card .sprice { color:#ffb86b; font-size:13px; margin:4px 0; }
-.skin-card button {
-  background:#ff8c1a; border:none; color:#111; padding:5px 14px; border-radius:4px;
-  font-weight:bold; cursor:pointer; font-size:12px;
+.map-card:hover { border-color:#ff8c1a; transform:scale(1.02); }
+.map-card.selected { border-color:#ff8c1a; background:rgba(255,140,26,0.15); }
+.map-card .mname { color:#fff; font-size:15px; font-weight:bold; letter-spacing:0.5px; }
+.map-card .mtime { color:#888; font-size:12px; margin:4px 0; }
+.map-card .mstatus { color:#2ed573; font-size:11px; }
+
+/* ===== SKIN SHOP ===== */
+.skin-shop-grid {
+  display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
+  max-height:340px; overflow-y:auto; padding:4px;
 }
-.skin-card button.equipped { background:#3a6b3a; color:#fff; cursor:default; }
-.skin-card button.owned { background:#2a3a2a; color:#b6ff9e; }
-.skin-card button:disabled { opacity:0.4; cursor:not-allowed; }
-.case-card {
-  background:#161410; border:1px solid #ff8c1a; border-radius:8px;
-  padding:20px; display:inline-block; margin:8px; min-width:160px;
-  text-align:center;
+.skin-shop-card {
+  background:rgba(20,18,14,0.7); border:1px solid #2a2620; border-radius:10px;
+  padding:12px; width:170px; text-align:center; transition:0.2s;
 }
-.case-card .cname { color:#fff; font-size:18px; font-weight:bold; }
-.case-card .cprice { color:#ffb86b; margin:8px 0; }
-.case-card button { background:#ff8c1a; border:none; color:#111; padding:8px 24px; border-radius:6px; font-weight:bold; cursor:pointer; }
+.skin-shop-card:hover { border-color:#ff8c1a; }
+.skin-shop-card .scolor {
+  width:40px; height:40px; border-radius:8px; border:2px solid #444; margin:0 auto 6px;
+}
+.skin-shop-card .sname { color:#fff; font-size:14px; font-weight:bold; }
+.skin-shop-card .sweapon { color:#888; font-size:11px; }
+.skin-shop-card .srarity {
+  font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px; display:inline-block; margin:4px 0;
+}
+.skin-shop-card .sprice { color:#ffb86b; font-size:13px; margin:4px 0; }
+.skin-shop-card button {
+  background:linear-gradient(180deg,#ff9d33,#e07000);
+  border:none; color:#111; font-weight:bold; padding:4px 16px; border-radius:4px;
+  cursor:pointer; font-size:12px; box-shadow:0 3px 0 #a44f00;
+}
+.skin-shop-card button:active { transform:translateY(3px); box-shadow:0 1px 0 #a44f00; }
+.skin-shop-card button:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+.rarity-common { color:#b0b0b0; }
+.rarity-uncommon { color:#5b9b5b; }
+.rarity-rare { color:#3b7bb7; }
+.rarity-epic { color:#a335ee; }
+.rarity-legendary { color:#ff8000; }
+.rarity-mythic { color:#e74c3c; }
+
+/* ===== INVENTORY ===== */
+.inv-container {
+  display:flex; gap:16px; align-items:flex-start;
+  max-height:340px; overflow-y:auto;
+}
+.inv-list {
+  flex:1 1 60%; display:flex; flex-direction:column; gap:4px;
+}
 .inv-item {
-  display:inline-block; background:#161410; border:1px solid #333; border-radius:6px;
-  padding:8px 14px; margin:4px; font-size:13px;
+  display:flex; align-items:center; gap:10px;
+  background:rgba(20,18,14,0.6); border:1px solid #2a2620; border-radius:6px;
+  padding:6px 12px; cursor:pointer; transition:0.15s;
 }
-.inv-item .iname { color:#fff; }
-.inv-item .iapply { color:#8fe38f; cursor:pointer; margin-left:8px; }
-.inv-item .iapply:hover { color:#ff8c1a; }
+.inv-item:hover { border-color:#ff8c1a; background:rgba(30,25,18,0.8); }
+.inv-item .icolor {
+  width:24px; height:24px; border-radius:4px; border:1px solid #444; flex-shrink:0;
+}
+.inv-item .iname { color:#fff; font-size:13px; flex:1; text-align:left; }
+.inv-item .irarity { font-size:10px; font-weight:bold; }
+.inv-item .iapply {
+  color:#8fe38f; font-size:11px; cursor:pointer; padding:2px 10px;
+  border:1px solid #2a4a2a; border-radius:4px; background:rgba(30,50,30,0.3);
+}
+.inv-item .iapply:hover { background:#2a4a2a; color:#b6ff9e; }
+.inv-item .iequipped { color:#ff8c1a; font-size:11px; font-weight:bold; }
+.inv-preview {
+  flex:0 0 160px; background:rgba(10,9,8,0.8); border:1px solid #2a2620; border-radius:8px;
+  padding:12px; text-align:center;
+}
+.inv-preview .pcolor {
+  width:70px; height:70px; border-radius:8px; border:2px solid #555; margin:0 auto 6px;
+}
+.inv-preview .pname { color:#fff; font-size:14px; font-weight:bold; }
+.inv-preview .pweapon { color:#888; font-size:12px; }
+.inv-empty { color:#666; font-size:14px; padding:16px 0; text-align:center; }
+
+/* ===== CASE SHOP ===== */
+.case-shop-grid {
+  display:flex; flex-wrap:wrap; gap:16px; justify-content:center;
+  max-height:340px; overflow-y:auto; padding:4px;
+}
+.case-card {
+  background:rgba(20,18,14,0.7); border:1px solid #2a2620; border-radius:10px;
+  padding:16px; width:150px; text-align:center; transition:0.2s;
+}
+.case-card:hover { border-color:#ff8c1a; transform:translateY(-2px); box-shadow:0 4px 20px rgba(255,140,26,0.1); }
+.case-card .cicon { font-size:40px; margin-bottom:4px; display:block; }
+.case-card .cname { color:#fff; font-size:14px; font-weight:bold; }
+.case-card .cprice { color:#ffb86b; font-size:13px; margin:6px 0; }
+.case-card button {
+  background:linear-gradient(180deg,#ff9d33,#e07000);
+  border:none; color:#111; font-weight:bold; padding:6px 20px;
+  border-radius:4px; cursor:pointer; font-size:13px;
+  box-shadow:0 3px 0 #a44f00; transition:0.08s;
+}
+.case-card button:active { transform:translateY(3px); box-shadow:0 1px 0 #a44f00; }
+.case-card button:disabled { opacity:0.4; cursor:not-allowed; }
 
 /* ===== HUD ===== */
 #hud {
@@ -121,6 +194,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 #hud .box { display:flex; gap:12px; flex-wrap:wrap; }
 #hud .stat { background:rgba(10,10,10,0.55); border:1px solid rgba(255,140,26,0.4);
   padding:6px 14px; border-radius:4px; min-width:70px; text-align:center; }
+#hpStat { margin-left: 60px; }
 #hpBar { width:120px; height:8px; background:#300; border:1px solid #700; border-radius:3px; overflow:hidden; margin-top:4px;}
 #hpFill { height:100%; width:100%; background:linear-gradient(90deg,#ff3b3b,#ff8c1a); transition:width 0.15s; }
 #shopBtn {
@@ -155,13 +229,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
 /* ===== PAUSE BUTTON ===== */
 #pauseBtn {
-  position:fixed; bottom:20px; left:20px; z-index:25;
-  width:40px; height:40px; display:none; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.5); border:1px solid rgba(255,140,26,0.3);
-  border-radius:50%; cursor:pointer; color:#ff8c1a; font-size:16px;
-  pointer-events:auto;
+  position:fixed; top:12px; left:12px; z-index:25;
+  width:60px; height:36px; display:none; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.6); border:1px solid rgba(255,140,26,0.5);
+  border-radius:4px; cursor:pointer; color:#ff8c1a; font-size:14px; font-weight:bold;
+  pointer-events:auto; text-transform:uppercase; letter-spacing:1px;
 }
 #pauseBtn:hover { background:rgba(30,25,15,0.8); border-color:#ff8c1a; }
+
 #pauseOverlay {
   position:fixed; inset:0; z-index:65; display:none;
   align-items:center; justify-content:center;
@@ -232,13 +307,17 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   z-index:999; font-size:16px; text-align:center;
   max-width:90%;
 }
+#toast .toast-skin { display:inline-block; width:20px; height:20px; border-radius:4px; border:1px solid #555; vertical-align:middle; margin-right:8px; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-  .menu-content { padding:20px; }
-  .menu-content h1 { font-size:40px; }
-  .tabs button { font-size:12px; padding:6px 12px; }
-  .skin-card { min-width:100px; }
+  .menu-content { padding:16px; }
+  .menu-content h1 { font-size:32px; }
+  .tabs button { font-size:10px; padding:4px 8px; }
+  .inv-container { flex-direction:column; }
+  .inv-preview { flex:none; width:100%; }
+  #hpStat { margin-left: 0; }
+  .map-card, .skin-shop-card, .case-card { width:120px; }
 }
 </style>
 </head>
@@ -255,6 +334,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     <div class="balance-bar">💰 Баланс: <span id="globalBalance">0</span></div>
     <div class="tabs">
       <button class="tab active" data-tab="play">Играть</button>
+      <button class="tab" data-tab="maps">Карты</button>
       <button class="tab" data-tab="shop">Магазин</button>
       <button class="tab" data-tab="inventory">Инвентарь</button>
       <button class="tab" data-tab="cases">Кейсы</button>
@@ -263,22 +343,26 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     <div id="tab-play" class="tab-panel active">
       <input id="nickInput" type="text" maxlength="16" placeholder="Никнейм" value="Player">
       <br>
-      <button id="startBtn">В бой!</button>
+      <button class="start-btn" id="startBtn">В бой!</button>
       <div class="hint">
         <b>WASD</b> — движение · <b>Мышь</b> — прицел · <b>ЛКМ</b> — выстрел · <b>R</b> — перезарядка · <b>B</b> — магазин
       </div>
     </div>
+    <!-- Панель Карты -->
+    <div id="tab-maps" class="tab-panel">
+      <div id="mapContainer" class="map-grid"></div>
+    </div>
     <!-- Панель Магазин скинов -->
     <div id="tab-shop" class="tab-panel">
-      <div id="skinShopContainer" class="skin-grid"></div>
+      <div id="skinShopContainer" class="skin-shop-grid"></div>
     </div>
     <!-- Панель Инвентарь -->
     <div id="tab-inventory" class="tab-panel">
-      <div id="inventoryContainer"></div>
+      <div id="inventoryContainer" class="inv-container"></div>
     </div>
     <!-- Панель Кейсы -->
     <div id="tab-cases" class="tab-panel">
-      <div id="caseContainer"></div>
+      <div id="caseContainer" class="case-shop-grid"></div>
     </div>
   </div>
 </div>
@@ -286,7 +370,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 <!-- HUD -->
 <div id="hud">
   <div class="box">
-    <div class="stat">❤️ HP: <span id="hpVal">100</span>
+    <div class="stat" id="hpStat">❤️ HP: <span id="hpVal">100</span>
       <div id="hpBar"><div id="hpFill"></div></div>
     </div>
     <div class="stat">🔫 <span id="ammoVal">12</span></div>
@@ -298,7 +382,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 </div>
 <div id="reloadMsg">⏳ ПЕРЕЗАРЯДКА</div>
 <div id="crosshair"></div>
-<div id="pauseBtn">⏸</div>
+<div id="pauseBtn">⏸ Пауза</div>
 
 <!-- BUY TIMER -->
 <div id="buyTimerOverlay">
@@ -345,31 +429,65 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 (function(){
   'use strict';
 
-  // ============ SKINS DATA ============
+  // ============ SKINS DATA (с редкостями) ============
+  const RARITIES = {
+    common:   { label:'Обычный', class:'rarity-common', color:'#b0b0b0' },
+    uncommon: { label:'Необычный', class:'rarity-uncommon', color:'#5b9b5b' },
+    rare:     { label:'Редкий', class:'rarity-rare', color:'#3b7bb7' },
+    epic:     { label:'Эпический', class:'rarity-epic', color:'#a335ee' },
+    legendary:{ label:'Легендарный', class:'rarity-legendary', color:'#ff8000' },
+    mythic:   { label:'Мифический', class:'rarity-mythic', color:'#e74c3c' }
+  };
+
   const SKINS = {
     pistol: [
-      { id: 'pistol_default', name: 'Стандартный', price: 0, color: 0x2b2b2b },
-      { id: 'pistol_gold', name: 'Золотой', price: 500, color: 0xffd700 },
-      { id: 'pistol_red', name: 'Красный', price: 300, color: 0xff3333 },
-      { id: 'pistol_blue', name: 'Синий', price: 200, color: 0x3366ff },
+      { id: 'pistol_default', name: 'Стандартный', price: 0, color: 0x2b2b2b, rarity: 'common', icon: '🔫' },
+      { id: 'pistol_gold', name: 'Золотой', price: 500, color: 0xffd700, rarity: 'rare', icon: '⭐' },
+      { id: 'pistol_red', name: 'Красный', price: 300, color: 0xff3333, rarity: 'uncommon', icon: '🔥' },
+      { id: 'pistol_blue', name: 'Синий', price: 200, color: 0x3366ff, rarity: 'uncommon', icon: '💎' },
+      { id: 'pistol_ice', name: 'Ледяной', price: 800, color: 0x87ceeb, rarity: 'rare', icon: '❄️' },
+      { id: 'pistol_void', name: 'Пустота', price: 1200, color: 0x2f2f5a, rarity: 'epic', icon: '🌌' },
+      { id: 'pistol_dragon', name: 'Дракон', price: 2000, color: 0x8b0000, rarity: 'legendary', icon: '🐉' },
     ],
     smg: [
-      { id: 'smg_default', name: 'Стандартный', price: 0, color: 0x445577 },
-      { id: 'smg_neon', name: 'Неоновый', price: 600, color: 0xff00ff },
-      { id: 'smg_camo', name: 'Камуфляж', price: 400, color: 0x556b2f },
+      { id: 'smg_default', name: 'Стандартный', price: 0, color: 0x445577, rarity: 'common', icon: '🔫' },
+      { id: 'smg_neon', name: 'Неоновый', price: 600, color: 0xff00ff, rarity: 'rare', icon: '💜' },
+      { id: 'smg_camo', name: 'Камуфляж', price: 400, color: 0x556b2f, rarity: 'uncommon', icon: '🌿' },
+      { id: 'smg_ember', name: 'Искра', price: 1000, color: 0xff4500, rarity: 'epic', icon: '🔥' },
+      { id: 'smg_spectre', name: 'Призрак', price: 1800, color: 0x4a4a6a, rarity: 'legendary', icon: '👻' },
     ],
     rifle: [
-      { id: 'rifle_default', name: 'Стандартный', price: 0, color: 0x3f4a34 },
-      { id: 'rifle_forest', name: 'Лесной', price: 700, color: 0x228b22 },
-      { id: 'rifle_ice', name: 'Ледяной', price: 800, color: 0x87ceeb },
+      { id: 'rifle_default', name: 'Стандартный', price: 0, color: 0x3f4a34, rarity: 'common', icon: '🔫' },
+      { id: 'rifle_forest', name: 'Лесной', price: 700, color: 0x228b22, rarity: 'rare', icon: '🌲' },
+      { id: 'rifle_ice', name: 'Ледяной', price: 800, color: 0x87ceeb, rarity: 'rare', icon: '❄️' },
+      { id: 'rifle_blood', name: 'Кровавый', price: 1100, color: 0x8b0000, rarity: 'epic', icon: '🩸' },
+      { id: 'rifle_tiger', name: 'Тигр', price: 2000, color: 0xff8c00, rarity: 'legendary', icon: '🐯' },
     ],
     sniper: [
-      { id: 'sniper_default', name: 'Стандартный', price: 0, color: 0x111111 },
-      { id: 'sniper_blood', name: 'Кровавый', price: 900, color: 0x8b0000 },
+      { id: 'sniper_default', name: 'Стандартный', price: 0, color: 0x111111, rarity: 'common', icon: '🔫' },
+      { id: 'sniper_blood', name: 'Кровавый', price: 900, color: 0x8b0000, rarity: 'rare', icon: '🩸' },
+      { id: 'sniper_ghost', name: 'Призрак', price: 1400, color: 0x2f2f3f, rarity: 'epic', icon: '👻' },
+      { id: 'sniper_dragon', name: 'Дракон', price: 2500, color: 0x8b0000, rarity: 'legendary', icon: '🐉' },
     ]
   };
   const WEAPON_TYPES = ['pistol','smg','rifle','sniper'];
-  const CASE_PRICE = 200;
+  const WEAPON_NAMES = { pistol:'Пистолет', smg:'SMG', rifle:'Винтовка', sniper:'Снайперка' };
+
+  // ============ CASE DATA ============
+  const CASES = [
+    { id: 'scorpion', name: 'Scorpion Case', icon: '🦂', price: 200 },
+    { id: 'fable', name: 'Fable Case', icon: '📖', price: 200 },
+    { id: 'rival', name: 'Rival Case', icon: '⚔️', price: 250 },
+    { id: 'furious', name: 'Furious Case', icon: '😡', price: 300 },
+    { id: 'origin', name: 'Origin Case', icon: '🌌', price: 350 },
+  ];
+
+  // ============ MAPS ============
+  const MAPS = [
+    { id: 'de_dust2', name: 'Dust II', icon: '🏜️', time: '01:19', status: 'Играть' },
+    { id: 'sandstone', name: 'Sandstone', icon: '🏛️', time: '01:28', status: 'Играть' },
+  ];
+  let selectedMap = 'de_dust2';
 
   // ============ INVENTORY / BALANCE (localStorage) ============
   function loadInventory() {
@@ -377,7 +495,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       const raw = localStorage.getItem('contra_inventory');
       if (raw) {
         const data = JSON.parse(raw);
-        // ensure structure
         if (!data.weapons) data.weapons = {};
         WEAPON_TYPES.forEach(w => { if (!data.weapons[w]) data.weapons[w] = []; });
         if (!data.equipped) data.equipped = {};
@@ -385,7 +502,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         return data;
       }
     } catch(e) {}
-    // default
     return {
       weapons: { pistol: ['pistol_default'], smg: ['smg_default'], rifle: ['rifle_default'], sniper: ['sniper_default'] },
       equipped: { pistol: 'pistol_default', smg: 'smg_default', rifle: 'rifle_default', sniper: 'sniper_default' },
@@ -408,9 +524,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     document.getElementById('globalBalance').textContent = getGlobalBalance();
   }
 
-  function showToast(msg) {
+  function showToast(msg, color) {
     const el = document.getElementById('toast');
-    el.textContent = msg;
+    let html = msg;
+    if (color !== undefined) {
+      html = `<span class="toast-skin" style="background:#${color.toString(16).padStart(6,'0')};"></span> ` + msg;
+    }
+    el.innerHTML = html;
     el.style.display = 'block';
     clearTimeout(el._timeout);
     el._timeout = setTimeout(() => el.style.display = 'none', 3000);
@@ -420,6 +540,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   const tabs = document.querySelectorAll('.tab');
   const panels = {
     play: document.getElementById('tab-play'),
+    maps: document.getElementById('tab-maps'),
     shop: document.getElementById('tab-shop'),
     inventory: document.getElementById('tab-inventory'),
     cases: document.getElementById('tab-cases')
@@ -433,8 +554,30 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       if (tab === 'shop') renderSkinShop();
       if (tab === 'inventory') renderInventory();
       if (tab === 'cases') renderCases();
+      if (tab === 'maps') renderMaps();
     });
   });
+
+  // ============ RENDER MAPS ============
+  function renderMaps() {
+    const container = document.getElementById('mapContainer');
+    container.innerHTML = '';
+    MAPS.forEach(map => {
+      const card = document.createElement('div');
+      card.className = 'map-card' + (selectedMap === map.id ? ' selected' : '');
+      card.innerHTML = `
+        <div style="font-size:32px;">${map.icon}</div>
+        <div class="mname">${map.name}</div>
+        <div class="mtime">⏱️ ${map.time}</div>
+        <div class="mstatus">${map.status}</div>
+      `;
+      card.addEventListener('click', () => {
+        selectedMap = map.id;
+        renderMaps();
+      });
+      container.appendChild(card);
+    });
+  }
 
   // ============ RENDER SKIN SHOP ============
   function renderSkinShop() {
@@ -442,33 +585,31 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     container.innerHTML = '';
     const inv = loadInventory();
     WEAPON_TYPES.forEach(wType => {
-      const section = document.createElement('div');
-      section.style.width = '100%';
-      section.innerHTML = `<h3 style="color:#c98d4a; letter-spacing:2px; margin:8px 0;">${wType.toUpperCase()}</h3>`;
-      const grid = document.createElement('div');
-      grid.style.cssText = 'display:flex; flex-wrap:wrap; gap:8px;';
       SKINS[wType].forEach(skin => {
         const card = document.createElement('div');
-        card.className = 'skin-card';
+        card.className = 'skin-shop-card';
         const owned = inv.weapons[wType].includes(skin.id);
         const equipped = inv.equipped[wType] === skin.id;
+        const rarity = RARITIES[skin.rarity];
+        const colorHex = '#' + skin.color.toString(16).padStart(6,'0');
         card.innerHTML = `
-          <div class="sname">${skin.name}</div>
+          <div class="scolor" style="background:${colorHex};"></div>
+          <div class="sname">${skin.icon} ${skin.name}</div>
+          <div class="sweapon">${WEAPON_NAMES[wType]}</div>
+          <div class="srarity ${rarity.class}">${rarity.label}</div>
           <div class="sprice">${skin.price === 0 ? 'Бесплатно' : '$'+skin.price}</div>
-          <button data-w="${wType}" data-id="${skin.id}" ${owned ? 'class="owned"' : ''} ${equipped ? 'disabled class="equipped"' : ''}>
-            ${equipped ? '✅ Применено' : (owned ? 'В инвентаре' : 'Купить')}
+          <button data-w="${wType}" data-id="${skin.id}" ${equipped ? 'disabled' : ''}>
+            ${equipped ? '✅ Экипирован' : (owned ? 'В инвентаре' : 'Купить')}
           </button>
         `;
         const btn = card.querySelector('button');
         btn.addEventListener('click', () => {
           if (equipped) return;
           if (owned) {
-            // применить
             applySkin(wType, skin.id);
             renderSkinShop();
             renderInventory();
           } else {
-            // купить
             if (inv.balance < skin.price) {
               showToast('❌ Недостаточно денег');
               return;
@@ -477,15 +618,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
             inv.weapons[wType].push(skin.id);
             saveInventory(inv);
             updateBalanceDisplay();
-            showToast(`✅ Скин "${skin.name}" куплен!`);
+            showToast(`✅ Скин "${skin.name}" куплен!`, skin.color);
             renderSkinShop();
             renderInventory();
           }
         });
-        grid.appendChild(card);
+        container.appendChild(card);
       });
-      section.appendChild(grid);
-      container.appendChild(section);
     });
   }
 
@@ -493,12 +632,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const inv = loadInventory();
     inv.equipped[wType] = skinId;
     saveInventory(inv);
-    // Если игра запущена, обновить цвет оружия
     if (gameRunning && playerParts) {
       const skin = SKINS[wType].find(s => s.id === skinId);
       if (skin) playerParts.gun.material.color.setHex(skin.color);
     }
-    showToast(`🎨 Скин "${SKINS[wType].find(s=>s.id===skinId).name}" применён к ${wType}`);
+    const skin = SKINS[wType].find(s => s.id === skinId);
+    showToast(`🎨 Скин "${skin.name}" применён к ${WEAPON_NAMES[wType]}`, skin.color);
+    renderInventory();
+    renderSkinShop();
   }
 
   // ============ RENDER INVENTORY ============
@@ -506,58 +647,98 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const container = document.getElementById('inventoryContainer');
     container.innerHTML = '';
     const inv = loadInventory();
+
+    const listDiv = document.createElement('div');
+    listDiv.className = 'inv-list';
+    let hasItems = false;
+
     WEAPON_TYPES.forEach(wType => {
-      const section = document.createElement('div');
-      section.style.marginBottom = '12px';
-      section.innerHTML = `<h4 style="color:#c98d4a; letter-spacing:1px;">${wType.toUpperCase()}</h4>`;
-      const list = document.createElement('div');
-      list.style.cssText = 'display:flex; flex-wrap:wrap; gap:6px;';
       const ownedSkins = inv.weapons[wType] || [];
-      if (ownedSkins.length === 0) {
-        const empty = document.createElement('span');
-        empty.textContent = 'Нет скинов';
-        empty.style.color = '#666';
-        list.appendChild(empty);
-      } else {
-        ownedSkins.forEach(skinId => {
-          const skin = SKINS[wType].find(s => s.id === skinId);
-          if (!skin) return;
-          const isEquipped = inv.equipped[wType] === skinId;
-          const el = document.createElement('span');
-          el.className = 'inv-item';
-          el.innerHTML = `<span class="iname">${skin.name}</span> ${isEquipped ? '✅' : '<span class="iapply" data-w="'+wType+'" data-id="'+skinId+'">Применить</span>'}`;
-          if (!isEquipped) {
-            el.querySelector('.iapply').addEventListener('click', (e) => {
-              e.stopPropagation();
-              applySkin(wType, skinId);
-              renderInventory();
-              renderSkinShop();
-            });
-          }
-          list.appendChild(el);
-        });
-      }
-      section.appendChild(list);
-      container.appendChild(section);
+      ownedSkins.forEach(skinId => {
+        const skin = SKINS[wType].find(s => s.id === skinId);
+        if (!skin) return;
+        hasItems = true;
+        const isEquipped = inv.equipped[wType] === skinId;
+        const rarity = RARITIES[skin.rarity];
+        const colorHex = '#' + skin.color.toString(16).padStart(6,'0');
+
+        const row = document.createElement('div');
+        row.className = 'inv-item';
+        row.innerHTML = `
+          <span class="icolor" style="background:${colorHex};"></span>
+          <span class="iname">${skin.icon} ${skin.name}</span>
+          <span style="color:#888; font-size:11px;">${WEAPON_NAMES[wType]}</span>
+          <span class="irarity ${rarity.class}">${rarity.label}</span>
+          ${isEquipped ? '<span class="iequipped">✅ Экипирован</span>' : `<span class="iapply" data-w="${wType}" data-id="${skinId}">Применить</span>`}
+        `;
+        if (!isEquipped) {
+          row.querySelector('.iapply').addEventListener('click', (e) => {
+            e.stopPropagation();
+            applySkin(wType, skinId);
+            renderInventory();
+          });
+        }
+        listDiv.appendChild(row);
+      });
     });
+
+    if (!hasItems) {
+      const empty = document.createElement('div');
+      empty.className = 'inv-empty';
+      empty.textContent = '❌ У вас нет скинов. Купите их в магазине или кейсах!';
+      listDiv.appendChild(empty);
+    }
+
+    container.appendChild(listDiv);
+
+    // Превью
+    const previewDiv = document.createElement('div');
+    previewDiv.className = 'inv-preview';
+    let previewSkin = null, previewWeapon = null;
+    for (const wType of WEAPON_TYPES) {
+      const equippedId = inv.equipped[wType];
+      if (equippedId) {
+        const skin = SKINS[wType].find(s => s.id === equippedId);
+        if (skin) { previewSkin = skin; previewWeapon = wType; break; }
+      }
+    }
+    if (!previewSkin) {
+      for (const wType of WEAPON_TYPES) {
+        const owned = inv.weapons[wType] || [];
+        if (owned.length > 0) {
+          const skin = SKINS[wType].find(s => s.id === owned[0]);
+          if (skin) { previewSkin = skin; previewWeapon = wType; break; }
+        }
+      }
+    }
+    if (previewSkin) {
+      const colorHex = '#' + previewSkin.color.toString(16).padStart(6,'0');
+      const rarity = RARITIES[previewSkin.rarity];
+      previewDiv.innerHTML = `
+        <div class="pcolor" style="background:${colorHex};"></div>
+        <div class="pname">${previewSkin.icon} ${previewSkin.name}</div>
+        <div class="pweapon">${WEAPON_NAMES[previewWeapon]} · <span class="${rarity.class}">${rarity.label}</span></div>
+      `;
+    } else {
+      previewDiv.innerHTML = `
+        <div class="pcolor" style="background:#222; display:flex; align-items:center; justify-content:center; font-size:32px;">❌</div>
+        <div class="pname" style="color:#666;">Нет скинов</div>
+      `;
+    }
+    container.appendChild(previewDiv);
   }
 
   // ============ RENDER CASES ============
   function renderCases() {
     const container = document.getElementById('caseContainer');
     container.innerHTML = '';
-    // Два типа кейсов: обычный и премиум (для примера)
-    const cases = [
-      { id: 'standard', name: 'Оружейный кейс', price: CASE_PRICE, desc: 'Случайный скин для любого оружия' },
-      { id: 'premium', name: 'Премиум кейс', price: CASE_PRICE + 100, desc: 'Шанс на редкий скин' }
-    ];
-    cases.forEach(c => {
+    CASES.forEach(c => {
       const card = document.createElement('div');
       card.className = 'case-card';
       card.innerHTML = `
+        <span class="cicon">${c.icon}</span>
         <div class="cname">${c.name}</div>
         <div class="cprice">💰 $${c.price}</div>
-        <div style="color:#888; font-size:12px; margin-bottom:8px;">${c.desc}</div>
         <button data-id="${c.id}">Открыть</button>
       `;
       card.querySelector('button').addEventListener('click', () => {
@@ -569,94 +750,69 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
   function openCase(caseId) {
     const inv = loadInventory();
-    const price = caseId === 'standard' ? CASE_PRICE : CASE_PRICE + 100;
-    if (inv.balance < price) {
+    const caseData = CASES.find(c => c.id === caseId);
+    if (!caseData) return;
+    if (inv.balance < caseData.price) {
       showToast('❌ Недостаточно денег');
       return;
     }
-    inv.balance -= price;
-    // Выбрать случайное оружие
+    inv.balance -= caseData.price;
     const wType = WEAPON_TYPES[Math.floor(Math.random() * WEAPON_TYPES.length)];
     const skins = SKINS[wType];
     const skin = skins[Math.floor(Math.random() * skins.length)];
-    // Добавляем скин, если его ещё нет
     if (!inv.weapons[wType].includes(skin.id)) {
       inv.weapons[wType].push(skin.id);
     }
     saveInventory(inv);
     updateBalanceDisplay();
-    showToast(`🎉 Вы получили скин "${skin.name}" для ${wType}!`);
-    renderSkinShop();
+    showToast(`🎉 Вы получили скин "${skin.name}" для ${WEAPON_NAMES[wType]}!`, skin.color);
     renderInventory();
     renderCases();
+    renderSkinShop();
   }
 
-  // ============ THREE.JS GAME ENGINE (сохранён из предыдущего кода с адаптацией) ============
+  // ============ THREE.JS GAME ENGINE ============
   let scene, camera, renderer, clock;
   let ground, groundPlaneForRay;
   const obstacles = [];
-
-  let player = null;
-  let playerParts = null;
-  let playerState = null;
-  const bots = [];
-  const bullets = [];
-  const botBullets = [];
-
+  let player = null, playerParts = null, playerState = null;
+  const bots = [], bullets = [], botBullets = [];
   const keys = {};
   const mouse = new THREE.Vector2(0,0);
   const raycaster = new THREE.Raycaster();
   let mouseGroundPoint = new THREE.Vector3();
-
-  let gameRunning = false;
-  let shopOpen = false;
-  let paused = false;
-  let buyPhaseActive = false;
-  let buyTimer = 0;
+  let gameRunning = false, shopOpen = false, paused = false, buyPhaseActive = false;
+  let buyTimerInterval = null;
   const BUY_PHASE_DURATION = 5;
   let playerNick = 'Player';
-
-  const MAP_HALF = 15;
-  const PLAYER_SPEED = 8.5;
-  const BOT_SPEED = 3.2;
-  const BOT_DETECT_RADIUS = 10;
-  const BOT_SHOOT_INTERVAL = 1.1;
-  const BULLET_SPEED = 40;
-  const BOT_BULLET_SPEED = 22;
-
-  // ============ WEAPON DEFINITIONS (in-game) ============
+  const MAP_HALF = 15, PLAYER_SPEED = 8.5, BOT_SPEED = 3.2, BOT_DETECT_RADIUS = 10, BOT_SHOOT_INTERVAL = 1.1, BULLET_SPEED = 40, BOT_BULLET_SPEED = 22;
   const WEAPONS = {
-    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
-    smg:    { id:'smg',    name:'SMG',       price:800,  damage:18, ammo:30, cooldown:0.08, reload:1.5, color:0x445577 },
-    rifle:  { id:'rifle',  name:'Штурмовая винтовка', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
+    pistol: { id:'pistol', name:'Пистолет', price:0, damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
+    smg: { id:'smg', name:'SMG', price:800, damage:18, ammo:30, cooldown:0.08, reload:1.5, color:0x445577 },
+    rifle: { id:'rifle', name:'Штурмовая винтовка', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
     sniper: { id:'sniper', name:'Снайперская винтовка', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111 }
   };
   const VESTS = {
-    none:  { id:'none',  name:'Без бронежилета', price:0,    reduction:0,   color:null },
+    none: { id:'none', name:'Без бронежилета', price:0, reduction:0, color:null },
     light: { id:'light', name:'Лёгкий бронежилет', price:500, reduction:0.2, color:0x3a5f3a },
     heavy: { id:'heavy', name:'Тяжёлый бронежилет', price:1200, reduction:0.4, color:0x2c2c2c }
   };
   const HELMETS = {
-    none:   { id:'none',   name:'Без шлема', price:0,   reduction:0,    color:null },
-    light:  { id:'light',  name:'Лёгкий шлем', price:400, reduction:0.1, color:0x3a3a3a },
+    none: { id:'none', name:'Без шлема', price:0, reduction:0, color:null },
+    light: { id:'light', name:'Лёгкий шлем', price:400, reduction:0.1, color:0x3a3a3a },
     combat: { id:'combat', name:'Боевой шлем', price:900, reduction:0.2, color:0x1a1a1a }
   };
-  const KILL_REWARD = 100;
-  const START_MONEY = 2000;
+  const KILL_REWARD = 100, START_MONEY = 2000;
 
-  // ============ INIT THREE.JS ============
   function initScene(){
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1b1a17);
     scene.fog = new THREE.Fog(0x1b1a17, 25, 55);
-
     camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 200);
-
     renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gameCanvas'), antialias:true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
     renderer.shadowMap.enabled = true;
-
     const ambient = new THREE.AmbientLight(0xffffff, 0.55);
     scene.add(ambient);
     const dirLight = new THREE.DirectionalLight(0xfff2d9, 0.95);
@@ -668,7 +824,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     dirLight.shadow.camera.top = 30;
     dirLight.shadow.camera.bottom = -30;
     scene.add(dirLight);
-
     const groundGeo = new THREE.PlaneGeometry(30,30);
     const groundMat = new THREE.MeshStandardMaterial({ color:0xc7a874, roughness:0.95 });
     ground = new THREE.Mesh(groundGeo, groundMat);
@@ -676,21 +831,20 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     ground.receiveShadow = true;
     scene.add(ground);
     groundPlaneForRay = new THREE.Plane(new THREE.Vector3(0,1,0), 0);
-
     const grid = new THREE.GridHelper(30,30,0x8a6b45,0x8a6b45);
     grid.material.opacity = 0.15;
     grid.material.transparent = true;
     scene.add(grid);
-
-    buildMap();
-
+    // Строим выбранную карту
+    if (selectedMap === 'sandstone') buildMapSandstone();
+    else buildMapDust2();
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('keydown', e => {
       keys[e.code]=true;
       if(e.code === 'KeyR') tryReload();
-      if(e.code === 'KeyB' && !paused) toggleShop();
+      if(e.code === 'KeyB' && !paused && !buyPhaseActive) toggleShop();
       if(e.code === 'Escape'){
         if(shopOpen) closeShop();
         else togglePause();
@@ -705,12 +859,101 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  // ============ MAP BUILDING ============
+  // ============ MAP BUILDERS ============
+  function clearMap() {
+    // Удаляем все препятствия (кроме земли и света)
+    for (const o of obstacles) {
+      scene.remove(o.mesh);
+    }
+    obstacles.length = 0;
+  }
+
+  function buildMapDust2() {
+    clearMap();
+    const wallH = 3, wallT = 1, wallColor = 0x8a7455;
+    addBoxObstacle(0, -MAP_HALF-wallT/2, 30+wallT*2, wallH, wallT, wallColor);
+    addBoxObstacle(0, MAP_HALF+wallT/2, 30+wallT*2, wallH, wallT, wallColor);
+    addBoxObstacle(-MAP_HALF-wallT/2, 0, wallT, wallH, 30, wallColor);
+    addBoxObstacle(MAP_HALF+wallT/2, 0, wallT, wallH, 30, wallColor);
+    const crateColor = 0x9a6a35;
+    const spots = [
+      [-8,-8,2,1.4,2], [8,-6,1.6,1.6,1.6], [-4,3,1.2,1.2,1.2],
+      [5,7,2.2,1.8,1.4], [0,-2,1.4,1.4,1.4], [-10,6,1.6,2,1.6],
+      [10,10,1.2,1.2,1.2], [-6,-11,2,1.4,1.4], [3,-9,1.4,1,1.4],
+      [-2,9,2.4,1.6,1.2], [7,-2,1.2,1.2,1.2], [-11,-3,1.6,1.6,1.6]
+    ];
+    spots.forEach(([x,z,w,h,d]) => addBoxObstacle(x,z,w,h,d,crateColor));
+  }
+
+  function buildMapSandstone() {
+    clearMap();
+    // Стены
+    const wallH = 3, wallT = 1, wallColor = 0x8a7455;
+    addBoxObstacle(0, -MAP_HALF-wallT/2, 30+wallT*2, wallH, wallT, wallColor);
+    addBoxObstacle(0, MAP_HALF+wallT/2, 30+wallT*2, wallH, wallT, wallColor);
+    addBoxObstacle(-MAP_HALF-wallT/2, 0, wallT, wallH, 30, wallColor);
+    addBoxObstacle(MAP_HALF+wallT/2, 0, wallT, wallH, 30, wallColor);
+
+    // Здания с проходами (без дверей)
+    const buildingColor = 0xbc8f5a;
+    // Здание 1 (слева)
+    addBuilding(-10, -4, 4, 3, 6);
+    addBuilding(-10, -4, 4, 3, 6); // стены
+    // Здание 2 (справа)
+    addBuilding(8, 2, 5, 3, 5);
+    // Здание 3 (центр)
+    addBuilding(0, -8, 4, 3, 4);
+    // Несколько маленьких укрытий
+    addBoxObstacle(-5, 5, 1.5, 1.5, 1.5, 0x9a6a35);
+    addBoxObstacle(5, -5, 1.5, 1.5, 1.5, 0x9a6a35);
+    addBoxObstacle(0, 0, 1.2, 1.2, 1.2, 0x8a6a35);
+  }
+
+  function addBuilding(cx, cz, w, h, d) {
+    // Строим стены здания с проёмами (без дверей) — прямоугольник с проёмами
+    // Сделаем 4 отдельные стены с промежутками
+    const wallThick = 0.4;
+    const gap = 1.2; // проход
+
+    // Нижняя стена (z = cz - d/2)
+    if (Math.random() > 0.3) {
+      const w1 = (w - gap) / 2;
+      addBoxObstacle(cx - w/2 + w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
+      addBoxObstacle(cx + w/2 - w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
+    } else {
+      addBoxObstacle(cx, cz - d/2, w, h, wallThick, 0xbc8f5a);
+    }
+    // Верхняя стена
+    if (Math.random() > 0.3) {
+      const w1 = (w - gap) / 2;
+      addBoxObstacle(cx - w/2 + w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
+      addBoxObstacle(cx + w/2 - w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
+    } else {
+      addBoxObstacle(cx, cz + d/2, w, h, wallThick, 0xbc8f5a);
+    }
+    // Левая стена
+    if (Math.random() > 0.3) {
+      const d1 = (d - gap) / 2;
+      addBoxObstacle(cx - w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
+      addBoxObstacle(cx - w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
+    } else {
+      addBoxObstacle(cx - w/2, cz, wallThick, h, d, 0xbc8f5a);
+    }
+    // Правая стена
+    if (Math.random() > 0.3) {
+      const d1 = (d - gap) / 2;
+      addBoxObstacle(cx + w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
+      addBoxObstacle(cx + w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
+    } else {
+      addBoxObstacle(cx + w/2, cz, wallThick, h, d, 0xbc8f5a);
+    }
+  }
+
   function addBoxObstacle(x,z,w,h,d,color){
     const geo = new THREE.BoxGeometry(w,h,d);
     const mat = new THREE.MeshStandardMaterial({ color, roughness:0.85 });
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(x, h/2, z);
+    mesh.position.set(x,h/2,z);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     scene.add(mesh);
@@ -719,779 +962,482 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     return mesh;
   }
 
-  function buildMap(){
-    const wallH = 3, wallT = 1;
-    const wallColor = 0x8a7455;
-    addBoxObstacle(0, -MAP_HALF-wallT/2, 30+wallT*2, wallH, wallT, wallColor);
-    addBoxObstacle(0, MAP_HALF+wallT/2, 30+wallT*2, wallH, wallT, wallColor);
-    addBoxObstacle(-MAP_HALF-wallT/2, 0, wallT, wallH, 30, wallColor);
-    addBoxObstacle(MAP_HALF+wallT/2, 0, wallT, wallH, 30, wallColor);
-
-    const crateColor = 0x9a6a35;
-    const crateSpots = [
-      [-8,-8,2,1.4,2], [8,-6,1.6,1.6,1.6], [-4,3,1.2,1.2,1.2],
-      [5,7,2.2,1.8,1.4], [0,-2,1.4,1.4,1.4], [-10,6,1.6,2,1.6],
-      [10,10,1.2,1.2,1.2], [-6,-11,2,1.4,1.4], [3,-9,1.4,1,1.4],
-      [-2,9,2.4,1.6,1.2], [7,-2,1.2,1.2,1.2], [-11,-3,1.6,1.6,1.6]
-    ];
-    crateSpots.forEach(([x,z,w,h,d]) => addBoxObstacle(x,z,w,h,d,crateColor));
-  }
-
-  // ============ TEXTURE HELPERS ============
-  function makeNameSprite(text, colorHex){
-    const canvas = document.createElement('canvas');
-    canvas.width = 256; canvas.height = 64;
-    const ctx = canvas.getContext('2d');
-    ctx.font = 'bold 32px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+  // ============ GAME ENGINE (остальное) ============
+  function makeNameSprite(text,colorHex){
+    const canvas=document.createElement('canvas');
+    canvas.width=256; canvas.height=64;
+    const ctx=canvas.getContext('2d');
+    ctx.font='bold 32px Arial';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(0,0,0,0.55)';
     ctx.fillRect(0,12,256,40);
-    ctx.fillStyle = colorHex;
-    ctx.fillText(text, 128, 40);
-    const tex = new THREE.CanvasTexture(canvas);
-    const mat = new THREE.SpriteMaterial({ map:tex, transparent:true, depthTest:false });
-    const sprite = new THREE.Sprite(mat);
+    ctx.fillStyle=colorHex;
+    ctx.fillText(text,128,40);
+    const tex=new THREE.CanvasTexture(canvas);
+    const mat=new THREE.SpriteMaterial({map:tex, transparent:true, depthTest:false});
+    const sprite=new THREE.Sprite(mat);
     sprite.scale.set(2.0,0.5,1);
-    sprite.position.y = 2.35;
-    sprite.renderOrder = 999;
+    sprite.position.y=2.35;
+    sprite.renderOrder=999;
     return sprite;
   }
 
-  // ============ HUMANOID BUILDER ============
-  function createHumanoid(skinColor, uniformColor, withGear){
-    const group = new THREE.Group();
-    const parts = {};
-
-    const legGeo = new THREE.BoxGeometry(0.2,0.75,0.22);
-    const legMat = new THREE.MeshStandardMaterial({ color:0x22262e, roughness:0.8 });
-    const legL = new THREE.Mesh(legGeo, legMat);
-    legL.position.set(-0.15, 0.375, 0);
-    legL.castShadow = true;
-    const legR = legL.clone();
-    legR.position.x = 0.15;
-    group.add(legL, legR);
-
-    const torsoGeo = new THREE.BoxGeometry(0.56,0.62,0.32);
-    const torsoMat = new THREE.MeshStandardMaterial({ color:uniformColor, roughness:0.7 });
-    const torso = new THREE.Mesh(torsoGeo, torsoMat);
-    torso.position.y = 1.06;
-    torso.castShadow = true;
-    group.add(torso);
-    parts.torso = torso;
-
-    const armGeo = new THREE.BoxGeometry(0.16,0.6,0.18);
-    const armMat = new THREE.MeshStandardMaterial({ color:uniformColor, roughness:0.7 });
-    const armL = new THREE.Mesh(armGeo, armMat);
-    armL.position.set(-0.38, 1.05, 0);
-    armL.castShadow = true;
-    const armR = armL.clone();
-    armR.position.x = 0.38;
-    group.add(armL, armR);
-    parts.armR = armR;
-
-    const headGeo = new THREE.SphereGeometry(0.22, 14, 14);
-    const headMat = new THREE.MeshStandardMaterial({ color:skinColor, roughness:0.75 });
-    const head = new THREE.Mesh(headGeo, headMat);
-    head.position.y = 1.62;
-    head.castShadow = true;
-    group.add(head);
-    parts.head = head;
-
-    const vestGeo = new THREE.BoxGeometry(0.62,0.4,0.38);
-    const vestMat = new THREE.MeshStandardMaterial({ color:0x3a5f3a, roughness:0.6 });
-    const vest = new THREE.Mesh(vestGeo, vestMat);
-    vest.position.y = 1.18;
-    vest.castShadow = true;
-    vest.visible = false;
-    group.add(vest);
-    parts.vest = vest;
-
-    const helmetGeo = new THREE.SphereGeometry(0.26, 14, 14, 0, Math.PI*2, 0, Math.PI*0.62);
-    const helmetMat = new THREE.MeshStandardMaterial({ color:0x333333, roughness:0.5 });
-    const helmet = new THREE.Mesh(helmetGeo, helmetMat);
-    helmet.position.y = 1.7;
-    helmet.castShadow = true;
-    helmet.visible = false;
-    group.add(helmet);
-    parts.helmet = helmet;
-
-    const gunGeo = new THREE.BoxGeometry(0.12,0.12,0.55);
-    const gunMat = new THREE.MeshStandardMaterial({ color:0x2b2b2b, roughness:0.4 });
-    const gun = new THREE.Mesh(gunGeo, gunMat);
-    gun.position.set(0.38, 1.0, 0.45);
-    gun.castShadow = true;
-    group.add(gun);
-    parts.gun = gun;
-
-    return { group, parts };
+  function createHumanoid(skinColor,uniformColor,withGear){
+    const group=new THREE.Group(), parts={};
+    const legMat=new THREE.MeshStandardMaterial({color:0x22262e, roughness:0.8});
+    const legGeo=new THREE.BoxGeometry(0.2,0.75,0.22);
+    const legL=new THREE.Mesh(legGeo,legMat);
+    legL.position.set(-0.15,0.375,0); legL.castShadow=true;
+    const legR=legL.clone(); legR.position.x=0.15;
+    group.add(legL,legR);
+    const torsoMat=new THREE.MeshStandardMaterial({color:uniformColor, roughness:0.7});
+    const torso=new THREE.Mesh(new THREE.BoxGeometry(0.56,0.62,0.32),torsoMat);
+    torso.position.y=1.06; torso.castShadow=true;
+    group.add(torso); parts.torso=torso;
+    const armMat=new THREE.MeshStandardMaterial({color:uniformColor, roughness:0.7});
+    const armGeo=new THREE.BoxGeometry(0.16,0.6,0.18);
+    const armL=new THREE.Mesh(armGeo,armMat);
+    armL.position.set(-0.38,1.05,0); armL.castShadow=true;
+    const armR=armL.clone(); armR.position.x=0.38;
+    group.add(armL,armR); parts.armR=armR;
+    const headMat=new THREE.MeshStandardMaterial({color:skinColor, roughness:0.75});
+    const head=new THREE.Mesh(new THREE.SphereGeometry(0.22,14,14),headMat);
+    head.position.y=1.62; head.castShadow=true;
+    group.add(head); parts.head=head;
+    const vestMat=new THREE.MeshStandardMaterial({color:0x3a5f3a, roughness:0.6});
+    const vest=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.4,0.38),vestMat);
+    vest.position.y=1.18; vest.castShadow=true; vest.visible=false;
+    group.add(vest); parts.vest=vest;
+    const helmetMat=new THREE.MeshStandardMaterial({color:0x333333, roughness:0.5});
+    const helmet=new THREE.Mesh(new THREE.SphereGeometry(0.26,14,14,0,Math.PI*2,0,Math.PI*0.62),helmetMat);
+    helmet.position.y=1.7; helmet.castShadow=true; helmet.visible=false;
+    group.add(helmet); parts.helmet=helmet;
+    const gunMat=new THREE.MeshStandardMaterial({color:0x2b2b2b, roughness:0.4});
+    const gun=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.12,0.55),gunMat);
+    gun.position.set(0.38,1.0,0.45); gun.castShadow=true;
+    group.add(gun); parts.gun=gun;
+    return {group, parts};
   }
 
-  // ============ PLAYER ============
   function createPlayer(){
-    const built = createHumanoid(0xe0a878, 0x2b5bd6, true);
-    const group = built.group;
-    playerParts = built.parts;
-
-    const tag = makeNameSprite(playerNick, '#7ec8ff');
+    const built=createHumanoid(0xe0a878,0x2b5bd6,true);
+    const group=built.group;
+    playerParts=built.parts;
+    const tag=makeNameSprite(playerNick,'#7ec8ff');
     group.add(tag);
-
     group.position.set(0,0,0);
     scene.add(group);
     return group;
   }
 
   function applyPlayerLoadout(){
-    const inv = loadInventory();
-    const equipped = inv.equipped || {};
-    const wType = playerState.weaponId;
-    const skinId = equipped[wType] || (SKINS[wType] && SKINS[wType][0]?.id);
-    const skin = SKINS[wType]?.find(s => s.id === skinId);
-    const color = skin ? skin.color : 0x2b2b2b;
-    if (playerParts) {
-      playerParts.gun.material.color.setHex(color);
-    }
-
-    const v = VESTS[playerState.vestId];
-    const h = HELMETS[playerState.helmetId];
+    const inv=loadInventory(), equipped=inv.equipped||{};
+    const wType=playerState.weaponId;
+    const skinId=equipped[wType]||(SKINS[wType]&&SKINS[wType][0]?.id);
+    const skin=SKINS[wType]?.find(s=>s.id===skinId);
+    const color=skin?skin.color:0x2b2b2b;
+    if(playerParts) playerParts.gun.material.color.setHex(color);
+    const v=VESTS[playerState.vestId], h=HELMETS[playerState.helmetId];
     if(v.color){ playerParts.vest.visible=true; playerParts.vest.material.color.setHex(v.color); }
-    else { playerParts.vest.visible=false; }
+    else playerParts.vest.visible=false;
     if(h.color){ playerParts.helmet.visible=true; playerParts.helmet.material.color.setHex(h.color); }
-    else { playerParts.helmet.visible=false; }
+    else playerParts.helmet.visible=false;
   }
 
   function resetPlayerState(){
-    playerState = {
-      hp:100, maxHp:100,
-      weaponId:'pistol', vestId:'light', helmetId:'none',
+    playerState={
+      hp:100, maxHp:100, weaponId:'pistol', vestId:'light', helmetId:'none',
       owned:{ weapons:['pistol'], vests:['none','light'], helmets:['none'] },
       ammo:WEAPONS.pistol.ammo, maxAmmo:WEAPONS.pistol.ammo,
-      reloading:false, reloadTimer:0,
-      fireTimer:0, kills:0, alive:true, money:START_MONEY,
-      aimDir: new THREE.Vector3(0,0,1)
+      reloading:false, reloadTimer:0, fireTimer:0, kills:0, alive:true,
+      money:START_MONEY, aimDir:new THREE.Vector3(0,0,1)
     };
   }
 
-  // ============ BOTS ============
   function createBot(){
-    const built = createHumanoid(0xc98a6b, 0xa32b2b, false);
-    const group = built.group;
+    const built=createHumanoid(0xc98a6b,0xa32b2b,false);
+    const group=built.group;
     scene.add(group);
-
-    const spot = randomFreeSpot();
-    group.position.set(spot.x, 0, spot.z);
-
-    const vestChoices = ['light','heavy'];
-    const vestId = vestChoices[Math.floor(Math.random()*vestChoices.length)];
-    built.parts.vest.visible = true;
+    const spot=randomFreeSpot();
+    group.position.set(spot.x,0,spot.z);
+    const vestChoices=['light','heavy'];
+    const vestId=vestChoices[Math.floor(Math.random()*vestChoices.length)];
+    built.parts.vest.visible=true;
     built.parts.vest.material.color.setHex(VESTS[vestId].color);
-
-    let helmetId = null;
-    if(Math.random() < 0.5){
-      const helmetChoices = ['light','combat'];
-      helmetId = helmetChoices[Math.floor(Math.random()*helmetChoices.length)];
-      built.parts.helmet.visible = true;
+    let helmetId=null;
+    if(Math.random()<0.5){
+      const helmetChoices=['light','combat'];
+      helmetId=helmetChoices[Math.floor(Math.random()*helmetChoices.length)];
+      built.parts.helmet.visible=true;
       built.parts.helmet.material.color.setHex(HELMETS[helmetId].color);
     }
-
     return {
-      mesh: group,
-      parts: built.parts,
-      hp: 30, maxHp:30, alive:true,
-      state:'patrol',
-      target: randomFreeSpot(),
-      shootTimer: Math.random()*BOT_SHOOT_INTERVAL,
-      respawnTimer:0,
-      vestId, helmetId
+      mesh:group, parts:built.parts, hp:30, maxHp:30, alive:true,
+      state:'patrol', target:randomFreeSpot(),
+      shootTimer:Math.random()*BOT_SHOOT_INTERVAL, respawnTimer:0, vestId, helmetId
     };
   }
 
   function randomFreeSpot(){
-    for(let i=0;i<20;i++){
-      const x = (Math.random()*2-1)*(MAP_HALF-2);
-      const z = (Math.random()*2-1)*(MAP_HALF-2);
-      const p = new THREE.Vector3(x,0,z);
-      let free = true;
+    for(let i=0;i<30;i++){
+      const x=(Math.random()*2-1)*(MAP_HALF-2), z=(Math.random()*2-1)*(MAP_HALF-2);
+      let free=true;
       for(const o of obstacles){
-        const box = o.box3;
-        if(x > box.min.x-1 && x < box.max.x+1 && z > box.min.z-1 && z < box.max.z+1){ free=false; break; }
+        const box=o.box3;
+        if(x>box.min.x-0.8&&x<box.max.x+0.8&&z>box.min.z-0.8&&z<box.max.z+0.8){ free=false; break; }
       }
-      if(free) return p;
+      if(free) return new THREE.Vector3(x,0,z);
     }
     return new THREE.Vector3(0,0,0);
   }
 
-  function spawnBots(){
-    bots.length = 0;
-    for(let i=0;i<5;i++) bots.push(createBot());
-  }
+  function spawnBots(){ bots.length=0; for(let i=0;i<5;i++) bots.push(createBot()); }
 
-  // ============ COLLISION ============
-  function resolveCollisions(pos, radius){
+  function resolveCollisions(pos,radius){
     for(const o of obstacles){
-      const box = o.box3;
-      const closestX = Math.max(box.min.x, Math.min(pos.x, box.max.x));
-      const closestZ = Math.max(box.min.z, Math.min(pos.z, box.max.z));
-      const dx = pos.x - closestX;
-      const dz = pos.z - closestZ;
-      const distSq = dx*dx + dz*dz;
-      if(distSq < radius*radius){
-        const dist = Math.sqrt(distSq) || 0.0001;
-        const overlap = radius - dist;
-        pos.x += (dx/dist) * overlap;
-        pos.z += (dz/dist) * overlap;
+      const box=o.box3;
+      const closestX=Math.max(box.min.x,Math.min(pos.x,box.max.x));
+      const closestZ=Math.max(box.min.z,Math.min(pos.z,box.max.z));
+      const dx=pos.x-closestX, dz=pos.z-closestZ;
+      const distSq=dx*dx+dz*dz;
+      if(distSq<radius*radius){
+        const dist=Math.sqrt(distSq)||0.0001, overlap=radius-dist;
+        pos.x+=(dx/dist)*overlap; pos.z+=(dz/dist)*overlap;
       }
     }
-    pos.x = Math.max(-MAP_HALF+0.5, Math.min(MAP_HALF-0.5, pos.x));
-    pos.z = Math.max(-MAP_HALF+0.5, Math.min(MAP_HALF-0.5, pos.z));
+    pos.x=Math.max(-MAP_HALF+0.5,Math.min(MAP_HALF-0.5,pos.x));
+    pos.z=Math.max(-MAP_HALF+0.5,Math.min(MAP_HALF-0.5,pos.z));
   }
 
-  // ============ INPUT ============
   function onMouseMove(e){
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    mouse.x=(e.clientX/window.innerWidth)*2-1;
+    mouse.y=-(e.clientY/window.innerHeight)*2+1;
   }
-
-  function onMouseDown(e){
-    if(!gameRunning || shopOpen || paused) return;
-    if(e.button === 0) tryShoot();
-  }
+  function onMouseDown(e){ if(!gameRunning||shopOpen||paused) return; if(e.button===0) tryShoot(); }
 
   function updateAim(){
-    raycaster.setFromCamera(mouse, camera);
-    const hit = new THREE.Vector3();
-    raycaster.ray.intersectPlane(groundPlaneForRay, hit);
-    if(hit){
-      mouseGroundPoint.copy(hit);
-    }
+    raycaster.setFromCamera(mouse,camera);
+    const hit=new THREE.Vector3();
+    raycaster.ray.intersectPlane(groundPlaneForRay,hit);
+    if(hit) mouseGroundPoint.copy(hit);
   }
 
-  // ============ SHOOTING ============
   function tryShoot(){
-    if(!playerState.alive || playerState.reloading) return;
-    if(playerState.fireTimer > 0) return;
-    if(playerState.ammo <= 0){ tryReload(); return; }
-
-    const weapon = WEAPONS[playerState.weaponId];
-    playerState.ammo--;
-    playerState.fireTimer = weapon.cooldown;
-    updateHud();
-
-    const dir = playerState.aimDir.clone().normalize();
-    spawnBullet(player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7)), dir, true, weapon.damage);
+    if(!playerState.alive||playerState.reloading||playerState.fireTimer>0) return;
+    if(playerState.ammo<=0){ tryReload(); return; }
+    const weapon=WEAPONS[playerState.weaponId];
+    playerState.ammo--; playerState.fireTimer=weapon.cooldown; updateHud();
+    const dir=playerState.aimDir.clone().normalize();
+    spawnBullet(player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7)),dir,true,weapon.damage);
   }
 
   function tryReload(){
-    if(!gameRunning || shopOpen || paused || !playerState || !playerState.alive) return;
-    if(playerState.reloading || playerState.ammo === playerState.maxAmmo) return;
-    playerState.reloading = true;
-    playerState.reloadTimer = WEAPONS[playerState.weaponId].reload;
-    document.getElementById('reloadMsg').style.display = 'block';
+    if(!gameRunning||shopOpen||paused||!playerState||!playerState.alive) return;
+    if(playerState.reloading||playerState.ammo===playerState.maxAmmo) return;
+    playerState.reloading=true;
+    playerState.reloadTimer=WEAPONS[playerState.weaponId].reload;
+    document.getElementById('reloadMsg').style.display='block';
   }
 
-  function spawnBullet(origin, dir, fromPlayer, damage){
-    const geo = new THREE.SphereGeometry(fromPlayer?0.09:0.11, 8, 8);
-    const mat = new THREE.MeshBasicMaterial({ color: fromPlayer?0xffe27a:0xff5533 });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.copy(origin);
-    scene.add(mesh);
-
-    const lineMat = new THREE.LineBasicMaterial({ color: fromPlayer?0xffcf6b:0xff7755, transparent:true, opacity:0.6 });
-    const lineGeo = new THREE.BufferGeometry().setFromPoints([origin.clone(), origin.clone()]);
-    const line = new THREE.Line(lineGeo, lineMat);
-    scene.add(line);
-
-    const list = fromPlayer ? bullets : botBullets;
-    list.push({ mesh, line, dir: dir.clone(), origin: origin.clone(), speed: fromPlayer?BULLET_SPEED:BOT_BULLET_SPEED, life:2.2, damage: damage||30 });
+  function spawnBullet(origin,dir,fromPlayer,damage){
+    const geo=new THREE.SphereGeometry(fromPlayer?0.09:0.11,8,8);
+    const mat=new THREE.MeshBasicMaterial({color:fromPlayer?0xffe27a:0xff5533});
+    const mesh=new THREE.Mesh(geo,mat); mesh.position.copy(origin); scene.add(mesh);
+    const lineMat=new THREE.LineBasicMaterial({color:fromPlayer?0xffcf6b:0xff7755,transparent:true,opacity:0.6});
+    const lineGeo=new THREE.BufferGeometry().setFromPoints([origin.clone(),origin.clone()]);
+    const line=new THREE.Line(lineGeo,lineMat); scene.add(line);
+    const list=fromPlayer?bullets:botBullets;
+    list.push({mesh,line,dir:dir.clone(),origin:origin.clone(),speed:fromPlayer?BULLET_SPEED:BOT_BULLET_SPEED,life:2.2,damage:damage||30});
   }
 
   function updateBullets(dt){
-    updateBulletList(bullets, dt, true);
-    updateBulletList(botBullets, dt, false);
+    updateBulletList(bullets,dt,true);
+    updateBulletList(botBullets,dt,false);
   }
 
-  function updateBulletList(list, dt, fromPlayer){
+  function updateBulletList(list,dt,fromPlayer){
     for(let i=list.length-1;i>=0;i--){
-      const b = list[i];
-      b.life -= dt;
-      const moveVec = b.dir.clone().multiplyScalar(b.speed*dt);
+      const b=list[i];
+      b.life-=dt;
+      const moveVec=b.dir.clone().multiplyScalar(b.speed*dt);
       b.mesh.position.add(moveVec);
-
-      const pts = [b.mesh.position.clone().sub(b.dir.clone().multiplyScalar(0.9)), b.mesh.position.clone()];
+      const pts=[b.mesh.position.clone().sub(b.dir.clone().multiplyScalar(0.9)),b.mesh.position.clone()];
       b.line.geometry.setFromPoints(pts);
-
-      let removed = false;
-
-      if(Math.abs(b.mesh.position.x) > MAP_HALF+1 || Math.abs(b.mesh.position.z) > MAP_HALF+1 || b.life<=0){
-        removed = true;
-      }
-
+      let removed=false;
+      if(Math.abs(b.mesh.position.x)>MAP_HALF+1||Math.abs(b.mesh.position.z)>MAP_HALF+1||b.life<=0) removed=true;
       if(!removed){
         for(const o of obstacles){
-          const box = o.box3;
-          if(b.mesh.position.x > box.min.x && b.mesh.position.x < box.max.x &&
-             b.mesh.position.z > box.min.z && b.mesh.position.z < box.max.z &&
-             b.mesh.position.y > box.min.y && b.mesh.position.y < box.max.y){
-            removed = true; break;
+          const box=o.box3;
+          if(b.mesh.position.x>box.min.x&&b.mesh.position.x<box.max.x&&b.mesh.position.z>box.min.z&&b.mesh.position.z<box.max.z&&b.mesh.position.y>box.min.y&&b.mesh.position.y<box.max.y){
+            removed=true; break;
           }
         }
       }
-
       if(!removed){
         if(fromPlayer){
           for(const bot of bots){
             if(!bot.alive) continue;
-            const dist = b.mesh.position.distanceTo(new THREE.Vector3(bot.mesh.position.x, 1.0, bot.mesh.position.z));
-            if(dist < 0.65){
-              damageBot(bot, b.damage);
-              removed = true; break;
-            }
+            const dist=b.mesh.position.distanceTo(new THREE.Vector3(bot.mesh.position.x,1.0,bot.mesh.position.z));
+            if(dist<0.65){ damageBot(bot,b.damage); removed=true; break; }
           }
         } else {
           if(playerState.alive){
-            const dist = b.mesh.position.distanceTo(new THREE.Vector3(player.position.x, 1.0, player.position.z));
-            if(dist < 0.65){
-              damagePlayer(b.damage);
-              removed = true;
-            }
+            const dist=b.mesh.position.distanceTo(new THREE.Vector3(player.position.x,1.0,player.position.z));
+            if(dist<0.65){ damagePlayer(b.damage); removed=true; }
           }
         }
       }
-
-      if(removed){
-        scene.remove(b.mesh);
-        scene.remove(b.line);
-        list.splice(i,1);
-      }
+      if(removed){ scene.remove(b.mesh); scene.remove(b.line); list.splice(i,1); }
     }
   }
 
-  function damageBot(bot, amount){
-    bot.hp -= amount;
-    if(bot.hp <= 0 && bot.alive){
-      bot.alive = false;
-      bot.mesh.visible = false;
-      playerState.kills++;
-      playerState.money += KILL_REWARD;
-      updateHud();
-      bot.respawnTimer = 3.5;
-    }
+  function damageBot(bot,amount){
+    bot.hp-=amount;
+    if(bot.hp<=0&&bot.alive){ bot.alive=false; bot.mesh.visible=false; playerState.kills++; playerState.money+=KILL_REWARD; updateHud(); bot.respawnTimer=3.5; }
   }
 
   function damagePlayer(amount){
     if(!playerState.alive) return;
-    const vestRed = VESTS[playerState.vestId].reduction;
-    const helmetRed = HELMETS[playerState.helmetId].reduction;
-    const totalReduction = 1 - (1-vestRed)*(1-helmetRed);
-    const finalDamage = amount * (1 - totalReduction);
-
-    playerState.hp -= finalDamage;
-    if(playerState.hp <= 0){
-      playerState.hp = 0;
-      playerState.alive = false;
-      onPlayerDeath();
-    }
+    const vestRed=VESTS[playerState.vestId].reduction, helmetRed=HELMETS[playerState.helmetId].reduction;
+    const totalReduction=1-(1-vestRed)*(1-helmetRed);
+    const finalDamage=amount*(1-totalReduction);
+    playerState.hp-=finalDamage;
+    if(playerState.hp<=0){ playerState.hp=0; playerState.alive=false; onPlayerDeath(); }
     updateHud();
   }
 
-  // ============ BOT AI ============
   function updateBots(dt){
     for(const bot of bots){
       if(!bot.alive){
-        bot.respawnTimer -= dt;
-        if(bot.respawnTimer <= 0){
-          bot.alive = true;
-          bot.hp = bot.maxHp;
-          bot.mesh.visible = true;
-          const spot = randomFreeSpot();
+        bot.respawnTimer-=dt;
+        if(bot.respawnTimer<=0){
+          bot.alive=true; bot.hp=bot.maxHp; bot.mesh.visible=true;
+          const spot=randomFreeSpot();
           bot.mesh.position.set(spot.x,0,spot.z);
-          bot.state = 'patrol';
-          bot.target = randomFreeSpot();
-          const vestChoices = ['light','heavy'];
-          const vestId = vestChoices[Math.floor(Math.random()*vestChoices.length)];
-          bot.parts.vest.visible = true;
-          bot.parts.vest.material.color.setHex(VESTS[vestId].color);
-          bot.vestId = vestId;
-          bot.parts.helmet.visible = false;
-          bot.helmetId = null;
-          if(Math.random() < 0.5){
-            const helmetChoices = ['light','combat'];
-            const helmetId = helmetChoices[Math.floor(Math.random()*helmetChoices.length)];
-            bot.parts.helmet.visible = true;
-            bot.parts.helmet.material.color.setHex(HELMETS[helmetId].color);
-            bot.helmetId = helmetId;
+          bot.state='patrol'; bot.target=randomFreeSpot();
+          const vestChoices=['light','heavy'];
+          const vestId=vestChoices[Math.floor(Math.random()*vestChoices.length)];
+          bot.parts.vest.visible=true; bot.parts.vest.material.color.setHex(VESTS[vestId].color); bot.vestId=vestId;
+          bot.parts.helmet.visible=false; bot.helmetId=null;
+          if(Math.random()<0.5){
+            const helmetChoices=['light','combat'];
+            const helmetId=helmetChoices[Math.floor(Math.random()*helmetChoices.length)];
+            bot.parts.helmet.visible=true; bot.parts.helmet.material.color.setHex(HELMETS[helmetId].color); bot.helmetId=helmetId;
           }
         }
         continue;
       }
-
-      const distToPlayer = playerState.alive ? bot.mesh.position.distanceTo(new THREE.Vector3(player.position.x,0,player.position.z)) : Infinity;
-
-      if(distToPlayer < BOT_DETECT_RADIUS && playerState.alive){
-        bot.state = 'attack';
-      } else if(distToPlayer > BOT_DETECT_RADIUS * 1.3){
-        bot.state = 'patrol';
-      }
-
-      if(bot.state === 'patrol'){
-        const toTarget = bot.target.clone().sub(bot.mesh.position);
-        toTarget.y = 0;
-        if(toTarget.length() < 0.5){
-          bot.target = randomFreeSpot();
-        } else {
-          toTarget.normalize();
-          const newPos = bot.mesh.position.clone().add(toTarget.multiplyScalar(BOT_SPEED*0.5*dt));
-          resolveCollisions(newPos, 0.45);
-          bot.mesh.position.copy(newPos);
-          bot.mesh.rotation.y = Math.atan2(toTarget.x, toTarget.z);
-        }
-      } else if(bot.state === 'attack'){
-        const toPlayer = new THREE.Vector3(player.position.x - bot.mesh.position.x, 0, player.position.z - bot.mesh.position.z);
-        const dist = toPlayer.length();
-        toPlayer.normalize();
-        bot.mesh.rotation.y = Math.atan2(toPlayer.x, toPlayer.z);
-
-        if(dist > 5){
-          const newPos = bot.mesh.position.clone().add(toPlayer.clone().multiplyScalar(BOT_SPEED*dt));
-          resolveCollisions(newPos, 0.45);
-          bot.mesh.position.copy(newPos);
-        }
-
-        bot.shootTimer -= dt;
-        if(bot.shootTimer <= 0){
-          bot.shootTimer = BOT_SHOOT_INTERVAL + (Math.random()*0.4-0.2);
-          const origin = bot.mesh.position.clone().add(new THREE.Vector3(0,1.0,0)).add(toPlayer.clone().multiplyScalar(0.6));
-          spawnBullet(origin, toPlayer, false, 10);
+      const distToPlayer=playerState.alive?bot.mesh.position.distanceTo(new THREE.Vector3(player.position.x,0,player.position.z)):Infinity;
+      if(distToPlayer<BOT_DETECT_RADIUS&&playerState.alive) bot.state='attack';
+      else if(distToPlayer>BOT_DETECT_RADIUS*1.3) bot.state='patrol';
+      if(bot.state==='patrol'){
+        const toTarget=bot.target.clone().sub(bot.mesh.position); toTarget.y=0;
+        if(toTarget.length()<0.5){ bot.target=randomFreeSpot(); }
+        else { toTarget.normalize(); const newPos=bot.mesh.position.clone().add(toTarget.multiplyScalar(BOT_SPEED*0.5*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); bot.mesh.rotation.y=Math.atan2(toTarget.x,toTarget.z); }
+      } else if(bot.state==='attack'){
+        const toPlayer=new THREE.Vector3(player.position.x-bot.mesh.position.x,0,player.position.z-bot.mesh.position.z);
+        const dist=toPlayer.length(); toPlayer.normalize(); bot.mesh.rotation.y=Math.atan2(toPlayer.x,toPlayer.z);
+        if(dist>5){ const newPos=bot.mesh.position.clone().add(toPlayer.clone().multiplyScalar(BOT_SPEED*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); }
+        bot.shootTimer-=dt;
+        if(bot.shootTimer<=0){
+          bot.shootTimer=BOT_SHOOT_INTERVAL+(Math.random()*0.4-0.2);
+          const origin=bot.mesh.position.clone().add(new THREE.Vector3(0,1.0,0)).add(toPlayer.clone().multiplyScalar(0.6));
+          spawnBullet(origin,toPlayer,false,10);
         }
       }
     }
   }
 
-  // ============ PLAYER UPDATE ============
   function updatePlayer(dt){
     if(!playerState.alive) return;
-
-    const move = new THREE.Vector3(0,0,0);
-    if(keys['KeyW']) move.z -= 1;
-    if(keys['KeyS']) move.z += 1;
-    if(keys['KeyA']) move.x -= 1;
-    if(keys['KeyD']) move.x += 1;
-    if(move.lengthSq() > 0){
-      move.normalize().multiplyScalar(PLAYER_SPEED*dt);
-      const newPos = player.position.clone().add(move);
-      resolveCollisions(newPos, 0.45);
-      player.position.copy(newPos);
-    }
-
-    const dir = new THREE.Vector3(mouseGroundPoint.x - player.position.x, 0, mouseGroundPoint.z - player.position.z);
-    if(dir.lengthSq() > 0.0001){
-      dir.normalize();
-      playerState.aimDir.copy(dir);
-      player.rotation.y = Math.atan2(dir.x, dir.z);
-    }
-
-    if(playerState.fireTimer > 0) playerState.fireTimer -= dt;
-    if(playerState.reloading){
-      playerState.reloadTimer -= dt;
-      if(playerState.reloadTimer <= 0){
-        playerState.reloading = false;
-        playerState.ammo = playerState.maxAmmo;
-        document.getElementById('reloadMsg').style.display = 'none';
-        updateHud();
-      }
-    }
+    const move=new THREE.Vector3(0,0,0);
+    if(keys['KeyW']) move.z-=1; if(keys['KeyS']) move.z+=1;
+    if(keys['KeyA']) move.x-=1; if(keys['KeyD']) move.x+=1;
+    if(move.lengthSq()>0){ move.normalize().multiplyScalar(PLAYER_SPEED*dt); const newPos=player.position.clone().add(move); resolveCollisions(newPos,0.45); player.position.copy(newPos); }
+    const dir=new THREE.Vector3(mouseGroundPoint.x-player.position.x,0,mouseGroundPoint.z-player.position.z);
+    if(dir.lengthSq()>0.0001){ dir.normalize(); playerState.aimDir.copy(dir); player.rotation.y=Math.atan2(dir.x,dir.z); }
+    if(playerState.fireTimer>0) playerState.fireTimer-=dt;
+    if(playerState.reloading){ playerState.reloadTimer-=dt; if(playerState.reloadTimer<=0){ playerState.reloading=false; playerState.ammo=playerState.maxAmmo; document.getElementById('reloadMsg').style.display='none'; updateHud(); } }
   }
 
-  // ============ CAMERA ============
-  const camOffset = new THREE.Vector3(0, 17, 13);
+  const camOffset=new THREE.Vector3(0,17,13);
   function updateCamera(){
-    const targetPos = player.position.clone().add(camOffset);
-    camera.position.lerp(targetPos, 0.15);
-    const lookAt = player.position.clone().add(new THREE.Vector3(0,1,0));
+    const targetPos=player.position.clone().add(camOffset);
+    camera.position.lerp(targetPos,0.15);
+    const lookAt=player.position.clone().add(new THREE.Vector3(0,1,0));
     camera.lookAt(lookAt);
   }
 
-  // ============ HUD ============
   function updateHud(){
-    document.getElementById('hpVal').textContent = Math.ceil(playerState.hp);
-    document.getElementById('hpFill').style.width = (playerState.hp/playerState.maxHp*100)+'%';
-    document.getElementById('ammoVal').textContent = playerState.ammo;
-    document.getElementById('killsVal').textContent = playerState.kills;
-    document.getElementById('moneyVal').textContent = playerState.money;
+    document.getElementById('hpVal').textContent=Math.ceil(playerState.hp);
+    document.getElementById('hpFill').style.width=(playerState.hp/playerState.maxHp*100)+'%';
+    document.getElementById('ammoVal').textContent=playerState.ammo;
+    document.getElementById('killsVal').textContent=playerState.kills;
+    document.getElementById('moneyVal').textContent=playerState.money;
   }
 
   function onPlayerDeath(){
-    gameRunning = false;
-    paused = false;
-    // заработанные деньги = убийства * 100
-    const earned = playerState.kills * KILL_REWARD;
+    gameRunning=false; paused=false;
+    const earned=playerState.kills*KILL_REWARD;
     addGlobalBalance(earned);
-    document.getElementById('finalKills').textContent = playerState.kills;
-    document.getElementById('finalMoney').textContent = earned;
-    document.getElementById('gameOver').style.display = 'flex';
-    document.getElementById('hud').style.display = 'none';
-    document.getElementById('crosshair').style.display = 'none';
-    document.getElementById('reloadMsg').style.display = 'none';
-    document.getElementById('pauseBtn').style.display = 'none';
-    document.getElementById('pauseOverlay').style.display = 'none';
+    document.getElementById('finalKills').textContent=playerState.kills;
+    document.getElementById('finalMoney').textContent=earned;
+    document.getElementById('gameOver').style.display='flex';
+    document.getElementById('hud').style.display='none';
+    document.getElementById('crosshair').style.display='none';
+    document.getElementById('reloadMsg').style.display='none';
+    document.getElementById('pauseBtn').style.display='none';
+    document.getElementById('pauseOverlay').style.display='none';
     updateBalanceDisplay();
   }
 
-  // ============ PAUSE ============
-  function togglePause(){
-    if(!gameRunning || shopOpen) return;
-    if(paused) closePause(); else openPause();
-  }
+  function togglePause(){ if(!gameRunning||shopOpen) return; if(paused) closePause(); else openPause(); }
+  function openPause(){ if(!gameRunning||!playerState.alive||shopOpen) return; paused=true; document.getElementById('pauseOverlay').style.display='flex'; }
+  function closePause(){ paused=false; document.getElementById('pauseOverlay').style.display='none'; }
 
-  function openPause(){
-    if(!gameRunning || !playerState.alive || shopOpen) return;
-    paused = true;
-    document.getElementById('pauseOverlay').style.display = 'flex';
-  }
-
-  function closePause(){
-    paused = false;
-    document.getElementById('pauseOverlay').style.display = 'none';
-  }
-
-  // ============ IN-GAME SHOP ============
-  function toggleShop(){
-    if(!gameRunning || paused) return;
-    if(shopOpen) closeShop(); else openShop();
-  }
-
-  function openShop(){
-    if(!gameRunning || !playerState.alive || paused) return;
-    shopOpen = true;
-    renderInGameShop();
-    document.getElementById('shopOverlay').style.display = 'flex';
-  }
-
-  function closeShop(){
-    shopOpen = false;
-    document.getElementById('shopOverlay').style.display = 'none';
-  }
+  function toggleShop(){ if(!gameRunning||paused||buyPhaseActive) return; if(shopOpen) closeShop(); else openShop(); }
+  function openShop(){ if(!gameRunning||!playerState.alive||paused||buyPhaseActive) return; shopOpen=true; renderInGameShop(); document.getElementById('shopOverlay').style.display='flex'; }
+  function closeShop(){ shopOpen=false; document.getElementById('shopOverlay').style.display='none'; }
 
   function renderInGameShop(){
-    const container = document.getElementById('shopContainer');
-    container.innerHTML = '';
-    document.getElementById('shopMoney').textContent = 'Баланс: $' + playerState.money;
-    // Оружие
-    Object.values(WEAPONS).forEach(w => {
-      const div = document.createElement('div');
-      div.className = 'shop-item';
-      const owned = playerState.owned.weapons.includes(w.id);
-      div.innerHTML = `
-        <div class="iname">${w.name}</div>
-        <div class="iprice">$${w.price}</div>
-        <button data-type="weapon" data-id="${w.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
-      `;
-      const btn = div.querySelector('button');
-      if (!owned) {
-        btn.addEventListener('click', () => {
-          if (playerState.money < w.price) return;
-          playerState.money -= w.price;
-          playerState.owned.weapons.push(w.id);
-          playerState.weaponId = w.id;
-          playerState.maxAmmo = w.ammo;
-          playerState.ammo = w.ammo;
-          playerState.reloading = false;
-          playerState.reloadTimer = 0;
-          document.getElementById('reloadMsg').style.display = 'none';
-          applyPlayerLoadout();
-          updateHud();
-          renderInGameShop();
-        });
-      }
+    const container=document.getElementById('shopContainer');
+    container.innerHTML='';
+    document.getElementById('shopMoney').textContent='Баланс: $'+playerState.money;
+    Object.values(WEAPONS).forEach(w=>{
+      const div=document.createElement('div'); div.className='shop-item';
+      const owned=playerState.owned.weapons.includes(w.id);
+      div.innerHTML=`<div class="iname">${w.name}</div><div class="iprice">$${w.price}</div><button data-type="weapon" data-id="${w.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
+      const btn=div.querySelector('button');
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<w.price)return; playerState.money-=w.price; playerState.owned.weapons.push(w.id); playerState.weaponId=w.id; playerState.maxAmmo=w.ammo; playerState.ammo=w.ammo; playerState.reloading=false; playerState.reloadTimer=0; document.getElementById('reloadMsg').style.display='none'; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
       container.appendChild(div);
     });
-    // Бронежилеты
-    Object.values(VESTS).forEach(v => {
-      const div = document.createElement('div');
-      div.className = 'shop-item';
-      const owned = playerState.owned.vests.includes(v.id);
-      div.innerHTML = `
-        <div class="iname">${v.name}</div>
-        <div class="iprice">$${v.price}</div>
-        <button data-type="vest" data-id="${v.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
-      `;
-      const btn = div.querySelector('button');
-      if (!owned) {
-        btn.addEventListener('click', () => {
-          if (playerState.money < v.price) return;
-          playerState.money -= v.price;
-          playerState.owned.vests.push(v.id);
-          playerState.vestId = v.id;
-          applyPlayerLoadout();
-          updateHud();
-          renderInGameShop();
-        });
-      }
+    Object.values(VESTS).forEach(v=>{
+      const div=document.createElement('div'); div.className='shop-item';
+      const owned=playerState.owned.vests.includes(v.id);
+      div.innerHTML=`<div class="iname">${v.name}</div><div class="iprice">$${v.price}</div><button data-type="vest" data-id="${v.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
+      const btn=div.querySelector('button');
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<v.price)return; playerState.money-=v.price; playerState.owned.vests.push(v.id); playerState.vestId=v.id; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
       container.appendChild(div);
     });
-    // Шлемы
-    Object.values(HELMETS).forEach(h => {
-      const div = document.createElement('div');
-      div.className = 'shop-item';
-      const owned = playerState.owned.helmets.includes(h.id);
-      div.innerHTML = `
-        <div class="iname">${h.name}</div>
-        <div class="iprice">$${h.price}</div>
-        <button data-type="helmet" data-id="${h.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
-      `;
-      const btn = div.querySelector('button');
-      if (!owned) {
-        btn.addEventListener('click', () => {
-          if (playerState.money < h.price) return;
-          playerState.money -= h.price;
-          playerState.owned.helmets.push(h.id);
-          playerState.helmetId = h.id;
-          applyPlayerLoadout();
-          updateHud();
-          renderInGameShop();
-        });
-      }
+    Object.values(HELMETS).forEach(h=>{
+      const div=document.createElement('div'); div.className='shop-item';
+      const owned=playerState.owned.helmets.includes(h.id);
+      div.innerHTML=`<div class="iname">${h.name}</div><div class="iprice">$${h.price}</div><button data-type="helmet" data-id="${h.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
+      const btn=div.querySelector('button');
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<h.price)return; playerState.money-=h.price; playerState.owned.helmets.push(h.id); playerState.helmetId=h.id; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
       container.appendChild(div);
     });
   }
 
-  // ============ BUY PHASE ============
-  let buyTimerInterval = null;
-  function startBuyPhase(callback) {
-    buyPhaseActive = true;
-    let timeLeft = BUY_PHASE_DURATION;
-    document.getElementById('buyTimerDisplay').textContent = timeLeft;
-    document.getElementById('buyTimerOverlay').style.display = 'block';
-    // Открыть магазин
-    openShop();
-    buyTimerInterval = setInterval(() => {
+  function startBuyPhase(callback){
+    buyPhaseActive=true;
+    let timeLeft=BUY_PHASE_DURATION;
+    document.getElementById('buyTimerDisplay').textContent=timeLeft;
+    document.getElementById('buyTimerOverlay').style.display='block';
+    shopOpen=true; renderInGameShop(); document.getElementById('shopOverlay').style.display='flex';
+    buyTimerInterval=setInterval(()=>{
       timeLeft--;
-      document.getElementById('buyTimerDisplay').textContent = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(buyTimerInterval);
-        buyTimerInterval = null;
-        buyPhaseActive = false;
-        document.getElementById('buyTimerOverlay').style.display = 'none';
-        closeShop();
+      document.getElementById('buyTimerDisplay').textContent=timeLeft;
+      if(timeLeft<=0){
+        clearInterval(buyTimerInterval); buyTimerInterval=null; buyPhaseActive=false;
+        document.getElementById('buyTimerOverlay').style.display='none';
+        shopOpen=false; document.getElementById('shopOverlay').style.display='none';
         callback();
       }
-    }, 1000);
+    },1000);
   }
 
-  // ============ MAIN LOOP ============
   function animate(){
     requestAnimationFrame(animate);
-    const dt = Math.min(clock.getDelta(), 0.1);
-
-    if(gameRunning && !shopOpen && !paused && !buyPhaseActive){
-      updateAim();
-      updatePlayer(dt);
-      updateBots(dt);
-      updateBullets(dt);
-      updateCamera();
+    const dt=Math.min(clock.getDelta(),0.1);
+    if(gameRunning&&!shopOpen&&!paused&&!buyPhaseActive){
+      updateAim(); updatePlayer(dt); updateBots(dt); updateBullets(dt); updateCamera();
     }
-
-    renderer.render(scene, camera);
+    renderer.render(scene,camera);
   }
 
-  // ============ GAME LIFECYCLE ============
   function startGame(){
     clearDynamicObjects();
-
+    // Строим выбранную карту
+    if (selectedMap === 'sandstone') buildMapSandstone();
+    else buildMapDust2();
     resetPlayerState();
-    player = createPlayer();
+    player=createPlayer();
     applyPlayerLoadout();
     spawnBots();
-
-    document.getElementById('nickBox').textContent = playerNick;
-    document.getElementById('menu').style.display = 'none';
-    document.getElementById('gameOver').style.display = 'none';
-    document.getElementById('shopOverlay').style.display = 'none';
-    document.getElementById('hud').style.display = 'flex';
-    document.getElementById('crosshair').style.display = 'block';
-    document.getElementById('pauseBtn').style.display = 'flex';
-    document.getElementById('pauseOverlay').style.display = 'none';
+    document.getElementById('nickBox').textContent=playerNick;
+    document.getElementById('menu').style.display='none';
+    document.getElementById('gameOver').style.display='none';
+    document.getElementById('shopOverlay').style.display='none';
+    document.getElementById('hud').style.display='flex';
+    document.getElementById('crosshair').style.display='block';
+    document.getElementById('pauseBtn').style.display='flex';
+    document.getElementById('pauseOverlay').style.display='none';
     updateHud();
-
-    shopOpen = false;
-    paused = false;
-    gameRunning = false; // будет включено после таймера
-
-    // Запускаем фазу закупки
-    startBuyPhase(() => {
-      gameRunning = true;
-      clock.getDelta();
-    });
+    shopOpen=false; paused=false; gameRunning=false;
+    startBuyPhase(()=>{ gameRunning=true; clock.getDelta(); });
   }
 
   function returnToMenu(){
-    gameRunning = false;
-    shopOpen = false;
-    paused = false;
-    if (buyTimerInterval) { clearInterval(buyTimerInterval); buyTimerInterval = null; }
-    buyPhaseActive = false;
-    document.getElementById('buyTimerOverlay').style.display = 'none';
+    gameRunning=false; shopOpen=false; paused=false;
+    if(buyTimerInterval){ clearInterval(buyTimerInterval); buyTimerInterval=null; }
+    buyPhaseActive=false;
+    document.getElementById('buyTimerOverlay').style.display='none';
     clearDynamicObjects();
-    document.getElementById('gameOver').style.display = 'none';
-    document.getElementById('shopOverlay').style.display = 'none';
-    document.getElementById('pauseOverlay').style.display = 'none';
-    document.getElementById('pauseBtn').style.display = 'none';
-    document.getElementById('hud').style.display = 'none';
-    document.getElementById('crosshair').style.display = 'none';
-    document.getElementById('reloadMsg').style.display = 'none';
-    document.getElementById('menu').style.display = 'flex';
+    document.getElementById('gameOver').style.display='none';
+    document.getElementById('shopOverlay').style.display='none';
+    document.getElementById('pauseOverlay').style.display='none';
+    document.getElementById('pauseBtn').style.display='none';
+    document.getElementById('hud').style.display='none';
+    document.getElementById('crosshair').style.display='none';
+    document.getElementById('reloadMsg').style.display='none';
+    document.getElementById('menu').style.display='flex';
     updateBalanceDisplay();
   }
 
   function clearDynamicObjects(){
-    if(player){ scene.remove(player); player = null; playerParts = null; }
+    if(player){ scene.remove(player); player=null; playerParts=null; }
     for(const bot of bots){ scene.remove(bot.mesh); }
-    bots.length = 0;
+    bots.length=0;
     for(const b of bullets){ scene.remove(b.mesh); scene.remove(b.line); }
-    bullets.length = 0;
+    bullets.length=0;
     for(const b of botBullets){ scene.remove(b.mesh); scene.remove(b.line); }
-    botBullets.length = 0;
+    botBullets.length=0;
+    // Очищаем препятствия, но не землю и свет
+    for(const o of obstacles){
+      scene.remove(o.mesh);
+    }
+    obstacles.length=0;
   }
 
-  // ============ UI HOOKS ============
-  document.getElementById('startBtn').addEventListener('click', () => {
-    const val = document.getElementById('nickInput').value.trim();
-    playerNick = val.length ? val : 'Player';
+  // UI HOOKS
+  document.getElementById('startBtn').addEventListener('click',()=>{
+    const val=document.getElementById('nickInput').value.trim();
+    playerNick=val.length?val:'Player';
     startGame();
   });
-
-  document.getElementById('restartBtn').addEventListener('click', () => {
-    document.getElementById('gameOver').style.display = 'none';
+  document.getElementById('restartBtn').addEventListener('click',()=>{
+    document.getElementById('gameOver').style.display='none';
     startGame();
   });
+  document.getElementById('menuBtn').addEventListener('click',returnToMenu);
+  document.getElementById('nickInput').addEventListener('keydown',e=>{ if(e.code==='Enter') document.getElementById('startBtn').click(); });
+  document.getElementById('pauseBtn').addEventListener('click',togglePause);
+  document.getElementById('resumeBtn').addEventListener('click',closePause);
+  document.getElementById('pauseShopBtn').addEventListener('click',()=>{ closePause(); openShop(); });
+  document.getElementById('pauseMenuBtn').addEventListener('click',()=>{ closePause(); returnToMenu(); });
+  document.getElementById('shopBtn').addEventListener('click',toggleShop);
+  document.getElementById('closeShopBtn').addEventListener('click',closeShop);
 
-  document.getElementById('menuBtn').addEventListener('click', returnToMenu);
-
-  document.getElementById('nickInput').addEventListener('keydown', e => {
-    if(e.code === 'Enter') document.getElementById('startBtn').click();
-  });
-
-  // Пауза кнопки
-  document.getElementById('pauseBtn').addEventListener('click', togglePause);
-  document.getElementById('resumeBtn').addEventListener('click', closePause);
-  document.getElementById('pauseShopBtn').addEventListener('click', () => { closePause(); openShop(); });
-  document.getElementById('pauseMenuBtn').addEventListener('click', () => { closePause(); returnToMenu(); });
-
-  // Кнопки магазина
-  document.getElementById('shopBtn').addEventListener('click', toggleShop);
-  document.getElementById('closeShopBtn').addEventListener('click', closeShop);
-
-  // ============ BOOT ============
-  clock = new THREE.Clock();
+  // BOOT
+  clock=new THREE.Clock();
   initScene();
   animate();
-
-  // Отобразить баланс при старте
   updateBalanceDisplay();
-  // Инициализация вкладок
+  renderMaps();
   renderSkinShop();
   renderInventory();
   renderCases();
-
 })();
 </script>
 </body>
