@@ -327,12 +327,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 #shopHeader h2 span { color:#ff8c1a; }
 #shopHeader .shop-money { color:#8fe38f; font-size:18px; font-weight:bold; }
-#shopHeader .buy-timer-wrap {
-  text-align:center;
-}
-#shopHeader .buy-timer-wrap .label { color:#999; font-size:10px; text-transform:uppercase; letter-spacing:2px; }
-#shopHeader .buy-timer-wrap .value { color:#fff; font-size:24px; font-weight:bold; }
-
 .shop-grid { display:flex; flex-wrap:wrap; gap:14px; }
 .shop-item {
   background:#161410; border:1px solid #332c1e; border-radius:6px;
@@ -369,7 +363,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 #toast .toast-skin { display:inline-block; width:20px; height:20px; border-radius:4px; border:1px solid #555; vertical-align:middle; margin-right:8px; }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
   .menu-content { padding:16px; }
   .menu-content h1 { font-size:32px; }
@@ -401,7 +394,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       <button class="tab" data-tab="cases">Кейсы</button>
       <button class="tab" data-tab="settings">Настройки</button>
     </div>
-    <!-- Панель Играть -->
     <div id="tab-play" class="tab-panel active">
       <input id="nickInput" type="text" maxlength="16" placeholder="Никнейм" value="Player">
       <br>
@@ -410,23 +402,18 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         <b>WASD</b> — движение · <b>Мышь</b> — прицел · <b>ЛКМ</b> — выстрел · <b>R</b> — перезарядка · <b>B</b> — магазин
       </div>
     </div>
-    <!-- Панель Карты -->
     <div id="tab-maps" class="tab-panel">
       <div id="mapContainer" class="map-grid"></div>
     </div>
-    <!-- Панель Магазин скинов -->
     <div id="tab-shop" class="tab-panel">
       <div id="skinShopContainer"></div>
     </div>
-    <!-- Панель Инвентарь -->
     <div id="tab-inventory" class="tab-panel">
       <div id="inventoryContainer" class="inv-container"></div>
     </div>
-    <!-- Панель Кейсы -->
     <div id="tab-cases" class="tab-panel">
       <div id="caseContainer" class="case-shop-grid"></div>
     </div>
-    <!-- Панель Настройки -->
     <div id="tab-settings" class="tab-panel">
       <div id="settingsPanel">
         <div class="setting-row">
@@ -515,7 +502,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 (function(){
   'use strict';
 
-  // ============ ЗВУКИ ============
+  // ============ ЗВУКИ И МУЗЫКА ============
   let audioCtx = null;
   let sfxVolume = 0.5;
   let musicVolume = 0.3;
@@ -687,7 +674,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     ]
   };
 
-  // ============ CASE DATA ============
   const CASES = [
     { id: 'scorpion', name: 'Scorpion Case', icon: '🦂', price: 200 },
     { id: 'fable', name: 'Fable Case', icon: '📖', price: 200 },
@@ -696,14 +682,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     { id: 'origin', name: 'Origin Case', icon: '🌌', price: 350 },
   ];
 
-  // ============ MAPS ============
   const MAPS = [
     { id: 'de_dust2', name: 'Dust II', icon: '🏜️', time: '01:19', status: 'Играть' },
     { id: 'sandstone', name: 'Sandstone', icon: '🏛️', time: '01:28', status: 'Играть' },
   ];
   let selectedMap = 'de_dust2';
 
-  // ============ INVENTORY / BALANCE ============
+  // ============ INVENTORY ============
   function loadInventory() {
     try {
       const raw = localStorage.getItem('contra_inventory');
@@ -733,7 +718,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     updateBalanceDisplay();
   }
 
-  // ============ UI UPDATES ============
+  // ============ UI ============
   function updateBalanceDisplay() {
     document.getElementById('globalBalance').textContent = getGlobalBalance();
   }
@@ -750,7 +735,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     el._timeout = setTimeout(() => el.style.display = 'none', 3000);
   }
 
-  // ============ TAB SWITCHING ============
+  // ============ TABS ============
   const tabs = document.querySelectorAll('.tab');
   const panels = {
     play: document.getElementById('tab-play'),
@@ -790,7 +775,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   });
   document.getElementById('toggleMusicBtn').addEventListener('click', toggleMusic);
 
-  // ============ RENDER MAPS ============
+  // ============ RENDER FUNCTIONS ============
   function renderMaps() {
     const container = document.getElementById('mapContainer');
     container.innerHTML = '';
@@ -811,7 +796,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // ============ RENDER SKIN SHOP ============
   function renderSkinShop() {
     const container = document.getElementById('skinShopContainer');
     container.innerHTML = '';
@@ -885,7 +869,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     renderSkinShop();
   }
 
-  // ============ RENDER INVENTORY ============
   function renderInventory() {
     const container = document.getElementById('inventoryContainer');
     container.innerHTML = '';
@@ -970,7 +953,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     container.appendChild(previewDiv);
   }
 
-  // ============ RENDER CASES ============
   function renderCases() {
     const container = document.getElementById('caseContainer');
     container.innerHTML = '';
@@ -990,7 +972,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // ============ CASE OPEN ANIMATION ============
+  // ============ CASE OPEN ============
   let caseResultCallback = null;
 
   function openCase(caseId) {
@@ -1111,10 +1093,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   const mouse = new THREE.Vector2(0,0);
   const raycaster = new THREE.Raycaster();
   let mouseGroundPoint = new THREE.Vector3();
-  let gameRunning = false, shopOpen = false, paused = false, buyPhaseActive = false;
-  let buyTimerInterval = null;
-  let buyTimerCounter = 5;
-  const BUY_PHASE_DURATION = 5;
+  let gameRunning = false, shopOpen = false, paused = false;
   let playerNick = 'Player';
   const MAP_HALF = 15, PLAYER_SPEED = 8.5, BOT_SPEED = 3.2, BOT_DETECT_RADIUS = 10, BOT_SHOOT_INTERVAL = 1.1, BULLET_SPEED = 40, BOT_BULLET_SPEED = 22;
 
@@ -1175,7 +1154,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     window.addEventListener('keydown', e => {
       keys[e.code]=true;
       if(e.code === 'KeyR') tryReload();
-      if(e.code === 'KeyB' && !paused && !buyPhaseActive) toggleShop();
+      if(e.code === 'KeyB' && !paused) toggleShop();
       if(e.code === 'Escape'){
         if(shopOpen) closeShop();
         else togglePause();
@@ -1625,13 +1604,34 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     updateBalanceDisplay();
   }
 
-  function togglePause(){ if(!gameRunning||shopOpen) return; if(paused) closePause(); else openPause(); }
-  function openPause(){ if(!gameRunning||!playerState.alive||shopOpen) return; paused=true; document.getElementById('pauseOverlay').style.display='flex'; }
-  function closePause(){ paused=false; document.getElementById('pauseOverlay').style.display='none'; }
+  function togglePause(){
+    if(!gameRunning||shopOpen) return;
+    if(paused) closePause(); else openPause();
+  }
+  function openPause(){
+    if(!gameRunning||!playerState.alive||shopOpen) return;
+    paused=true;
+    document.getElementById('pauseOverlay').style.display='flex';
+  }
+  function closePause(){
+    paused=false;
+    document.getElementById('pauseOverlay').style.display='none';
+  }
 
-  function toggleShop(){ if(!gameRunning||paused||buyPhaseActive) return; if(shopOpen) closeShop(); else openShop(); }
-  function openShop(){ if(!gameRunning||!playerState.alive||paused||buyPhaseActive) return; shopOpen=true; renderInGameShop(); document.getElementById('shopOverlay').style.display='flex'; }
-  function closeShop(){ shopOpen=false; document.getElementById('shopOverlay').style.display='none'; }
+  function toggleShop(){
+    if(!gameRunning||paused) return;
+    if(shopOpen) closeShop(); else openShop();
+  }
+  function openShop(){
+    if(!gameRunning||!playerState.alive||paused) return;
+    shopOpen=true;
+    renderInGameShop();
+    document.getElementById('shopOverlay').style.display='flex';
+  }
+  function closeShop(){
+    shopOpen=false;
+    document.getElementById('shopOverlay').style.display='none';
+  }
 
   function renderInGameShop(){
     const container=document.getElementById('shopContainer');
@@ -1664,11 +1664,12 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // Новая упрощённая функция старта игры (без таймера закупки)
-  function startGameDirectly() {
-    // Очищаем всё
+  // ============ GAME START / MENU ============
+  function startGame(){
+    // Полная очистка перед запуском
     clearDynamicObjects();
-    // Строим карту
+    clearMap();
+
     if (selectedMap === 'sandstone') buildMapSandstone();
     else buildMapDust2();
 
@@ -1677,7 +1678,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     applyPlayerLoadout();
     spawnBots();
 
-    // Прячем меню, показываем HUD
     document.getElementById('menu').style.display = 'none';
     document.getElementById('gameOver').style.display = 'none';
     document.getElementById('shopOverlay').style.display = 'none';
@@ -1688,58 +1688,65 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
     shopOpen = false;
     paused = false;
-    gameRunning = true; // Запускаем сразу
-    buyPhaseActive = false;
-    // Сбрасываем дельту
-    clock.getDelta();
-    console.log('Игра запущена (без закупки)');
-  }
-
-  // Заменяем старую функцию startGame
-  function startGame(){
-    // Вызываем прямой старт
-    startGameDirectly();
+    gameRunning = true;
+    clock.getDelta(); // сброс дельты
   }
 
   function returnToMenu(){
-    gameRunning=false; shopOpen=false; paused=false;
-    if(buyTimerInterval){ clearInterval(buyTimerInterval); buyTimerInterval=null; }
-    buyPhaseActive=false;
-    document.getElementById('buyTimerOverlay').style.display='none';
+    gameRunning = false;
+    shopOpen = false;
+    paused = false;
+    // Закрываем все оверлеи
+    document.getElementById('gameOver').style.display = 'none';
+    document.getElementById('shopOverlay').style.display = 'none';
+    document.getElementById('pauseOverlay').style.display = 'none';
+    document.getElementById('hud').style.display = 'none';
+    document.getElementById('pauseBtn').style.display = 'none';
+    document.getElementById('reloadMsg').style.display = 'none';
+    document.getElementById('menu').style.display = 'flex';
+    // Полная очистка сцены
     clearDynamicObjects();
-    document.getElementById('gameOver').style.display='none';
-    document.getElementById('shopOverlay').style.display='none';
-    document.getElementById('pauseOverlay').style.display='none';
-    document.getElementById('pauseBtn').style.display='none';
-    document.getElementById('hud').style.display='none';
-    document.getElementById('reloadMsg').style.display='none';
-    document.getElementById('menu').style.display='flex';
+    clearMap();
+    // Обновляем баланс
     updateBalanceDisplay();
   }
 
   function clearDynamicObjects(){
-    if(player){ scene.remove(player); player=null; playerParts=null; }
-    for(const bot of bots){ scene.remove(bot.mesh); }
-    bots.length=0;
-    for(const b of bullets){ scene.remove(b.mesh); scene.remove(b.line); }
-    bullets.length=0;
-    for(const b of botBullets){ scene.remove(b.mesh); scene.remove(b.line); }
-    botBullets.length=0;
-    for(const o of obstacles){ scene.remove(o.mesh); }
-    obstacles.length=0;
+    if(player){
+      scene.remove(player);
+      player = null;
+      playerParts = null;
+    }
+    for(const bot of bots){
+      scene.remove(bot.mesh);
+    }
+    bots.length = 0;
+    for(const b of bullets){
+      scene.remove(b.mesh);
+      scene.remove(b.line);
+    }
+    bullets.length = 0;
+    for(const b of botBullets){
+      scene.remove(b.mesh);
+      scene.remove(b.line);
+    }
+    botBullets.length = 0;
   }
 
-  // Остальные функции (animate, UI HOOKS) остаются без изменений, но нужно убедиться, что animate работает
   function animate(){
     requestAnimationFrame(animate);
-    const dt=Math.min(clock.getDelta(),0.1);
+    const dt = Math.min(clock.getDelta(), 0.1);
     if(gameRunning && !shopOpen && !paused){
-      updateAim(); updatePlayer(dt); updateBots(dt); updateBullets(dt); updateCamera();
+      updateAim();
+      updatePlayer(dt);
+      updateBots(dt);
+      updateBullets(dt);
+      updateCamera();
     }
-    renderer.render(scene,camera);
+    renderer.render(scene, camera);
   }
 
-  // UI HOOKS
+  // ============ UI HOOKS ============
   document.getElementById('startBtn').addEventListener('click',()=>{
     const val=document.getElementById('nickInput').value.trim();
     playerNick=val.length?val:'Player';
@@ -1749,17 +1756,20 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     document.getElementById('gameOver').style.display='none';
     startGame();
   });
-  document.getElementById('menuBtn').addEventListener('click',returnToMenu);
+  document.getElementById('menuBtn').addEventListener('click', returnToMenu);
   document.getElementById('nickInput').addEventListener('keydown',e=>{ if(e.code==='Enter') document.getElementById('startBtn').click(); });
-  document.getElementById('pauseBtn').addEventListener('click',togglePause);
-  document.getElementById('resumeBtn').addEventListener('click',closePause);
+  document.getElementById('pauseBtn').addEventListener('click', togglePause);
+  document.getElementById('resumeBtn').addEventListener('click', closePause);
   document.getElementById('pauseShopBtn').addEventListener('click',()=>{ closePause(); openShop(); });
-  document.getElementById('pauseMenuBtn').addEventListener('click',()=>{ closePause(); returnToMenu(); });
-  document.getElementById('shopBtn').addEventListener('click',toggleShop);
-  document.getElementById('closeShopBtn').addEventListener('click',closeShop);
+  document.getElementById('pauseMenuBtn').addEventListener('click', ()=>{
+    closePause();
+    returnToMenu();
+  });
+  document.getElementById('shopBtn').addEventListener('click', toggleShop);
+  document.getElementById('closeShopBtn').addEventListener('click', closeShop);
 
-  // BOOT
-  clock=new THREE.Clock();
+  // ============ BOOT ============
+  clock = new THREE.Clock();
   initScene();
   animate();
   updateBalanceDisplay();
@@ -1768,7 +1778,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   renderInventory();
   renderCases();
 
-  // Музыка – запускаем при первом клике по странице
+  // Музыка при первом клике
   document.addEventListener('click', () => {
     initAudio();
     if (!musicPlaying && musicVolume > 0) {
