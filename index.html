@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contra.cc.cd — Скоро здесь будет игра</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0f;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,165,0,0.15), transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .container { text-align: center; z-index: 10; position: relative; }
+        .logo {
+            font-size: 72px;
+            font-weight: 900;
+            color: #ffa502;
+            text-shadow: 0 0 40px rgba(255,165,0,0.4);
+            letter-spacing: 4px;
+        }
+        .logo span { color: #fff; font-weight: 300; }
+        .subtitle {
+            color: #888;
+            font-size: 20px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        .status-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,165,0,0.2);
+            border-radius: 16px;
+            padding: 30px 50px;
+            display: inline-block;
+        }
+        .status-title {
+            color: #ffa502;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+        .status-text {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .status-text .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #2ed573;
+            border-radius: 50%;
+            margin-right: 12px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+        .loader {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .loader span {
+            width: 10px;
+            height: 10px;
+            background: #ffa502;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .loader span:nth-child(1) { animation-delay: -0.32s; }
+        .loader span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        .footer {
+            margin-top: 40px;
+            color: #444;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+        .footer a { color: #666; text-decoration: none; }
+        .footer a:hover { color: #ffa502; }
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #ffa502;
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div id="particles"></div>
+    <div class="container">
+        <div class="logo">CS<span>2D</span></div>
+        <div class="subtitle">de_dust2</div>
+        <div class="status-box">
+            <div class="status-title">Статус сервера</div>
+            <div class="status-text">
+                <span class="dot"></span>
+                Игра готовится к запуску
+            </div>
+            <div class="loader">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="footer">
+            <a href="#">contra.cc.cd</a> &bull; Скоро здесь будет полноценная игра
+        </div>
+    </div>
+    <script>
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = (Math.random() * 4 + 2) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            container.appendChild(p);
+        }
+    </script>
+</body>
+</html>
