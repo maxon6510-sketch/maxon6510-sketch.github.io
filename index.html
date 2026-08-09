@@ -2,286 +2,244 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="/s.png"
+<link rel="icon" type="image/png" href="/s.png">
 <title>Contra</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-family: 'Segoe UI', Arial, sans-serif; }
-  #gameCanvas { display:block; width:100%; height:100%; cursor:crosshair; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-family: 'Segoe UI', Arial, sans-serif; }
+#gameCanvas { display:block; width:100%; height:100%; cursor:crosshair; }
 
-  /* ===== MAIN MENU (large, CS2-style) ===== */
-  #menu {
-    position:fixed; inset:0; z-index:50;
-    display:flex; color:#eee; overflow:hidden;
-    background:#0a0908;
-  }
-  #menu .menuBgGrid {
-    position:absolute; inset:0;
-    background-image:
-      linear-gradient(rgba(255,140,26,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,140,26,0.06) 1px, transparent 1px);
-    background-size:46px 46px;
-    -webkit-mask-image: radial-gradient(ellipse at 30% 50%, #000 0%, transparent 75%);
-            mask-image: radial-gradient(ellipse at 30% 50%, #000 0%, transparent 75%);
-  }
-  #menu .menuGlow {
-    position:absolute; top:-20%; left:-10%; width:70%; height:140%;
-    background:radial-gradient(ellipse at center, rgba(255,140,26,0.16) 0%, transparent 65%);
-    pointer-events:none;
-  }
-  #menu .menuDiagonal {
-    position:absolute; top:0; bottom:0; left:62%; width:3px;
-    background:linear-gradient(180deg, transparent, #ff8c1a 15%, #ff8c1a 85%, transparent);
-    transform:skewX(-8deg);
-    box-shadow:0 0 30px rgba(255,140,26,0.5);
-  }
-  #menu .menuLeft {
-    position:relative; z-index:2;
-    flex:1 1 62%;
-    display:flex; flex-direction:column; justify-content:center;
-    padding:6vh 7vw;
-  }
-  #menu .menuEyebrow {
-    color:#8a7455; font-size:14px; letter-spacing:8px; text-transform:uppercase; margin-bottom:18px;
-  }
-  #menu h1 {
-    font-size:min(15vw,180px); line-height:0.88; letter-spacing:2px; color:#fff;
-    font-weight:900; margin-bottom:10px;
-    text-shadow: 0 0 60px rgba(255,140,26,0.45);
-  }
-  #menu h1 span { color:#ff8c1a; text-shadow:0 0 40px rgba(255,140,26,0.75); }
-  #menu .author {
-    color:#a56b3a; font-size:14px; letter-spacing:3px; margin-bottom:8px; text-transform:uppercase;
-  }
-  #menu .subtitle {
-    color:#999; letter-spacing:4px; font-size:16px; margin-top:20px; text-transform:uppercase;
-    border-left:3px solid #ff8c1a; padding-left:16px;
-  }
-  #menu .menuRight {
-    position:relative; z-index:2;
-    flex:1 1 38%;
-    display:flex; flex-direction:column; justify-content:center; align-items:stretch;
-    padding:6vh 6vw 6vh 4vw;
-    background:linear-gradient(90deg, rgba(10,9,8,0.4), rgba(5,4,3,0.85));
-  }
-  #menu .menuPanel {
-    background:rgba(15,13,10,0.7); border:1px solid rgba(255,140,26,0.3);
-    padding:44px 40px; border-radius:4px; backdrop-filter:blur(2px);
-  }
-  #menu .menuPanel label {
-    display:block; color:#c98d4a; font-size:12px; letter-spacing:3px; text-transform:uppercase; margin-bottom:10px;
-  }
-  #menu input {
-    background:#151515; border:2px solid #ff8c1a; color:#fff;
-    padding:16px 20px; font-size:18px; width:100%; text-align:left;
-    outline:none; margin-bottom:26px; border-radius:2px;
-    letter-spacing:1px;
-  }
-  #menu button {
-    background:linear-gradient(180deg,#ff9d33,#e07000);
-    border:none; color:#111; font-weight:bold; font-size:24px;
-    padding:20px 0; width:100%; cursor:pointer; letter-spacing:3px;
-    border-radius:2px; box-shadow:0 5px 0 #a44f00, 0 0 30px rgba(255,140,26,0.35);
-    transition:transform 0.08s;
-    text-transform:uppercase;
-  }
-  #menu button:active { transform:translateY(4px); box-shadow:0 1px 0 #a44f00; }
-  #menu .hint {
-    margin-top:30px; color:#666; font-size:13px; letter-spacing:0.5px; line-height:2.1;
-    border-top:1px solid rgba(255,140,26,0.2); padding-top:20px;
-  }
-  #menu .hint b { color:#ff8c1a; }
-  #menu .stripe { display:none; }
+/* ===== MAIN MENU (центрированное, с вкладками) ===== */
+#menu {
+  position:fixed; inset:0; z-index:50;
+  display:flex; align-items:center; justify-content:center;
+  background:#0a0908; color:#eee;
+}
+.menu-bg {
+  position:absolute; inset:0;
+  background-image: radial-gradient(circle at 30% 40%, rgba(255,140,26,0.12) 0%, transparent 70%),
+                    linear-gradient(rgba(255,140,26,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,140,26,0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  pointer-events:none;
+}
+.menu-content {
+  position:relative; z-index:2;
+  width:90%; max-width:720px; background:rgba(15,13,10,0.85);
+  border:1px solid rgba(255,140,26,0.3); border-radius:12px;
+  padding:30px 40px 40px;
+  box-shadow:0 0 60px rgba(255,140,26,0.15);
+  backdrop-filter:blur(4px);
+  text-align:center;
+}
+.menu-content h1 {
+  font-size:64px; font-weight:900; color:#fff; letter-spacing:3px;
+  text-shadow:0 0 40px rgba(255,140,26,0.5);
+  margin-bottom:8px;
+}
+.menu-content h1 span { color:#ff8c1a; }
+.menu-content .sub {
+  color:#8a7455; letter-spacing:6px; font-size:12px; text-transform:uppercase;
+  margin-bottom:20px;
+}
+.balance-bar {
+  display:flex; justify-content:flex-end; margin-bottom:15px;
+  color:#8fe38f; font-size:18px; font-weight:bold;
+  border-bottom:1px solid rgba(255,140,26,0.2); padding-bottom:12px;
+}
+.balance-bar span { color:#ffb86b; margin-left:8px; }
+.tabs {
+  display:flex; gap:6px; justify-content:center; margin-bottom:22px;
+}
+.tabs button {
+  background:transparent; border:1px solid #333; color:#999;
+  padding:8px 20px; border-radius:6px; cursor:pointer; font-size:14px;
+  transition:0.2s; letter-spacing:1px;
+}
+.tabs button:hover { border-color:#ff8c1a; color:#ff8c1a; }
+.tabs button.active { background:#ff8c1a; color:#111; border-color:#ff8c1a; font-weight:bold; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+#tab-play input {
+  background:#151515; border:2px solid #ff8c1a; color:#fff;
+  padding:14px 20px; font-size:18px; width:100%; max-width:300px;
+  outline:none; border-radius:6px; margin-bottom:16px;
+}
+#tab-play button {
+  background:linear-gradient(180deg,#ff9d33,#e07000);
+  border:none; color:#111; font-weight:bold; font-size:22px;
+  padding:14px 40px; border-radius:6px; cursor:pointer;
+  box-shadow:0 4px 0 #a44f00; transition:0.1s;
+}
+#tab-play button:active { transform:translateY(4px); box-shadow:0 1px 0 #a44f00; }
+.hint {
+  margin-top:16px; color:#666; font-size:13px; letter-spacing:0.5px; line-height:1.8;
+}
+.hint b { color:#ff8c1a; }
 
-  @media (max-width: 900px){
-    #menu { flex-direction:column; }
-    #menu .menuDiagonal { display:none; }
-    #menu .menuLeft, #menu .menuRight { flex:none; padding:4vh 6vw; }
-    #menu h1 { font-size:18vw; }
-  }
+/* Стили для магазина скинов, инвентаря, кейсов */
+.skin-grid {
+  display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
+  max-height:300px; overflow-y:auto; padding:4px;
+}
+.skin-card {
+  background:#161410; border:1px solid #332c1e; border-radius:8px;
+  padding:12px 16px; min-width:140px; flex:1 1 auto; text-align:center;
+}
+.skin-card .sname { font-weight:bold; color:#fff; font-size:14px; }
+.skin-card .sprice { color:#ffb86b; font-size:13px; margin:4px 0; }
+.skin-card button {
+  background:#ff8c1a; border:none; color:#111; padding:5px 14px; border-radius:4px;
+  font-weight:bold; cursor:pointer; font-size:12px;
+}
+.skin-card button.equipped { background:#3a6b3a; color:#fff; cursor:default; }
+.skin-card button.owned { background:#2a3a2a; color:#b6ff9e; }
+.skin-card button:disabled { opacity:0.4; cursor:not-allowed; }
+.case-card {
+  background:#161410; border:1px solid #ff8c1a; border-radius:8px;
+  padding:20px; display:inline-block; margin:8px; min-width:160px;
+  text-align:center;
+}
+.case-card .cname { color:#fff; font-size:18px; font-weight:bold; }
+.case-card .cprice { color:#ffb86b; margin:8px 0; }
+.case-card button { background:#ff8c1a; border:none; color:#111; padding:8px 24px; border-radius:6px; font-weight:bold; cursor:pointer; }
+.inv-item {
+  display:inline-block; background:#161410; border:1px solid #333; border-radius:6px;
+  padding:8px 14px; margin:4px; font-size:13px;
+}
+.inv-item .iname { color:#fff; }
+.inv-item .iapply { color:#8fe38f; cursor:pointer; margin-left:8px; }
+.inv-item .iapply:hover { color:#ff8c1a; }
 
-  /* ===== HUD ===== */
-  #hud {
-    position:fixed; top:0; left:0; right:0; z-index:20;
-    display:none; justify-content:space-between; padding:18px 26px;
-    pointer-events:none; color:#fff; font-size:20px;
-    text-shadow:0 2px 4px rgba(0,0,0,0.9);
-  }
-  #hud .box { display:flex; gap:16px; flex-wrap:wrap; }
-  #hud .stat { background:rgba(10,10,10,0.55); border:1px solid rgba(255,140,26,0.4);
-    padding:8px 16px; border-radius:4px; min-width:80px; text-align:center; }
-  #hpBar { width:140px; height:10px; background:#300; border:1px solid #700; border-radius:3px; overflow:hidden; margin-top:4px;}
-  #hpFill { height:100%; width:100%; background:linear-gradient(90deg,#ff3b3b,#ff8c1a); transition:width 0.15s; }
-  #shopBtn {
-    pointer-events:auto; cursor:pointer; background:rgba(20,30,10,0.7); border:1px solid rgba(120,255,120,0.5);
-    color:#b6ff9e;
-  }
-  #shopBtn:hover { background:rgba(30,50,15,0.85); }
-  #reloadMsg {
-    position:fixed; top:90px; left:50%; transform:translateX(-50%); z-index:20;
-    color:#ff8c1a; font-size:22px; font-weight:bold; letter-spacing:2px;
-    text-shadow:0 0 10px rgba(255,140,26,0.8); display:none;
-  }
-  #crosshair {
-    position:fixed; z-index:15; width:18px; height:18px; pointer-events:none;
-    top:50%; left:50%; transform:translate(-50%,-50%); display:none;
-  }
-  #crosshair::before, #crosshair::after {
-    content:''; position:absolute; background:#ff8c1a;
-  }
-  #crosshair::before { width:100%; height:2px; top:8px; }
-  #crosshair::after { height:100%; width:2px; left:8px; }
+/* ===== HUD ===== */
+#hud {
+  position:fixed; top:0; left:0; right:0; z-index:20;
+  display:none; justify-content:space-between; padding:12px 20px;
+  pointer-events:none; color:#fff; font-size:18px;
+  text-shadow:0 2px 4px rgba(0,0,0,0.9);
+}
+#hud .box { display:flex; gap:12px; flex-wrap:wrap; }
+#hud .stat { background:rgba(10,10,10,0.55); border:1px solid rgba(255,140,26,0.4);
+  padding:6px 14px; border-radius:4px; min-width:70px; text-align:center; }
+#hpBar { width:120px; height:8px; background:#300; border:1px solid #700; border-radius:3px; overflow:hidden; margin-top:4px;}
+#hpFill { height:100%; width:100%; background:linear-gradient(90deg,#ff3b3b,#ff8c1a); transition:width 0.15s; }
+#shopBtn {
+  pointer-events:auto; cursor:pointer; background:rgba(20,30,10,0.7); border:1px solid rgba(120,255,120,0.5);
+  color:#b6ff9e;
+}
+#shopBtn:hover { background:rgba(30,50,15,0.85); }
+#reloadMsg {
+  position:fixed; top:80px; left:50%; transform:translateX(-50%); z-index:20;
+  color:#ff8c1a; font-size:20px; font-weight:bold; letter-spacing:2px;
+  text-shadow:0 0 10px rgba(255,140,26,0.8); display:none;
+}
+#crosshair {
+  position:fixed; z-index:15; width:18px; height:18px; pointer-events:none;
+  top:50%; left:50%; transform:translate(-50%,-50%); display:none;
+}
+#crosshair::before, #crosshair::after {
+  content:''; position:absolute; background:#ff8c1a;
+}
+#crosshair::before { width:100%; height:2px; top:8px; }
+#crosshair::after { height:100%; width:2px; left:8px; }
 
-  /* ===== GAME OVER ===== */
-  #gameOver {
-    position:fixed; inset:0; z-index:60; display:none;
-    align-items:center; justify-content:center; flex-direction:column;
-    background:rgba(5,0,0,0.88); color:#fff;
-  }
-  #gameOver h2 { font-size:56px; color:#ff3b3b; letter-spacing:4px; text-shadow:0 0 25px rgba(255,59,59,0.6); margin-bottom:10px; }
-  #gameOver .killsLine { font-size:22px; color:#ff8c1a; margin-bottom:34px; letter-spacing:1px; }
-  #gameOver .btnRow { display:flex; gap:18px; }
-  #gameOver button {
-    background:linear-gradient(180deg,#ff9d33,#e07000); border:none; color:#111;
-    font-weight:bold; font-size:18px; padding:12px 34px; cursor:pointer;
-    border-radius:2px; letter-spacing:1px; box-shadow:0 4px 0 #a44f00;
-  }
-  #gameOver #menuBtn {
-    background:linear-gradient(180deg,#555,#222); color:#eee; box-shadow:0 4px 0 #000;
-  }
+/* ===== BUY TIMER ===== */
+#buyTimerOverlay {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100;
+  display:none; background:rgba(0,0,0,0.75); padding:30px 50px; border-radius:16px;
+  border:2px solid #ff8c1a; text-align:center;
+}
+#buyTimerOverlay .label { color:#c98d4a; font-size:16px; letter-spacing:3px; text-transform:uppercase; }
+#buyTimerDisplay { color:#fff; font-size:64px; font-weight:bold; margin:10px 0; text-shadow:0 0 30px rgba(255,140,26,0.6); }
+#buyTimerOverlay .sub { color:#999; font-size:14px; }
 
-  /* ===== PAUSE ===== */
-  #pauseBtn {
-    position:fixed; top:18px; left:18px; z-index:25;
-    width:44px; height:44px; display:none; align-items:center; justify-content:center;
-    background:rgba(10,10,10,0.6); border:1px solid rgba(255,140,26,0.45);
-    border-radius:4px; cursor:pointer; color:#ff8c1a; font-size:18px;
-    pointer-events:auto;
-  }
-  #pauseBtn:hover { background:rgba(30,25,15,0.8); border-color:#ff8c1a; }
-  #pauseOverlay {
-    position:fixed; inset:0; z-index:65; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.8);
-  }
-  #pausePanel {
-    width:380px; max-width:88vw; background:#0d0c09;
-    border:1px solid rgba(255,140,26,0.4); border-radius:4px;
-    padding:38px 36px; text-align:center;
-    box-shadow:0 0 60px rgba(255,140,26,0.2);
-  }
-  #pausePanel h2 {
-    color:#fff; letter-spacing:5px; font-size:32px; font-weight:900; margin-bottom:30px;
-    text-shadow:0 0 30px rgba(255,140,26,0.4);
-  }
-  #pausePanel button {
-    display:block; width:100%; padding:14px; margin-bottom:12px; border:none; border-radius:2px;
-    font-size:15px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; cursor:pointer;
-  }
-  #resumeBtn { background:linear-gradient(180deg,#ff9d33,#e07000); color:#111; box-shadow:0 4px 0 #a44f00; }
-  #pauseShopBtn { background:#2a3a2a; color:#b6ff9e; border:1px solid #3a5f3a; }
-  #pauseMenuBtn { background:transparent; color:#999; border:1px solid #444; margin-bottom:0; }
-  #pauseMenuBtn:hover { border-color:#ff8c1a; color:#ff8c1a; }
-  #shopOverlay {
-    position:fixed; inset:0; z-index:70; display:none;
-    align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.82);
-  }
-  #shopPanel {
-    position:relative;
-    width:92vw; height:90vh; max-width:1400px;
-    overflow-y:auto; overflow-x:hidden;
-    background:#0d0c09;
-    border:1px solid rgba(255,140,26,0.35);
-    border-radius:4px;
-    padding:0;
-    box-shadow:0 0 80px rgba(255,140,26,0.18), 0 0 0 1px rgba(0,0,0,0.6);
-  }
-  #shopPanel .shopBgGrid {
-    position:absolute; inset:0; pointer-events:none; z-index:0;
-    background-image:
-      linear-gradient(rgba(255,140,26,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,140,26,0.05) 1px, transparent 1px);
-    background-size:42px 42px;
-    -webkit-mask-image: radial-gradient(ellipse at 20% 0%, #000 0%, transparent 70%);
-            mask-image: radial-gradient(ellipse at 20% 0%, #000 0%, transparent 70%);
-  }
-  #shopHeader {
-    position:sticky; top:0; z-index:5;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:26px 44px 18px; background:linear-gradient(180deg,#0d0c09 70%, transparent);
-    border-bottom:1px solid rgba(255,140,26,0.25);
-  }
-  #shopPanel h2 {
-    color:#fff; letter-spacing:5px; font-size:clamp(24px,2.6vw,36px); font-weight:900;
-    text-shadow:0 0 30px rgba(255,140,26,0.4);
-  }
-  #shopPanel h2 span { color:#ff8c1a; }
-  #buyTimerWrap { text-align:center; display:none; }
-  #buyTimerWrap.active { display:block; }
-  #buyTimerLabel { color:#999; font-size:11px; letter-spacing:3px; text-transform:uppercase; margin-bottom:4px; }
-  #buyTimerVal { color:#fff; font-size:24px; font-weight:bold; letter-spacing:2px; font-variant-numeric:tabular-nums; }
-  #shopMoney { color:#8fe38f; font-size:17px; letter-spacing:1px; font-weight:bold; }
-  #shopBody { position:relative; z-index:2; padding:16px 44px 36px; }
-  #shopMain { display:flex; gap:30px; align-items:flex-start; }
-  #shopColumns { flex:1 1 auto; display:flex; gap:18px; min-width:0; }
-  .shopCol { flex:1 1 0; min-width:0; }
-  .shopCol h3 {
-    color:#c98d4a; font-size:12px; letter-spacing:3px; text-transform:uppercase;
-    margin-bottom:12px; padding-bottom:9px; border-bottom:1px solid rgba(255,140,26,0.18);
-    text-align:center;
-  }
-  .shopColList { display:flex; flex-direction:column; gap:10px; }
-  .shopCard {
-    background:#161410; border:1px solid #332c1e; border-radius:3px; padding:14px;
-    display:flex; flex-direction:column; gap:6px;
-    transition:border-color 0.15s;
-  }
-  .shopCard:hover { border-color:rgba(255,140,26,0.5); }
-  .shopCard .itemIcon { font-size:22px; text-align:center; margin-bottom:2px; }
-  .shopCard .itemName { font-weight:bold; font-size:13px; color:#fff; letter-spacing:0.3px; text-align:center; }
-  .shopCard .itemStats { font-size:10.5px; color:#999; line-height:1.5; text-align:center; min-height:30px; }
-  .shopCard .itemPrice { font-size:13px; color:#ffb86b; font-weight:bold; text-align:center; }
-  .shopCard button {
-    margin-top:4px; padding:8px; border:none; border-radius:2px; cursor:pointer;
-    font-size:11px; font-weight:bold; letter-spacing:1.5px; text-transform:uppercase;
-  }
-  .btn-buy { background:#ff8c1a; color:#111; }
-  .btn-buy:hover { background:#ffa53d; }
-  .btn-equip { background:#3a6b3a; color:#fff; }
-  .btn-equip:hover { background:#478047; }
-  .btn-equipped { background:#1c1c1c; color:#7dbb7d; cursor:default; border:1px solid #2e4a2e; }
-  .btn-buy:disabled { background:#3a3226; color:#766a56; cursor:not-allowed; }
+/* ===== PAUSE BUTTON ===== */
+#pauseBtn {
+  position:fixed; bottom:20px; left:20px; z-index:25;
+  width:40px; height:40px; display:none; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.5); border:1px solid rgba(255,140,26,0.3);
+  border-radius:50%; cursor:pointer; color:#ff8c1a; font-size:16px;
+  pointer-events:auto;
+}
+#pauseBtn:hover { background:rgba(30,25,15,0.8); border-color:#ff8c1a; }
+#pauseOverlay {
+  position:fixed; inset:0; z-index:65; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.8);
+}
+#pausePanel {
+  width:380px; max-width:88vw; background:#0d0c09;
+  border:1px solid rgba(255,140,26,0.4); border-radius:4px;
+  padding:38px 36px; text-align:center;
+  box-shadow:0 0 60px rgba(255,140,26,0.2);
+}
+#pausePanel h2 { color:#fff; letter-spacing:5px; font-size:32px; font-weight:900; margin-bottom:30px; }
+#pausePanel button {
+  display:block; width:100%; padding:14px; margin-bottom:12px; border:none; border-radius:2px;
+  font-size:15px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; cursor:pointer;
+}
+#resumeBtn { background:linear-gradient(180deg,#ff9d33,#e07000); color:#111; box-shadow:0 4px 0 #a44f00; }
+#pauseShopBtn { background:#2a3a2a; color:#b6ff9e; border:1px solid #3a5f3a; }
+#pauseMenuBtn { background:transparent; color:#999; border:1px solid #444; margin-bottom:0; }
+#pauseMenuBtn:hover { border-color:#ff8c1a; color:#ff8c1a; }
 
-  /* character preview */
-  #shopPreview {
-    flex:0 0 260px; display:flex; flex-direction:column; align-items:center;
-    background:#131110; border:1px solid rgba(255,140,26,0.25); border-radius:4px;
-    padding:16px; position:sticky; top:0;
-  }
-  #previewCanvasEl { width:100%; height:300px; display:block; border-radius:3px; }
-  #shopPreview .previewLabel {
-    color:#c98d4a; font-size:11px; letter-spacing:3px; text-transform:uppercase; margin-top:10px;
-  }
-  #previewLoadout { margin-top:10px; width:100%; display:flex; flex-direction:column; gap:6px; }
-  #previewLoadout .plRow {
-    display:flex; justify-content:space-between; font-size:11px; color:#aaa;
-    border-bottom:1px dashed #2a2620; padding-bottom:5px;
-  }
-  #previewLoadout .plRow span:last-child { color:#ffb86b; font-weight:bold; }
+/* ===== IN-GAME SHOP ===== */
+#shopOverlay {
+  position:fixed; inset:0; z-index:70; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.82);
+}
+#shopPanel {
+  position:relative; width:92vw; height:90vh; max-width:1400px;
+  overflow-y:auto; background:#0d0c09;
+  border:1px solid rgba(255,140,26,0.35); border-radius:4px;
+  padding:20px 30px;
+}
+#shopPanel h2 { color:#fff; letter-spacing:3px; font-size:28px; margin-bottom:12px; }
+#shopPanel h2 span { color:#ff8c1a; }
+#shopMoney { color:#8fe38f; font-size:18px; font-weight:bold; margin-bottom:16px; }
+.shop-grid { display:flex; flex-wrap:wrap; gap:14px; }
+.shop-item {
+  background:#161410; border:1px solid #332c1e; border-radius:6px;
+  padding:14px; width:160px; text-align:center;
+}
+.shop-item .iname { color:#fff; font-weight:bold; }
+.shop-item .iprice { color:#ffb86b; margin:4px 0; }
+.shop-item button { background:#ff8c1a; border:none; color:#111; padding:6px 16px; border-radius:4px; font-weight:bold; cursor:pointer; }
+.shop-item button:disabled { opacity:0.4; cursor:not-allowed; }
 
-  #closeShopBtn {
-    display:block; margin:22px auto 0; background:transparent; color:#999; border:1px solid #444;
-    padding:12px 40px; border-radius:2px; cursor:pointer; letter-spacing:2px; font-size:12px;
-    text-transform:uppercase;
-  }
-  #closeShopBtn:hover { border-color:#ff8c1a; color:#ff8c1a; }
+/* ===== GAME OVER ===== */
+#gameOver {
+  position:fixed; inset:0; z-index:60; display:none;
+  align-items:center; justify-content:center; flex-direction:column;
+  background:rgba(5,0,0,0.88); color:#fff;
+}
+#gameOver h2 { font-size:56px; color:#ff3b3b; letter-spacing:4px; text-shadow:0 0 25px rgba(255,59,59,0.6); margin-bottom:10px; }
+#gameOver .killsLine { font-size:22px; color:#ff8c1a; margin-bottom:34px; letter-spacing:1px; }
+#gameOver .btnRow { display:flex; gap:18px; }
+#gameOver button {
+  background:linear-gradient(180deg,#ff9d33,#e07000); border:none; color:#111;
+  font-weight:bold; font-size:18px; padding:12px 34px; cursor:pointer;
+  border-radius:2px; letter-spacing:1px; box-shadow:0 4px 0 #a44f00;
+}
+#gameOver #menuBtn { background:linear-gradient(180deg,#555,#222); color:#eee; box-shadow:0 4px 0 #000; }
 
-  @media (max-width: 1000px){
-    #shopMain { flex-direction:column; }
-    #shopColumns { flex-direction:column; }
-    #shopPreview { flex:none; width:100%; position:static; }
-  }
+/* ===== TOAST ===== */
+#toast {
+  position:fixed; bottom:40px; left:50%; transform:translateX(-50%);
+  background:rgba(0,0,0,0.85); color:#ff8c1a; padding:14px 28px;
+  border-radius:8px; border:1px solid #ff8c1a; display:none;
+  z-index:999; font-size:16px; text-align:center;
+  max-width:90%;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .menu-content { padding:20px; }
+  .menu-content h1 { font-size:40px; }
+  .tabs button { font-size:12px; padding:6px 12px; }
+  .skin-card { min-width:100px; }
+}
 </style>
 </head>
 <body>
@@ -290,27 +248,37 @@
 
 <!-- MAIN MENU -->
 <div id="menu">
-  <div class="menuBgGrid"></div>
-  <div class="menuGlow"></div>
-  <div class="menuDiagonal"></div>
-
-  <div class="menuLeft">
-    <div class="menuEyebrow">Тактический шутер</div>
+  <div class="menu-bg"></div>
+  <div class="menu-content">
     <h1>CON<span>TRA</span></h1>
-    <div class="author">by maxon6510</div>
-    <div class="subtitle">Захвати карту. Уничтожь врагов. Заработай на снаряжение.</div>
-  </div>
-
-  <div class="menuRight">
-    <div class="menuPanel">
-      <label>Никнейм</label>
-      <input id="nickInput" type="text" maxlength="16" placeholder="Player" value="Player">
+    <div class="sub">Тактический шутер</div>
+    <div class="balance-bar">💰 Баланс: <span id="globalBalance">0</span></div>
+    <div class="tabs">
+      <button class="tab active" data-tab="play">Играть</button>
+      <button class="tab" data-tab="shop">Магазин</button>
+      <button class="tab" data-tab="inventory">Инвентарь</button>
+      <button class="tab" data-tab="cases">Кейсы</button>
+    </div>
+    <!-- Панель Играть -->
+    <div id="tab-play" class="tab-panel active">
+      <input id="nickInput" type="text" maxlength="16" placeholder="Никнейм" value="Player">
+      <br>
       <button id="startBtn">В бой!</button>
       <div class="hint">
-        <b>WASD</b> — движение&nbsp;&nbsp;·&nbsp;&nbsp;<b>Мышь</b> — прицел<br>
-        <b>ЛКМ</b> — выстрел&nbsp;&nbsp;·&nbsp;&nbsp;<b>R</b> — перезарядка<br>
-        <b>B</b> — магазин снаряжения
+        <b>WASD</b> — движение · <b>Мышь</b> — прицел · <b>ЛКМ</b> — выстрел · <b>R</b> — перезарядка · <b>B</b> — магазин
       </div>
+    </div>
+    <!-- Панель Магазин скинов -->
+    <div id="tab-shop" class="tab-panel">
+      <div id="skinShopContainer" class="skin-grid"></div>
+    </div>
+    <!-- Панель Инвентарь -->
+    <div id="tab-inventory" class="tab-panel">
+      <div id="inventoryContainer"></div>
+    </div>
+    <!-- Панель Кейсы -->
+    <div id="tab-cases" class="tab-panel">
+      <div id="caseContainer"></div>
     </div>
   </div>
 </div>
@@ -321,7 +289,7 @@
     <div class="stat">❤️ HP: <span id="hpVal">100</span>
       <div id="hpBar"><div id="hpFill"></div></div>
     </div>
-    <div class="stat">🔫 <span id="ammoVal">12</span> / 12</div>
+    <div class="stat">🔫 <span id="ammoVal">12</span></div>
     <div class="stat">💀 <span id="killsVal">0</span></div>
     <div class="stat">💵 $<span id="moneyVal">2000</span></div>
     <div class="stat" id="shopBtn">🛒 Магазин (B)</div>
@@ -332,7 +300,14 @@
 <div id="crosshair"></div>
 <div id="pauseBtn">⏸</div>
 
-<!-- PAUSE -->
+<!-- BUY TIMER -->
+<div id="buyTimerOverlay">
+  <div class="label">⏳ Закупка</div>
+  <div id="buyTimerDisplay">5</div>
+  <div class="sub">Магазин открыт</div>
+</div>
+
+<!-- PAUSE OVERLAY -->
 <div id="pauseOverlay">
   <div id="pausePanel">
     <h2>ПАУЗА</h2>
@@ -342,29 +317,13 @@
   </div>
 </div>
 
-<!-- SHOP -->
+<!-- IN-GAME SHOP -->
 <div id="shopOverlay">
   <div id="shopPanel">
-    <div class="shopBgGrid"></div>
-    <div id="shopHeader">
-      <h2>МАГА<span>ЗИН</span></h2>
-      <div id="buyTimerWrap">
-        <div id="buyTimerLabel">Время закупки</div>
-        <div id="buyTimerVal">00:05</div>
-      </div>
-      <div id="shopMoney">Баланс: $2000</div>
-    </div>
-    <div id="shopBody">
-      <div id="shopMain">
-        <div id="shopColumns"></div>
-        <div id="shopPreview">
-          <canvas id="previewCanvasEl"></canvas>
-          <div class="previewLabel">Ваш боец</div>
-          <div id="previewLoadout"></div>
-        </div>
-      </div>
-      <button id="closeShopBtn">Закрыть (B / Esc)</button>
-    </div>
+    <h2>МАГА<span>ЗИН</span></h2>
+    <div id="shopMoney">Баланс: $2000</div>
+    <div class="shop-grid" id="shopContainer"></div>
+    <button id="closeShopBtn" style="margin-top:20px; background:transparent; color:#999; border:1px solid #444; padding:10px 30px; border-radius:4px; cursor:pointer;">Закрыть (B / Esc)</button>
   </div>
 </div>
 
@@ -378,40 +337,267 @@
   </div>
 </div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
   'use strict';
 
-  // ============ ITEM DEFINITIONS ============
-  const WEAPONS = {
-    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
-    smg:    { id:'smg',    name:'SMG',       price:800,  damage:18, ammo:30, cooldown:0.08, reload:1.5, color:0x445577 },
-    rifle:  { id:'rifle',  name:'Штурмовая винтовка', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
-    sniper: { id:'sniper', name:'Снайперская винтовка', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111 }
+  // ============ SKINS DATA ============
+  const SKINS = {
+    pistol: [
+      { id: 'pistol_default', name: 'Стандартный', price: 0, color: 0x2b2b2b },
+      { id: 'pistol_gold', name: 'Золотой', price: 500, color: 0xffd700 },
+      { id: 'pistol_red', name: 'Красный', price: 300, color: 0xff3333 },
+      { id: 'pistol_blue', name: 'Синий', price: 200, color: 0x3366ff },
+    ],
+    smg: [
+      { id: 'smg_default', name: 'Стандартный', price: 0, color: 0x445577 },
+      { id: 'smg_neon', name: 'Неоновый', price: 600, color: 0xff00ff },
+      { id: 'smg_camo', name: 'Камуфляж', price: 400, color: 0x556b2f },
+    ],
+    rifle: [
+      { id: 'rifle_default', name: 'Стандартный', price: 0, color: 0x3f4a34 },
+      { id: 'rifle_forest', name: 'Лесной', price: 700, color: 0x228b22 },
+      { id: 'rifle_ice', name: 'Ледяной', price: 800, color: 0x87ceeb },
+    ],
+    sniper: [
+      { id: 'sniper_default', name: 'Стандартный', price: 0, color: 0x111111 },
+      { id: 'sniper_blood', name: 'Кровавый', price: 900, color: 0x8b0000 },
+    ]
   };
-  const VESTS = {
-    none:  { id:'none',  name:'Без бронежилета', price:0,    reduction:0,   color:null },
-    light: { id:'light', name:'Лёгкий бронежилет', price:500, reduction:0.2, color:0x3a5f3a },
-    heavy: { id:'heavy', name:'Тяжёлый бронежилет', price:1200, reduction:0.4, color:0x2c2c2c }
-  };
-  const HELMETS = {
-    none:   { id:'none',   name:'Без шлема', price:0,   reduction:0,    color:null },
-    light:  { id:'light',  name:'Лёгкий шлем', price:400, reduction:0.1, color:0x3a3a3a },
-    combat: { id:'combat', name:'Боевой шлем', price:900, reduction:0.2, color:0x1a1a1a }
-  };
-  const KILL_REWARD = 100;
-  const START_MONEY = 2000;
+  const WEAPON_TYPES = ['pistol','smg','rifle','sniper'];
+  const CASE_PRICE = 200;
 
-  // ============ GLOBAL STATE ============
+  // ============ INVENTORY / BALANCE (localStorage) ============
+  function loadInventory() {
+    try {
+      const raw = localStorage.getItem('contra_inventory');
+      if (raw) {
+        const data = JSON.parse(raw);
+        // ensure structure
+        if (!data.weapons) data.weapons = {};
+        WEAPON_TYPES.forEach(w => { if (!data.weapons[w]) data.weapons[w] = []; });
+        if (!data.equipped) data.equipped = {};
+        if (typeof data.balance !== 'number') data.balance = 0;
+        return data;
+      }
+    } catch(e) {}
+    // default
+    return {
+      weapons: { pistol: ['pistol_default'], smg: ['smg_default'], rifle: ['rifle_default'], sniper: ['sniper_default'] },
+      equipped: { pistol: 'pistol_default', smg: 'smg_default', rifle: 'rifle_default', sniper: 'sniper_default' },
+      balance: 0
+    };
+  }
+  function saveInventory(inv) {
+    localStorage.setItem('contra_inventory', JSON.stringify(inv));
+  }
+  function getGlobalBalance() { return loadInventory().balance; }
+  function addGlobalBalance(amount) {
+    const inv = loadInventory();
+    inv.balance += amount;
+    saveInventory(inv);
+    updateBalanceDisplay();
+  }
+
+  // ============ UI UPDATES ============
+  function updateBalanceDisplay() {
+    document.getElementById('globalBalance').textContent = getGlobalBalance();
+  }
+
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(el._timeout);
+    el._timeout = setTimeout(() => el.style.display = 'none', 3000);
+  }
+
+  // ============ TAB SWITCHING ============
+  const tabs = document.querySelectorAll('.tab');
+  const panels = {
+    play: document.getElementById('tab-play'),
+    shop: document.getElementById('tab-shop'),
+    inventory: document.getElementById('tab-inventory'),
+    cases: document.getElementById('tab-cases')
+  };
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.tab;
+      Object.keys(panels).forEach(k => panels[k].classList.toggle('active', k === tab));
+      if (tab === 'shop') renderSkinShop();
+      if (tab === 'inventory') renderInventory();
+      if (tab === 'cases') renderCases();
+    });
+  });
+
+  // ============ RENDER SKIN SHOP ============
+  function renderSkinShop() {
+    const container = document.getElementById('skinShopContainer');
+    container.innerHTML = '';
+    const inv = loadInventory();
+    WEAPON_TYPES.forEach(wType => {
+      const section = document.createElement('div');
+      section.style.width = '100%';
+      section.innerHTML = `<h3 style="color:#c98d4a; letter-spacing:2px; margin:8px 0;">${wType.toUpperCase()}</h3>`;
+      const grid = document.createElement('div');
+      grid.style.cssText = 'display:flex; flex-wrap:wrap; gap:8px;';
+      SKINS[wType].forEach(skin => {
+        const card = document.createElement('div');
+        card.className = 'skin-card';
+        const owned = inv.weapons[wType].includes(skin.id);
+        const equipped = inv.equipped[wType] === skin.id;
+        card.innerHTML = `
+          <div class="sname">${skin.name}</div>
+          <div class="sprice">${skin.price === 0 ? 'Бесплатно' : '$'+skin.price}</div>
+          <button data-w="${wType}" data-id="${skin.id}" ${owned ? 'class="owned"' : ''} ${equipped ? 'disabled class="equipped"' : ''}>
+            ${equipped ? '✅ Применено' : (owned ? 'В инвентаре' : 'Купить')}
+          </button>
+        `;
+        const btn = card.querySelector('button');
+        btn.addEventListener('click', () => {
+          if (equipped) return;
+          if (owned) {
+            // применить
+            applySkin(wType, skin.id);
+            renderSkinShop();
+            renderInventory();
+          } else {
+            // купить
+            if (inv.balance < skin.price) {
+              showToast('❌ Недостаточно денег');
+              return;
+            }
+            inv.balance -= skin.price;
+            inv.weapons[wType].push(skin.id);
+            saveInventory(inv);
+            updateBalanceDisplay();
+            showToast(`✅ Скин "${skin.name}" куплен!`);
+            renderSkinShop();
+            renderInventory();
+          }
+        });
+        grid.appendChild(card);
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+  }
+
+  function applySkin(wType, skinId) {
+    const inv = loadInventory();
+    inv.equipped[wType] = skinId;
+    saveInventory(inv);
+    // Если игра запущена, обновить цвет оружия
+    if (gameRunning && playerParts) {
+      const skin = SKINS[wType].find(s => s.id === skinId);
+      if (skin) playerParts.gun.material.color.setHex(skin.color);
+    }
+    showToast(`🎨 Скин "${SKINS[wType].find(s=>s.id===skinId).name}" применён к ${wType}`);
+  }
+
+  // ============ RENDER INVENTORY ============
+  function renderInventory() {
+    const container = document.getElementById('inventoryContainer');
+    container.innerHTML = '';
+    const inv = loadInventory();
+    WEAPON_TYPES.forEach(wType => {
+      const section = document.createElement('div');
+      section.style.marginBottom = '12px';
+      section.innerHTML = `<h4 style="color:#c98d4a; letter-spacing:1px;">${wType.toUpperCase()}</h4>`;
+      const list = document.createElement('div');
+      list.style.cssText = 'display:flex; flex-wrap:wrap; gap:6px;';
+      const ownedSkins = inv.weapons[wType] || [];
+      if (ownedSkins.length === 0) {
+        const empty = document.createElement('span');
+        empty.textContent = 'Нет скинов';
+        empty.style.color = '#666';
+        list.appendChild(empty);
+      } else {
+        ownedSkins.forEach(skinId => {
+          const skin = SKINS[wType].find(s => s.id === skinId);
+          if (!skin) return;
+          const isEquipped = inv.equipped[wType] === skinId;
+          const el = document.createElement('span');
+          el.className = 'inv-item';
+          el.innerHTML = `<span class="iname">${skin.name}</span> ${isEquipped ? '✅' : '<span class="iapply" data-w="'+wType+'" data-id="'+skinId+'">Применить</span>'}`;
+          if (!isEquipped) {
+            el.querySelector('.iapply').addEventListener('click', (e) => {
+              e.stopPropagation();
+              applySkin(wType, skinId);
+              renderInventory();
+              renderSkinShop();
+            });
+          }
+          list.appendChild(el);
+        });
+      }
+      section.appendChild(list);
+      container.appendChild(section);
+    });
+  }
+
+  // ============ RENDER CASES ============
+  function renderCases() {
+    const container = document.getElementById('caseContainer');
+    container.innerHTML = '';
+    // Два типа кейсов: обычный и премиум (для примера)
+    const cases = [
+      { id: 'standard', name: 'Оружейный кейс', price: CASE_PRICE, desc: 'Случайный скин для любого оружия' },
+      { id: 'premium', name: 'Премиум кейс', price: CASE_PRICE + 100, desc: 'Шанс на редкий скин' }
+    ];
+    cases.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'case-card';
+      card.innerHTML = `
+        <div class="cname">${c.name}</div>
+        <div class="cprice">💰 $${c.price}</div>
+        <div style="color:#888; font-size:12px; margin-bottom:8px;">${c.desc}</div>
+        <button data-id="${c.id}">Открыть</button>
+      `;
+      card.querySelector('button').addEventListener('click', () => {
+        openCase(c.id);
+      });
+      container.appendChild(card);
+    });
+  }
+
+  function openCase(caseId) {
+    const inv = loadInventory();
+    const price = caseId === 'standard' ? CASE_PRICE : CASE_PRICE + 100;
+    if (inv.balance < price) {
+      showToast('❌ Недостаточно денег');
+      return;
+    }
+    inv.balance -= price;
+    // Выбрать случайное оружие
+    const wType = WEAPON_TYPES[Math.floor(Math.random() * WEAPON_TYPES.length)];
+    const skins = SKINS[wType];
+    const skin = skins[Math.floor(Math.random() * skins.length)];
+    // Добавляем скин, если его ещё нет
+    if (!inv.weapons[wType].includes(skin.id)) {
+      inv.weapons[wType].push(skin.id);
+    }
+    saveInventory(inv);
+    updateBalanceDisplay();
+    showToast(`🎉 Вы получили скин "${skin.name}" для ${wType}!`);
+    renderSkinShop();
+    renderInventory();
+    renderCases();
+  }
+
+  // ============ THREE.JS GAME ENGINE (сохранён из предыдущего кода с адаптацией) ============
   let scene, camera, renderer, clock;
   let ground, groundPlaneForRay;
   const obstacles = [];
 
-  let previewScene, previewCamera, previewRenderer, previewHumanoid;
-
-  let player = null;      // THREE.Group for player humanoid
-  let playerParts = null; // {helmet, vest, gun}
+  let player = null;
+  let playerParts = null;
   let playerState = null;
   const bots = [];
   const bullets = [];
@@ -437,6 +623,26 @@
   const BOT_SHOOT_INTERVAL = 1.1;
   const BULLET_SPEED = 40;
   const BOT_BULLET_SPEED = 22;
+
+  // ============ WEAPON DEFINITIONS (in-game) ============
+  const WEAPONS = {
+    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
+    smg:    { id:'smg',    name:'SMG',       price:800,  damage:18, ammo:30, cooldown:0.08, reload:1.5, color:0x445577 },
+    rifle:  { id:'rifle',  name:'Штурмовая винтовка', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
+    sniper: { id:'sniper', name:'Снайперская винтовка', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111 }
+  };
+  const VESTS = {
+    none:  { id:'none',  name:'Без бронежилета', price:0,    reduction:0,   color:null },
+    light: { id:'light', name:'Лёгкий бронежилет', price:500, reduction:0.2, color:0x3a5f3a },
+    heavy: { id:'heavy', name:'Тяжёлый бронежилет', price:1200, reduction:0.4, color:0x2c2c2c }
+  };
+  const HELMETS = {
+    none:   { id:'none',   name:'Без шлема', price:0,   reduction:0,    color:null },
+    light:  { id:'light',  name:'Лёгкий шлем', price:400, reduction:0.1, color:0x3a3a3a },
+    combat: { id:'combat', name:'Боевой шлем', price:900, reduction:0.2, color:0x1a1a1a }
+  };
+  const KILL_REWARD = 100;
+  const START_MONEY = 2000;
 
   // ============ INIT THREE.JS ============
   function initScene(){
@@ -499,57 +705,6 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  // ============ PREVIEW SCENE (character shown in shop) ============
-  function initPreview(){
-    const canvasEl = document.getElementById('previewCanvasEl');
-    previewScene = new THREE.Scene();
-    previewScene.background = new THREE.Color(0x131110);
-
-    previewCamera = new THREE.PerspectiveCamera(32, 1, 0.1, 20);
-    previewCamera.position.set(0, 1.25, 3.4);
-    previewCamera.lookAt(0, 1.0, 0);
-
-    previewRenderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias:true });
-    previewRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-
-    const amb = new THREE.AmbientLight(0xffffff, 0.6);
-    previewScene.add(amb);
-    const dl = new THREE.DirectionalLight(0xfff2d9, 1.0);
-    dl.position.set(2,4,3);
-    previewScene.add(dl);
-    const rim = new THREE.DirectionalLight(0xff8c1a, 0.4);
-    rim.position.set(-2,2,-2);
-    previewScene.add(rim);
-
-    const built = createHumanoid(0xe0a878, 0x2b5bd6, true);
-    previewHumanoid = built;
-    previewScene.add(built.group);
-
-    resizePreview();
-  }
-
-  function resizePreview(){
-    if(!previewRenderer) return;
-    const canvasEl = document.getElementById('previewCanvasEl');
-    const w = canvasEl.clientWidth || 220;
-    const h = canvasEl.clientHeight || 300;
-    previewRenderer.setSize(w, h, false);
-    previewCamera.aspect = w/h;
-    previewCamera.updateProjectionMatrix();
-  }
-
-  function updatePreviewGear(){
-    if(!previewHumanoid || !playerState) return;
-    const w = WEAPONS[playerState.weaponId];
-    const v = VESTS[playerState.vestId];
-    const h = HELMETS[playerState.helmetId];
-    previewHumanoid.parts.gun.material.color.setHex(w.color);
-    if(v.color){ previewHumanoid.parts.vest.visible=true; previewHumanoid.parts.vest.material.color.setHex(v.color); }
-    else { previewHumanoid.parts.vest.visible=false; }
-    if(h.color){ previewHumanoid.parts.helmet.visible=true; previewHumanoid.parts.helmet.material.color.setHex(h.color); }
-    else { previewHumanoid.parts.helmet.visible=false; }
-  }
-
   // ============ MAP BUILDING ============
   function addBoxObstacle(x,z,w,h,d,color){
     const geo = new THREE.BoxGeometry(w,h,d);
@@ -603,12 +758,10 @@
   }
 
   // ============ HUMANOID BUILDER ============
-  // Builds a simple humanoid: legs, torso, arms, head, plus optional helmet/vest overlays and a gun.
   function createHumanoid(skinColor, uniformColor, withGear){
     const group = new THREE.Group();
     const parts = {};
 
-    // legs
     const legGeo = new THREE.BoxGeometry(0.2,0.75,0.22);
     const legMat = new THREE.MeshStandardMaterial({ color:0x22262e, roughness:0.8 });
     const legL = new THREE.Mesh(legGeo, legMat);
@@ -618,7 +771,6 @@
     legR.position.x = 0.15;
     group.add(legL, legR);
 
-    // torso
     const torsoGeo = new THREE.BoxGeometry(0.56,0.62,0.32);
     const torsoMat = new THREE.MeshStandardMaterial({ color:uniformColor, roughness:0.7 });
     const torso = new THREE.Mesh(torsoGeo, torsoMat);
@@ -627,7 +779,6 @@
     group.add(torso);
     parts.torso = torso;
 
-    // arms
     const armGeo = new THREE.BoxGeometry(0.16,0.6,0.18);
     const armMat = new THREE.MeshStandardMaterial({ color:uniformColor, roughness:0.7 });
     const armL = new THREE.Mesh(armGeo, armMat);
@@ -638,7 +789,6 @@
     group.add(armL, armR);
     parts.armR = armR;
 
-    // head
     const headGeo = new THREE.SphereGeometry(0.22, 14, 14);
     const headMat = new THREE.MeshStandardMaterial({ color:skinColor, roughness:0.75 });
     const head = new THREE.Mesh(headGeo, headMat);
@@ -647,7 +797,6 @@
     group.add(head);
     parts.head = head;
 
-    // vest overlay (visible when equipped)
     const vestGeo = new THREE.BoxGeometry(0.62,0.4,0.38);
     const vestMat = new THREE.MeshStandardMaterial({ color:0x3a5f3a, roughness:0.6 });
     const vest = new THREE.Mesh(vestGeo, vestMat);
@@ -657,7 +806,6 @@
     group.add(vest);
     parts.vest = vest;
 
-    // helmet overlay
     const helmetGeo = new THREE.SphereGeometry(0.26, 14, 14, 0, Math.PI*2, 0, Math.PI*0.62);
     const helmetMat = new THREE.MeshStandardMaterial({ color:0x333333, roughness:0.5 });
     const helmet = new THREE.Mesh(helmetGeo, helmetMat);
@@ -667,7 +815,6 @@
     group.add(helmet);
     parts.helmet = helmet;
 
-    // gun (small box extending forward from right arm)
     const gunGeo = new THREE.BoxGeometry(0.12,0.12,0.55);
     const gunMat = new THREE.MeshStandardMaterial({ color:0x2b2b2b, roughness:0.4 });
     const gun = new THREE.Mesh(gunGeo, gunMat);
@@ -694,25 +841,22 @@
   }
 
   function applyPlayerLoadout(){
-    const w = WEAPONS[playerState.weaponId];
+    const inv = loadInventory();
+    const equipped = inv.equipped || {};
+    const wType = playerState.weaponId;
+    const skinId = equipped[wType] || (SKINS[wType] && SKINS[wType][0]?.id);
+    const skin = SKINS[wType]?.find(s => s.id === skinId);
+    const color = skin ? skin.color : 0x2b2b2b;
+    if (playerParts) {
+      playerParts.gun.material.color.setHex(color);
+    }
+
     const v = VESTS[playerState.vestId];
     const h = HELMETS[playerState.helmetId];
-
-    playerParts.gun.material.color.setHex(w.color);
-
-    if(v.color){
-      playerParts.vest.visible = true;
-      playerParts.vest.material.color.setHex(v.color);
-    } else {
-      playerParts.vest.visible = false;
-    }
-
-    if(h.color){
-      playerParts.helmet.visible = true;
-      playerParts.helmet.material.color.setHex(h.color);
-    } else {
-      playerParts.helmet.visible = false;
-    }
+    if(v.color){ playerParts.vest.visible=true; playerParts.vest.material.color.setHex(v.color); }
+    else { playerParts.vest.visible=false; }
+    if(h.color){ playerParts.helmet.visible=true; playerParts.helmet.material.color.setHex(h.color); }
+    else { playerParts.helmet.visible=false; }
   }
 
   function resetPlayerState(){
@@ -736,7 +880,6 @@
     const spot = randomFreeSpot();
     group.position.set(spot.x, 0, spot.z);
 
-    // give bots randomized visible gear: all wear a vest, roughly half also wear a helmet
     const vestChoices = ['light','heavy'];
     const vestId = vestChoices[Math.floor(Math.random()*vestChoices.length)];
     built.parts.vest.visible = true;
@@ -963,13 +1106,11 @@
           bot.mesh.position.set(spot.x,0,spot.z);
           bot.state = 'patrol';
           bot.target = randomFreeSpot();
-
           const vestChoices = ['light','heavy'];
           const vestId = vestChoices[Math.floor(Math.random()*vestChoices.length)];
           bot.parts.vest.visible = true;
           bot.parts.vest.material.color.setHex(VESTS[vestId].color);
           bot.vestId = vestId;
-
           bot.parts.helmet.visible = false;
           bot.helmetId = null;
           if(Math.random() < 0.5){
@@ -1081,14 +1222,18 @@
   function onPlayerDeath(){
     gameRunning = false;
     paused = false;
+    // заработанные деньги = убийства * 100
+    const earned = playerState.kills * KILL_REWARD;
+    addGlobalBalance(earned);
     document.getElementById('finalKills').textContent = playerState.kills;
-    document.getElementById('finalMoney').textContent = playerState.kills * KILL_REWARD;
+    document.getElementById('finalMoney').textContent = earned;
     document.getElementById('gameOver').style.display = 'flex';
     document.getElementById('hud').style.display = 'none';
     document.getElementById('crosshair').style.display = 'none';
     document.getElementById('reloadMsg').style.display = 'none';
     document.getElementById('pauseBtn').style.display = 'none';
     document.getElementById('pauseOverlay').style.display = 'none';
+    updateBalanceDisplay();
   }
 
   // ============ PAUSE ============
@@ -1108,7 +1253,7 @@
     document.getElementById('pauseOverlay').style.display = 'none';
   }
 
-  // ============ SHOP ============
+  // ============ IN-GAME SHOP ============
   function toggleShop(){
     if(!gameRunning || paused) return;
     if(shopOpen) closeShop(); else openShop();
@@ -1117,7 +1262,7 @@
   function openShop(){
     if(!gameRunning || !playerState.alive || paused) return;
     shopOpen = true;
-    renderShop();
+    renderInGameShop();
     document.getElementById('shopOverlay').style.display = 'flex';
   }
 
@@ -1126,104 +1271,118 @@
     document.getElementById('shopOverlay').style.display = 'none';
   }
 
-  function buyItem(category, id){
-    const defs = category==='weapon'?WEAPONS:(category==='vest'?VESTS:HELMETS);
-    const ownedKey = category==='weapon'?'weapons':(category==='vest'?'vests':'helmets');
-    const item = defs[id];
-    const alreadyOwned = playerState.owned[ownedKey].includes(id);
-
-    if(!alreadyOwned){
-      if(playerState.money < item.price) return;
-      playerState.money -= item.price;
-      playerState.owned[ownedKey].push(id);
-    }
-
-    if(category==='weapon'){
-      playerState.weaponId = id;
-      playerState.maxAmmo = item.ammo;
-      playerState.ammo = item.ammo;
-      playerState.reloading = false;
-      playerState.reloadTimer = 0;
-      document.getElementById('reloadMsg').style.display = 'none';
-    } else if(category==='vest'){
-      playerState.vestId = id;
-    } else {
-      playerState.helmetId = id;
-    }
-
-    applyPlayerLoadout();
-    updateHud();
-    renderShop();
-  }
-
-  function renderShop(){
-    document.getElementById('shopMoney').textContent = 'Баланс: $' + playerState.money;
-    renderShopGrid('weaponGrid', WEAPONS, 'weapon', playerState.owned.weapons, playerState.weaponId,
-      w => `Урон ${w.damage} · Магазин ${w.ammo} · Скорострельность ${(1/w.cooldown).toFixed(1)}/с`);
-    renderShopGrid('vestGrid', VESTS, 'vest', playerState.owned.vests, playerState.vestId,
-      v => v.reduction ? `Снижение урона: ${Math.round(v.reduction*100)}%` : 'Без защиты');
-    renderShopGrid('helmetGrid', HELMETS, 'helmet', playerState.owned.helmets, playerState.helmetId,
-      h => h.reduction ? `Снижение урона: ${Math.round(h.reduction*100)}%` : 'Без защиты');
-  }
-
-  function renderShopGrid(containerId, defs, category, ownedList, equippedId, statFn){
-    const container = document.getElementById(containerId);
+  function renderInGameShop(){
+    const container = document.getElementById('shopContainer');
     container.innerHTML = '';
-    Object.values(defs).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'shopCard';
-
-      const name = document.createElement('div');
-      name.className = 'itemName';
-      name.textContent = item.name;
-      card.appendChild(name);
-
-      const stats = document.createElement('div');
-      stats.className = 'itemStats';
-      stats.textContent = statFn(item);
-      card.appendChild(stats);
-
-      const price = document.createElement('div');
-      price.className = 'itemPrice';
-      price.textContent = item.price > 0 ? ('$' + item.price) : 'Бесплатно';
-      card.appendChild(price);
-
-      const btn = document.createElement('button');
-      const owned = ownedList.includes(item.id);
-      const equipped = equippedId === item.id;
-
-      if(equipped){
-        btn.textContent = 'Экипировано';
-        btn.className = 'btn-equipped';
-        btn.disabled = true;
-      } else if(owned){
-        btn.textContent = 'Экипировать';
-        btn.className = 'btn-equip';
-        btn.onclick = () => buyItem(category, item.id);
-      } else {
-        btn.textContent = 'Купить';
-        btn.className = 'btn-buy';
-        if(playerState.money < item.price) btn.disabled = true;
-        btn.onclick = () => buyItem(category, item.id);
+    document.getElementById('shopMoney').textContent = 'Баланс: $' + playerState.money;
+    // Оружие
+    Object.values(WEAPONS).forEach(w => {
+      const div = document.createElement('div');
+      div.className = 'shop-item';
+      const owned = playerState.owned.weapons.includes(w.id);
+      div.innerHTML = `
+        <div class="iname">${w.name}</div>
+        <div class="iprice">$${w.price}</div>
+        <button data-type="weapon" data-id="${w.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
+      `;
+      const btn = div.querySelector('button');
+      if (!owned) {
+        btn.addEventListener('click', () => {
+          if (playerState.money < w.price) return;
+          playerState.money -= w.price;
+          playerState.owned.weapons.push(w.id);
+          playerState.weaponId = w.id;
+          playerState.maxAmmo = w.ammo;
+          playerState.ammo = w.ammo;
+          playerState.reloading = false;
+          playerState.reloadTimer = 0;
+          document.getElementById('reloadMsg').style.display = 'none';
+          applyPlayerLoadout();
+          updateHud();
+          renderInGameShop();
+        });
       }
-      card.appendChild(btn);
-      container.appendChild(card);
+      container.appendChild(div);
+    });
+    // Бронежилеты
+    Object.values(VESTS).forEach(v => {
+      const div = document.createElement('div');
+      div.className = 'shop-item';
+      const owned = playerState.owned.vests.includes(v.id);
+      div.innerHTML = `
+        <div class="iname">${v.name}</div>
+        <div class="iprice">$${v.price}</div>
+        <button data-type="vest" data-id="${v.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
+      `;
+      const btn = div.querySelector('button');
+      if (!owned) {
+        btn.addEventListener('click', () => {
+          if (playerState.money < v.price) return;
+          playerState.money -= v.price;
+          playerState.owned.vests.push(v.id);
+          playerState.vestId = v.id;
+          applyPlayerLoadout();
+          updateHud();
+          renderInGameShop();
+        });
+      }
+      container.appendChild(div);
+    });
+    // Шлемы
+    Object.values(HELMETS).forEach(h => {
+      const div = document.createElement('div');
+      div.className = 'shop-item';
+      const owned = playerState.owned.helmets.includes(h.id);
+      div.innerHTML = `
+        <div class="iname">${h.name}</div>
+        <div class="iprice">$${h.price}</div>
+        <button data-type="helmet" data-id="${h.id}" ${owned ? 'disabled' : ''}>${owned ? 'В инвентаре' : 'Купить'}</button>
+      `;
+      const btn = div.querySelector('button');
+      if (!owned) {
+        btn.addEventListener('click', () => {
+          if (playerState.money < h.price) return;
+          playerState.money -= h.price;
+          playerState.owned.helmets.push(h.id);
+          playerState.helmetId = h.id;
+          applyPlayerLoadout();
+          updateHud();
+          renderInGameShop();
+        });
+      }
+      container.appendChild(div);
     });
   }
 
-  document.getElementById('shopBtn').addEventListener('click', toggleShop);
-  document.getElementById('closeShopBtn').addEventListener('click', closeShop);
-  document.getElementById('pauseBtn').addEventListener('click', togglePause);
-  document.getElementById('resumeBtn').addEventListener('click', closePause);
-  document.getElementById('pauseShopBtn').addEventListener('click', () => { closePause(); openShop(); });
-  document.getElementById('pauseMenuBtn').addEventListener('click', () => { closePause(); returnToMenu(); });
+  // ============ BUY PHASE ============
+  let buyTimerInterval = null;
+  function startBuyPhase(callback) {
+    buyPhaseActive = true;
+    let timeLeft = BUY_PHASE_DURATION;
+    document.getElementById('buyTimerDisplay').textContent = timeLeft;
+    document.getElementById('buyTimerOverlay').style.display = 'block';
+    // Открыть магазин
+    openShop();
+    buyTimerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('buyTimerDisplay').textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(buyTimerInterval);
+        buyTimerInterval = null;
+        buyPhaseActive = false;
+        document.getElementById('buyTimerOverlay').style.display = 'none';
+        closeShop();
+        callback();
+      }
+    }, 1000);
+  }
 
   // ============ MAIN LOOP ============
   function animate(){
     requestAnimationFrame(animate);
     const dt = Math.min(clock.getDelta(), 0.1);
 
-    if(gameRunning && !shopOpen && !paused){
+    if(gameRunning && !shopOpen && !paused && !buyPhaseActive){
       updateAim();
       updatePlayer(dt);
       updateBots(dt);
@@ -1255,14 +1414,22 @@
 
     shopOpen = false;
     paused = false;
-    gameRunning = true;
-    clock.getDelta();
+    gameRunning = false; // будет включено после таймера
+
+    // Запускаем фазу закупки
+    startBuyPhase(() => {
+      gameRunning = true;
+      clock.getDelta();
+    });
   }
 
   function returnToMenu(){
     gameRunning = false;
     shopOpen = false;
     paused = false;
+    if (buyTimerInterval) { clearInterval(buyTimerInterval); buyTimerInterval = null; }
+    buyPhaseActive = false;
+    document.getElementById('buyTimerOverlay').style.display = 'none';
     clearDynamicObjects();
     document.getElementById('gameOver').style.display = 'none';
     document.getElementById('shopOverlay').style.display = 'none';
@@ -1272,6 +1439,7 @@
     document.getElementById('crosshair').style.display = 'none';
     document.getElementById('reloadMsg').style.display = 'none';
     document.getElementById('menu').style.display = 'flex';
+    updateBalanceDisplay();
   }
 
   function clearDynamicObjects(){
@@ -1302,10 +1470,27 @@
     if(e.code === 'Enter') document.getElementById('startBtn').click();
   });
 
+  // Пауза кнопки
+  document.getElementById('pauseBtn').addEventListener('click', togglePause);
+  document.getElementById('resumeBtn').addEventListener('click', closePause);
+  document.getElementById('pauseShopBtn').addEventListener('click', () => { closePause(); openShop(); });
+  document.getElementById('pauseMenuBtn').addEventListener('click', () => { closePause(); returnToMenu(); });
+
+  // Кнопки магазина
+  document.getElementById('shopBtn').addEventListener('click', toggleShop);
+  document.getElementById('closeShopBtn').addEventListener('click', closeShop);
+
   // ============ BOOT ============
   clock = new THREE.Clock();
   initScene();
   animate();
+
+  // Отобразить баланс при старте
+  updateBalanceDisplay();
+  // Инициализация вкладок
+  renderSkinShop();
+  renderInventory();
+  renderCases();
 
 })();
 </script>
