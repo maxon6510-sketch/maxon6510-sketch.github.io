@@ -9,7 +9,7 @@
 html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-family: 'Segoe UI', Arial, sans-serif; }
 #gameCanvas { display:block; width:100%; height:100%; cursor:crosshair; }
 
-/* ===== MAIN MENU (центрированное, с вкладками) ===== */
+/* ===== MAIN MENU ===== */
 #menu {
   position:fixed; inset:0; z-index:50;
   display:flex; align-items:center; justify-content:center;
@@ -88,25 +88,30 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 .map-card:hover { border-color:#ff8c1a; transform:scale(1.02); }
 .map-card.selected { border-color:#ff8c1a; background:rgba(255,140,26,0.15); }
-.map-card .mname { color:#fff; font-size:15px; font-weight:bold; letter-spacing:0.5px; }
+.map-card .mname { color:#fff; font-size:15px; font-weight:bold; }
 .map-card .mtime { color:#888; font-size:12px; margin:4px 0; }
 .map-card .mstatus { color:#2ed573; font-size:11px; }
 
-/* ===== SKIN SHOP ===== */
+/* ===== SKIN SHOP (разделы по типам) ===== */
+.skin-shop-section {
+  margin-bottom:16px;
+}
+.skin-shop-section h3 {
+  color:#c98d4a; font-size:14px; letter-spacing:2px; text-transform:uppercase;
+  text-align:left; border-bottom:1px solid rgba(255,140,26,0.2); padding-bottom:6px; margin-bottom:10px;
+}
 .skin-shop-grid {
   display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
-  max-height:340px; overflow-y:auto; padding:4px;
 }
 .skin-shop-card {
   background:rgba(20,18,14,0.7); border:1px solid #2a2620; border-radius:10px;
-  padding:12px; width:170px; text-align:center; transition:0.2s;
+  padding:12px; width:160px; text-align:center; transition:0.2s;
 }
 .skin-shop-card:hover { border-color:#ff8c1a; }
 .skin-shop-card .scolor {
   width:40px; height:40px; border-radius:8px; border:2px solid #444; margin:0 auto 6px;
 }
 .skin-shop-card .sname { color:#fff; font-size:14px; font-weight:bold; }
-.skin-shop-card .sweapon { color:#888; font-size:11px; }
 .skin-shop-card .srarity {
   font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px; display:inline-block; margin:4px 0;
 }
@@ -184,6 +189,54 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .case-card button:active { transform:translateY(3px); box-shadow:0 1px 0 #a44f00; }
 .case-card button:disabled { opacity:0.4; cursor:not-allowed; }
 
+/* ===== CASE OPEN ANIMATION ===== */
+#caseOpenOverlay {
+  position:fixed; inset:0; z-index:200; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.85);
+}
+#caseOpenBox {
+  background:#1a1713; border:2px solid #ff8c1a; border-radius:16px;
+  padding:30px 40px; max-width:500px; width:90%; text-align:center;
+  box-shadow:0 0 80px rgba(255,140,26,0.3);
+}
+#caseOpenBox .title {
+  color:#ff8c1a; font-size:22px; font-weight:bold; letter-spacing:2px;
+  margin-bottom:8px;
+}
+#caseOpenBox .sub {
+  color:#999; font-size:14px; margin-bottom:16px;
+}
+#caseOpenBox .spin-container {
+  position:relative; height:80px; overflow:hidden; margin:10px 0;
+  border-top:1px solid #333; border-bottom:1px solid #333;
+}
+#caseOpenBox .spin-item {
+  font-size:28px; line-height:80px; color:#fff; transition:transform 0.1s;
+}
+#caseOpenBox .result {
+  margin-top:16px; font-size:20px; font-weight:bold; color:#fff;
+}
+#caseOpenBox .result .rcolor {
+  display:inline-block; width:24px; height:24px; border-radius:4px; vertical-align:middle; margin-right:8px;
+}
+#caseOpenBox .close-case-btn {
+  margin-top:20px; padding:10px 30px; background:#ff8c1a; border:none; border-radius:6px;
+  color:#111; font-weight:bold; font-size:16px; cursor:pointer;
+}
+
+/* ===== SETTINGS ===== */
+#settingsPanel {
+  display:flex; flex-direction:column; gap:12px; align-items:center;
+}
+.setting-row {
+  display:flex; align-items:center; gap:16px; width:100%; max-width:300px;
+  justify-content:space-between;
+}
+.setting-row label { color:#ccc; font-size:14px; }
+.setting-row input[type="range"] { width:140px; accent-color:#ff8c1a; }
+.setting-row .val { color:#ff8c1a; font-size:14px; min-width:30px; text-align:right; }
+
 /* ===== HUD ===== */
 #hud {
   position:fixed; top:0; left:0; right:0; z-index:20;
@@ -217,17 +270,15 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 #crosshair::before { width:100%; height:2px; top:8px; }
 #crosshair::after { height:100%; width:2px; left:8px; }
 
-/* ===== BUY TIMER ===== */
-#buyTimerOverlay {
-  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100;
-  display:none; background:rgba(0,0,0,0.75); padding:30px 50px; border-radius:16px;
-  border:2px solid #ff8c1a; text-align:center;
+/* ===== BUY TIMER IN SHOP ===== */
+#buyTimerWrap {
+  display:none; text-align:center; margin-bottom:12px;
 }
-#buyTimerOverlay .label { color:#c98d4a; font-size:16px; letter-spacing:3px; text-transform:uppercase; }
-#buyTimerDisplay { color:#fff; font-size:64px; font-weight:bold; margin:10px 0; text-shadow:0 0 30px rgba(255,140,26,0.6); }
-#buyTimerOverlay .sub { color:#999; font-size:14px; }
+#buyTimerWrap.active { display:block; }
+#buyTimerLabel { color:#999; font-size:11px; letter-spacing:3px; text-transform:uppercase; }
+#buyTimerVal { color:#fff; font-size:28px; font-weight:bold; letter-spacing:2px; }
 
-/* ===== PAUSE BUTTON ===== */
+/* ===== PAUSE ===== */
 #pauseBtn {
   position:fixed; top:12px; left:12px; z-index:25;
   width:60px; height:36px; display:none; align-items:center; justify-content:center;
@@ -246,7 +297,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   width:380px; max-width:88vw; background:#0d0c09;
   border:1px solid rgba(255,140,26,0.4); border-radius:4px;
   padding:38px 36px; text-align:center;
-  box-shadow:0 0 60px rgba(255,140,26,0.2);
 }
 #pausePanel h2 { color:#fff; letter-spacing:5px; font-size:32px; font-weight:900; margin-bottom:30px; }
 #pausePanel button {
@@ -270,9 +320,21 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   border:1px solid rgba(255,140,26,0.35); border-radius:4px;
   padding:20px 30px;
 }
-#shopPanel h2 { color:#fff; letter-spacing:3px; font-size:28px; margin-bottom:12px; }
-#shopPanel h2 span { color:#ff8c1a; }
-#shopMoney { color:#8fe38f; font-size:18px; font-weight:bold; margin-bottom:16px; }
+#shopHeader {
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid rgba(255,140,26,0.25); padding-bottom:12px; margin-bottom:16px;
+}
+#shopHeader h2 {
+  color:#fff; letter-spacing:3px; font-size:28px;
+}
+#shopHeader h2 span { color:#ff8c1a; }
+#shopHeader .shop-money { color:#8fe38f; font-size:18px; font-weight:bold; }
+#shopHeader .buy-timer-wrap {
+  text-align:center;
+}
+#shopHeader .buy-timer-wrap .label { color:#999; font-size:10px; text-transform:uppercase; letter-spacing:2px; }
+#shopHeader .buy-timer-wrap .value { color:#fff; font-size:24px; font-weight:bold; }
+
 .shop-grid { display:flex; flex-wrap:wrap; gap:14px; }
 .shop-item {
   background:#161410; border:1px solid #332c1e; border-radius:6px;
@@ -318,6 +380,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   .inv-preview { flex:none; width:100%; }
   #hpStat { margin-left: 0; }
   .map-card, .skin-shop-card, .case-card { width:120px; }
+  #shopHeader { flex-wrap:wrap; gap:8px; justify-content:center; }
 }
 </style>
 </head>
@@ -338,6 +401,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       <button class="tab" data-tab="shop">Магазин</button>
       <button class="tab" data-tab="inventory">Инвентарь</button>
       <button class="tab" data-tab="cases">Кейсы</button>
+      <button class="tab" data-tab="settings">Настройки</button>
     </div>
     <!-- Панель Играть -->
     <div id="tab-play" class="tab-panel active">
@@ -354,7 +418,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     </div>
     <!-- Панель Магазин скинов -->
     <div id="tab-shop" class="tab-panel">
-      <div id="skinShopContainer" class="skin-shop-grid"></div>
+      <div id="skinShopContainer"></div>
     </div>
     <!-- Панель Инвентарь -->
     <div id="tab-inventory" class="tab-panel">
@@ -364,6 +428,37 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     <div id="tab-cases" class="tab-panel">
       <div id="caseContainer" class="case-shop-grid"></div>
     </div>
+    <!-- Панель Настройки -->
+    <div id="tab-settings" class="tab-panel">
+      <div id="settingsPanel">
+        <div class="setting-row">
+          <label>🔊 Громкость эффектов</label>
+          <input type="range" id="sfxVolume" min="0" max="1" step="0.01" value="0.5">
+          <span class="val" id="sfxVolLabel">50%</span>
+        </div>
+        <div class="setting-row">
+          <label>🎵 Музыка</label>
+          <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.3">
+          <span class="val" id="musicVolLabel">30%</span>
+        </div>
+        <div class="setting-row" style="justify-content:center;">
+          <button id="toggleMusicBtn" style="background:#ff8c1a; border:none; color:#111; padding:8px 24px; border-radius:6px; font-weight:bold; cursor:pointer;">🔇 Выключить музыку</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CASE OPEN OVERLAY -->
+<div id="caseOpenOverlay">
+  <div id="caseOpenBox">
+    <div class="title">🎁 Открытие кейса</div>
+    <div class="sub">Вращение...</div>
+    <div class="spin-container" id="spinContainer">
+      <div class="spin-item" id="spinItem">🎯</div>
+    </div>
+    <div class="result" id="caseResult"></div>
+    <button class="close-case-btn" id="closeCaseBtn">Отлично!</button>
   </div>
 </div>
 
@@ -378,18 +473,11 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     <div class="stat">💵 $<span id="moneyVal">2000</span></div>
     <div class="stat" id="shopBtn">🛒 Магазин (B)</div>
   </div>
-  <div class="stat" id="nickBox">—</div>
+  <!-- Убрали надпись Player справа -->
 </div>
 <div id="reloadMsg">⏳ ПЕРЕЗАРЯДКА</div>
 <div id="crosshair"></div>
 <div id="pauseBtn">⏸ Пауза</div>
-
-<!-- BUY TIMER -->
-<div id="buyTimerOverlay">
-  <div class="label">⏳ Закупка</div>
-  <div id="buyTimerDisplay">5</div>
-  <div class="sub">Магазин открыт</div>
-</div>
 
 <!-- PAUSE OVERLAY -->
 <div id="pauseOverlay">
@@ -404,8 +492,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 <!-- IN-GAME SHOP -->
 <div id="shopOverlay">
   <div id="shopPanel">
-    <h2>МАГА<span>ЗИН</span></h2>
-    <div id="shopMoney">Баланс: $2000</div>
+    <div id="shopHeader">
+      <h2>МАГА<span>ЗИН</span></h2>
+      <div class="buy-timer-wrap" id="buyTimerWrapInShop">
+        <div class="label">⏳ Закупка</div>
+        <div class="value" id="buyTimerValInShop">5</div>
+      </div>
+      <div class="shop-money" id="shopMoney">$2000</div>
+    </div>
     <div class="shop-grid" id="shopContainer"></div>
     <button id="closeShopBtn" style="margin-top:20px; background:transparent; color:#999; border:1px solid #444; padding:10px 30px; border-radius:4px; cursor:pointer;">Закрыть (B / Esc)</button>
   </div>
@@ -429,7 +523,131 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 (function(){
   'use strict';
 
-  // ============ SKINS DATA (с редкостями) ============
+  // ============ ЗВУКИ ============
+  let audioCtx = null;
+  let sfxVolume = 0.5;
+  let musicVolume = 0.3;
+  let musicOsc = null;
+  let musicGain = null;
+  let musicPlaying = false;
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  function playSound(type) {
+    if (!audioCtx) return;
+    const vol = sfxVolume;
+    if (vol <= 0) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    gain.gain.value = vol * 0.3;
+    const now = audioCtx.currentTime;
+    if (type === 'shoot_pistol') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(200, now+0.06);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.06);
+      osc.start(now); osc.stop(now+0.06);
+    } else if (type === 'shoot_rifle') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now+0.08);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.08);
+      osc.start(now); osc.stop(now+0.08);
+    } else if (type === 'shoot_smg') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now+0.04);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.04);
+      osc.start(now); osc.stop(now+0.04);
+    } else if (type === 'shoot_sniper') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1500, now);
+      osc.frequency.exponentialRampToValueAtTime(50, now+0.15);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.15);
+      osc.start(now); osc.stop(now+0.15);
+    } else if (type === 'reload') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(600, now+0.1);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.15);
+      osc.start(now); osc.stop(now+0.15);
+    } else if (type === 'buy') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(500, now);
+      osc.frequency.linearRampToValueAtTime(800, now+0.1);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.12);
+      osc.start(now); osc.stop(now+0.12);
+    } else if (type === 'case_open') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.linearRampToValueAtTime(1200, now+0.4);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.5);
+      osc.start(now); osc.stop(now+0.5);
+    } else if (type === 'death') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now+0.5);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.5);
+      osc.start(now); osc.stop(now+0.5);
+    }
+  }
+
+  function toggleMusic() {
+    if (!audioCtx) initAudio();
+    if (musicPlaying) {
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  }
+
+  function startMusic() {
+    if (!audioCtx) initAudio();
+    if (musicPlaying) return;
+    musicGain = audioCtx.createGain();
+    musicGain.gain.value = musicVolume * 0.15;
+    musicGain.connect(audioCtx.destination);
+    // Простая фоновая музыка (басовая линия)
+    const notes = [130, 146, 164, 174, 196, 220, 246, 261];
+    let idx = 0;
+    function playNote() {
+      if (!musicPlaying) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(musicGain);
+      const freq = notes[idx % notes.length];
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      gain.gain.value = 0.15;
+      const now = audioCtx.currentTime;
+      osc.start(now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.3);
+      osc.stop(now+0.3);
+      idx++;
+      setTimeout(playNote, 300);
+    }
+    musicPlaying = true;
+    playNote();
+    document.getElementById('toggleMusicBtn').textContent = '🔊 Включить музыку';
+  }
+
+  function stopMusic() {
+    musicPlaying = false;
+    if (musicGain) {
+      musicGain.disconnect();
+      musicGain = null;
+    }
+    document.getElementById('toggleMusicBtn').textContent = '🔇 Выключить музыку';
+  }
+
+  // ============ SKINS DATA ============
   const RARITIES = {
     common:   { label:'Обычный', class:'rarity-common', color:'#b0b0b0' },
     uncommon: { label:'Необычный', class:'rarity-uncommon', color:'#5b9b5b' },
@@ -472,6 +690,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   };
   const WEAPON_TYPES = ['pistol','smg','rifle','sniper'];
   const WEAPON_NAMES = { pistol:'Пистолет', smg:'SMG', rifle:'Винтовка', sniper:'Снайперка' };
+  const WEAPON_EMOJIS = { pistol:'🔫', smg:'💨', rifle:'🎯', sniper:'🔭' };
 
   // ============ CASE DATA ============
   const CASES = [
@@ -489,7 +708,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   ];
   let selectedMap = 'de_dust2';
 
-  // ============ INVENTORY / BALANCE (localStorage) ============
+  // ============ INVENTORY / BALANCE ============
   function loadInventory() {
     try {
       const raw = localStorage.getItem('contra_inventory');
@@ -543,7 +762,8 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     maps: document.getElementById('tab-maps'),
     shop: document.getElementById('tab-shop'),
     inventory: document.getElementById('tab-inventory'),
-    cases: document.getElementById('tab-cases')
+    cases: document.getElementById('tab-cases'),
+    settings: document.getElementById('tab-settings')
   };
   tabs.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -557,6 +777,23 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       if (tab === 'maps') renderMaps();
     });
   });
+
+  // ============ SETTINGS ============
+  const sfxSlider = document.getElementById('sfxVolume');
+  const musicSlider = document.getElementById('musicVolume');
+  const sfxLabel = document.getElementById('sfxVolLabel');
+  const musicLabel = document.getElementById('musicVolLabel');
+
+  sfxSlider.addEventListener('input', () => {
+    sfxVolume = parseFloat(sfxSlider.value);
+    sfxLabel.textContent = Math.round(sfxVolume*100)+'%';
+  });
+  musicSlider.addEventListener('input', () => {
+    musicVolume = parseFloat(musicSlider.value);
+    musicLabel.textContent = Math.round(musicVolume*100)+'%';
+    if (musicGain) musicGain.gain.value = musicVolume * 0.15;
+  });
+  document.getElementById('toggleMusicBtn').addEventListener('click', toggleMusic);
 
   // ============ RENDER MAPS ============
   function renderMaps() {
@@ -579,12 +816,21 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // ============ RENDER SKIN SHOP ============
+  // ============ RENDER SKIN SHOP (с разделами) ============
   function renderSkinShop() {
     const container = document.getElementById('skinShopContainer');
     container.innerHTML = '';
     const inv = loadInventory();
+
     WEAPON_TYPES.forEach(wType => {
+      const section = document.createElement('div');
+      section.className = 'skin-shop-section';
+      const title = document.createElement('h3');
+      title.textContent = `${WEAPON_EMOJIS[wType]} ${WEAPON_NAMES[wType]}`;
+      section.appendChild(title);
+
+      const grid = document.createElement('div');
+      grid.className = 'skin-shop-grid';
       SKINS[wType].forEach(skin => {
         const card = document.createElement('div');
         card.className = 'skin-shop-card';
@@ -595,7 +841,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         card.innerHTML = `
           <div class="scolor" style="background:${colorHex};"></div>
           <div class="sname">${skin.icon} ${skin.name}</div>
-          <div class="sweapon">${WEAPON_NAMES[wType]}</div>
           <div class="srarity ${rarity.class}">${rarity.label}</div>
           <div class="sprice">${skin.price === 0 ? 'Бесплатно' : '$'+skin.price}</div>
           <button data-w="${wType}" data-id="${skin.id}" ${equipped ? 'disabled' : ''}>
@@ -618,13 +863,16 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
             inv.weapons[wType].push(skin.id);
             saveInventory(inv);
             updateBalanceDisplay();
+            playSound('buy');
             showToast(`✅ Скин "${skin.name}" куплен!`, skin.color);
             renderSkinShop();
             renderInventory();
           }
         });
-        container.appendChild(card);
+        grid.appendChild(card);
       });
+      section.appendChild(grid);
+      container.appendChild(section);
     });
   }
 
@@ -691,7 +939,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
     container.appendChild(listDiv);
 
-    // Превью
     const previewDiv = document.createElement('div');
     previewDiv.className = 'inv-preview';
     let previewSkin = null, previewWeapon = null;
@@ -748,6 +995,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
+  // ============ CASE OPEN ANIMATION ============
+  let caseResultCallback = null;
+
   function openCase(caseId) {
     const inv = loadInventory();
     const caseData = CASES.find(c => c.id === caseId);
@@ -757,19 +1007,74 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       return;
     }
     inv.balance -= caseData.price;
+    saveInventory(inv);
+    updateBalanceDisplay();
+    playSound('case_open');
+
+    // Выбираем случайный скин
     const wType = WEAPON_TYPES[Math.floor(Math.random() * WEAPON_TYPES.length)];
     const skins = SKINS[wType];
     const skin = skins[Math.floor(Math.random() * skins.length)];
+    // Добавляем в инвентарь
     if (!inv.weapons[wType].includes(skin.id)) {
       inv.weapons[wType].push(skin.id);
     }
     saveInventory(inv);
-    updateBalanceDisplay();
-    showToast(`🎉 Вы получили скин "${skin.name}" для ${WEAPON_NAMES[wType]}!`, skin.color);
-    renderInventory();
-    renderCases();
-    renderSkinShop();
+
+    // Показываем анимацию
+    showCaseOpen(skin, wType);
   }
+
+  function showCaseOpen(skin, wType) {
+    const overlay = document.getElementById('caseOpenOverlay');
+    const spinItem = document.getElementById('spinItem');
+    const resultDiv = document.getElementById('caseResult');
+    const closeBtn = document.getElementById('closeCaseBtn');
+
+    overlay.style.display = 'flex';
+    resultDiv.innerHTML = '';
+    spinItem.textContent = '🎲';
+    let items = ['🎲','🎯','🔫','💎','🌟','🔥','❄️','👻'];
+    let counter = 0;
+    const interval = setInterval(() => {
+      spinItem.textContent = items[Math.floor(Math.random() * items.length)];
+      counter++;
+      if (counter > 15) {
+        clearInterval(interval);
+        // Финальный результат
+        const colorHex = '#' + skin.color.toString(16).padStart(6,'0');
+        resultDiv.innerHTML = `
+          <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+            <span style="font-size:32px;">${skin.icon}</span>
+            <span>Вы получили <strong style="color:#ff8c1a;">${skin.name}</strong> для ${WEAPON_NAMES[wType]}</span>
+          </div>
+          <div style="margin-top:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span class="rcolor" style="background:${colorHex};"></span>
+            <span class="${RARITIES[skin.rarity].class}">${RARITIES[skin.rarity].label}</span>
+          </div>
+        `;
+        spinItem.textContent = skin.icon;
+        // Сохраняем результат для кнопки
+        caseResultCallback = () => {
+          overlay.style.display = 'none';
+          showToast(`🎉 Вы получили скин "${skin.name}" для ${WEAPON_NAMES[wType]}!`, skin.color);
+          renderInventory();
+          renderCases();
+          renderSkinShop();
+        };
+        closeBtn.onclick = caseResultCallback;
+      }
+    }, 120);
+  }
+
+  document.getElementById('closeCaseBtn').addEventListener('click', () => {
+    if (caseResultCallback) {
+      caseResultCallback();
+      caseResultCallback = null;
+    } else {
+      document.getElementById('caseOpenOverlay').style.display = 'none';
+    }
+  });
 
   // ============ THREE.JS GAME ENGINE ============
   let scene, camera, renderer, clock;
@@ -861,7 +1166,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
   // ============ MAP BUILDERS ============
   function clearMap() {
-    // Удаляем все препятствия (кроме земли и света)
     for (const o of obstacles) {
       scene.remove(o.mesh);
     }
@@ -887,65 +1191,73 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
   function buildMapSandstone() {
     clearMap();
-    // Стены
     const wallH = 3, wallT = 1, wallColor = 0x8a7455;
     addBoxObstacle(0, -MAP_HALF-wallT/2, 30+wallT*2, wallH, wallT, wallColor);
     addBoxObstacle(0, MAP_HALF+wallT/2, 30+wallT*2, wallH, wallT, wallColor);
     addBoxObstacle(-MAP_HALF-wallT/2, 0, wallT, wallH, 30, wallColor);
     addBoxObstacle(MAP_HALF+wallT/2, 0, wallT, wallH, 30, wallColor);
 
-    // Здания с проходами (без дверей)
-    const buildingColor = 0xbc8f5a;
-    // Здание 1 (слева)
-    addBuilding(-10, -4, 4, 3, 6);
-    addBuilding(-10, -4, 4, 3, 6); // стены
-    // Здание 2 (справа)
-    addBuilding(8, 2, 5, 3, 5);
-    // Здание 3 (центр)
-    addBuilding(0, -8, 4, 3, 4);
-    // Несколько маленьких укрытий
-    addBoxObstacle(-5, 5, 1.5, 1.5, 1.5, 0x9a6a35);
-    addBoxObstacle(5, -5, 1.5, 1.5, 1.5, 0x9a6a35);
-    addBoxObstacle(0, 0, 1.2, 1.2, 1.2, 0x8a6a35);
+    // Много зданий с проходами
+    const buildings = [
+      [-10, -4, 4, 3, 6],
+      [8, 2, 5, 3, 5],
+      [0, -8, 4, 3, 4],
+      [-5, 8, 3, 3, 5],
+      [10, -9, 4, 3, 4],
+      [5, -10, 3, 3, 3],
+      [-8, -10, 3, 3, 4],
+      [2, 10, 4, 3, 4],
+      [-12, 4, 3, 3, 4],
+      [12, -5, 3, 3, 5],
+    ];
+    buildings.forEach(([cx, cz, w, h, d]) => {
+      addBuilding(cx, cz, w, h, d);
+    });
+
+    // Несколько укрытий
+    addBoxObstacle(-3, 0, 1.2, 1.2, 1.2, 0x8a6a35);
+    addBoxObstacle(3, -2, 1.2, 1.2, 1.2, 0x8a6a35);
+    addBoxObstacle(0, 5, 1.2, 1.2, 1.2, 0x8a6a35);
   }
 
   function addBuilding(cx, cz, w, h, d) {
-    // Строим стены здания с проёмами (без дверей) — прямоугольник с проёмами
-    // Сделаем 4 отдельные стены с промежутками
     const wallThick = 0.4;
-    const gap = 1.2; // проход
+    const gap = 1.2;
+    // Случайно выбираем стороны для проёмов
+    const sides = ['north','south','east','west'];
+    const openSides = sides.filter(() => Math.random() < 0.4); // некоторые стороны открыты
 
-    // Нижняя стена (z = cz - d/2)
-    if (Math.random() > 0.3) {
+    // Нижняя (юг)
+    if (!openSides.includes('south')) {
       const w1 = (w - gap) / 2;
-      addBoxObstacle(cx - w/2 + w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
-      addBoxObstacle(cx + w/2 - w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
-    } else {
-      addBoxObstacle(cx, cz - d/2, w, h, wallThick, 0xbc8f5a);
+      if (w1 > 0) {
+        addBoxObstacle(cx - w/2 + w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
+        addBoxObstacle(cx + w/2 - w1/2, cz - d/2, w1, h, wallThick, 0xbc8f5a);
+      }
     }
-    // Верхняя стена
-    if (Math.random() > 0.3) {
+    // Верхняя (север)
+    if (!openSides.includes('north')) {
       const w1 = (w - gap) / 2;
-      addBoxObstacle(cx - w/2 + w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
-      addBoxObstacle(cx + w/2 - w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
-    } else {
-      addBoxObstacle(cx, cz + d/2, w, h, wallThick, 0xbc8f5a);
+      if (w1 > 0) {
+        addBoxObstacle(cx - w/2 + w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
+        addBoxObstacle(cx + w/2 - w1/2, cz + d/2, w1, h, wallThick, 0xbc8f5a);
+      }
     }
-    // Левая стена
-    if (Math.random() > 0.3) {
+    // Левая (запад)
+    if (!openSides.includes('west')) {
       const d1 = (d - gap) / 2;
-      addBoxObstacle(cx - w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
-      addBoxObstacle(cx - w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
-    } else {
-      addBoxObstacle(cx - w/2, cz, wallThick, h, d, 0xbc8f5a);
+      if (d1 > 0) {
+        addBoxObstacle(cx - w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
+        addBoxObstacle(cx - w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
+      }
     }
-    // Правая стена
-    if (Math.random() > 0.3) {
+    // Правая (восток)
+    if (!openSides.includes('east')) {
       const d1 = (d - gap) / 2;
-      addBoxObstacle(cx + w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
-      addBoxObstacle(cx + w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
-    } else {
-      addBoxObstacle(cx + w/2, cz, wallThick, h, d, 0xbc8f5a);
+      if (d1 > 0) {
+        addBoxObstacle(cx + w/2, cz - d/2 + d1/2, wallThick, h, d1, 0xbc8f5a);
+        addBoxObstacle(cx + w/2, cz + d/2 - d1/2, wallThick, h, d1, 0xbc8f5a);
+      }
     }
   }
 
@@ -1129,6 +1441,12 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     playerState.ammo--; playerState.fireTimer=weapon.cooldown; updateHud();
     const dir=playerState.aimDir.clone().normalize();
     spawnBullet(player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7)),dir,true,weapon.damage);
+    // Звук выстрела
+    const wType = playerState.weaponId;
+    if (wType === 'pistol') playSound('shoot_pistol');
+    else if (wType === 'smg') playSound('shoot_smg');
+    else if (wType === 'rifle') playSound('shoot_rifle');
+    else if (wType === 'sniper') playSound('shoot_sniper');
   }
 
   function tryReload(){
@@ -1137,6 +1455,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     playerState.reloading=true;
     playerState.reloadTimer=WEAPONS[playerState.weaponId].reload;
     document.getElementById('reloadMsg').style.display='block';
+    playSound('reload');
   }
 
   function spawnBullet(origin,dir,fromPlayer,damage){
@@ -1202,7 +1521,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const totalReduction=1-(1-vestRed)*(1-helmetRed);
     const finalDamage=amount*(1-totalReduction);
     playerState.hp-=finalDamage;
-    if(playerState.hp<=0){ playerState.hp=0; playerState.alive=false; onPlayerDeath(); }
+    if(playerState.hp<=0){ playerState.hp=0; playerState.alive=false; playSound('death'); onPlayerDeath(); }
     updateHud();
   }
 
@@ -1302,13 +1621,22 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   function renderInGameShop(){
     const container=document.getElementById('shopContainer');
     container.innerHTML='';
-    document.getElementById('shopMoney').textContent='Баланс: $'+playerState.money;
+    document.getElementById('shopMoney').textContent='$'+playerState.money;
+    // Показываем таймер закупки в магазине
+    const timerWrap = document.getElementById('buyTimerWrapInShop');
+    if (buyPhaseActive) {
+      timerWrap.style.display = 'block';
+      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter || 5;
+    } else {
+      timerWrap.style.display = 'none';
+    }
+
     Object.values(WEAPONS).forEach(w=>{
       const div=document.createElement('div'); div.className='shop-item';
       const owned=playerState.owned.weapons.includes(w.id);
       div.innerHTML=`<div class="iname">${w.name}</div><div class="iprice">$${w.price}</div><button data-type="weapon" data-id="${w.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
       const btn=div.querySelector('button');
-      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<w.price)return; playerState.money-=w.price; playerState.owned.weapons.push(w.id); playerState.weaponId=w.id; playerState.maxAmmo=w.ammo; playerState.ammo=w.ammo; playerState.reloading=false; playerState.reloadTimer=0; document.getElementById('reloadMsg').style.display='none'; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<w.price)return; playerState.money-=w.price; playerState.owned.weapons.push(w.id); playerState.weaponId=w.id; playerState.maxAmmo=w.ammo; playerState.ammo=w.ammo; playerState.reloading=false; playerState.reloadTimer=0; document.getElementById('reloadMsg').style.display='none'; applyPlayerLoadout(); updateHud(); playSound('buy'); renderInGameShop(); }); }
       container.appendChild(div);
     });
     Object.values(VESTS).forEach(v=>{
@@ -1316,7 +1644,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       const owned=playerState.owned.vests.includes(v.id);
       div.innerHTML=`<div class="iname">${v.name}</div><div class="iprice">$${v.price}</div><button data-type="vest" data-id="${v.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
       const btn=div.querySelector('button');
-      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<v.price)return; playerState.money-=v.price; playerState.owned.vests.push(v.id); playerState.vestId=v.id; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<v.price)return; playerState.money-=v.price; playerState.owned.vests.push(v.id); playerState.vestId=v.id; applyPlayerLoadout(); updateHud(); playSound('buy'); renderInGameShop(); }); }
       container.appendChild(div);
     });
     Object.values(HELMETS).forEach(h=>{
@@ -1324,21 +1652,23 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       const owned=playerState.owned.helmets.includes(h.id);
       div.innerHTML=`<div class="iname">${h.name}</div><div class="iprice">$${h.price}</div><button data-type="helmet" data-id="${h.id}" ${owned?'disabled':''}>${owned?'В инвентаре':'Купить'}</button>`;
       const btn=div.querySelector('button');
-      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<h.price)return; playerState.money-=h.price; playerState.owned.helmets.push(h.id); playerState.helmetId=h.id; applyPlayerLoadout(); updateHud(); renderInGameShop(); }); }
+      if(!owned){ btn.addEventListener('click',()=>{ if(playerState.money<h.price)return; playerState.money-=h.price; playerState.owned.helmets.push(h.id); playerState.helmetId=h.id; applyPlayerLoadout(); updateHud(); playSound('buy'); renderInGameShop(); }); }
       container.appendChild(div);
     });
   }
 
+  let buyTimerCounter = 5;
   function startBuyPhase(callback){
     buyPhaseActive=true;
-    let timeLeft=BUY_PHASE_DURATION;
-    document.getElementById('buyTimerDisplay').textContent=timeLeft;
+    buyTimerCounter = BUY_PHASE_DURATION;
+    document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
     document.getElementById('buyTimerOverlay').style.display='block';
     shopOpen=true; renderInGameShop(); document.getElementById('shopOverlay').style.display='flex';
     buyTimerInterval=setInterval(()=>{
-      timeLeft--;
-      document.getElementById('buyTimerDisplay').textContent=timeLeft;
-      if(timeLeft<=0){
+      buyTimerCounter--;
+      document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
+      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter;
+      if(buyTimerCounter<=0){
         clearInterval(buyTimerInterval); buyTimerInterval=null; buyPhaseActive=false;
         document.getElementById('buyTimerOverlay').style.display='none';
         shopOpen=false; document.getElementById('shopOverlay').style.display='none';
@@ -1358,14 +1688,12 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
   function startGame(){
     clearDynamicObjects();
-    // Строим выбранную карту
     if (selectedMap === 'sandstone') buildMapSandstone();
     else buildMapDust2();
     resetPlayerState();
     player=createPlayer();
     applyPlayerLoadout();
     spawnBots();
-    document.getElementById('nickBox').textContent=playerNick;
     document.getElementById('menu').style.display='none';
     document.getElementById('gameOver').style.display='none';
     document.getElementById('shopOverlay').style.display='none';
@@ -1403,10 +1731,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     bullets.length=0;
     for(const b of botBullets){ scene.remove(b.mesh); scene.remove(b.line); }
     botBullets.length=0;
-    // Очищаем препятствия, но не землю и свет
-    for(const o of obstacles){
-      scene.remove(o.mesh);
-    }
+    for(const o of obstacles){ scene.remove(o.mesh); }
     obstacles.length=0;
   }
 
@@ -1438,6 +1763,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   renderSkinShop();
   renderInventory();
   renderCases();
+
+  // Инициализация звуков при первом клике
+  document.addEventListener('click', () => {
+    initAudio();
+    if (!musicPlaying && musicVolume > 0) {
+      startMusic();
+    }
+  }, { once: true });
 })();
 </script>
 </body>
