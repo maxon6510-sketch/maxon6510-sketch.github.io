@@ -44,10 +44,10 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .device-btn.pc { background:#0984e3; }
 .device-btn.phone { background:#6c5ce7; }
 
-/* ===== ОСНОВНОЕ МЕНЮ (было #menu) ===== */
+/* ===== ОСНОВНОЕ МЕНЮ ===== */
 #menu {
   position:fixed; inset:0; z-index:50;
-  display:none; /* теперь показывается после выбора устройства */
+  display:none;
   align-items:center; justify-content:center;
   background:#0a0908; color:#eee;
 }
@@ -2053,6 +2053,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   document.getElementById('shopBtn').addEventListener('click', toggleShop);
   document.getElementById('closeShopBtn').addEventListener('click', closeShop);
 
+  // ============ ИСПРАВЛЕНИЕ: ДЕЛАЕМ selectDevice ГЛОБАЛЬНОЙ ============
+  window.selectDevice = selectDevice;
+
   // ============ BOOT ============
   // Инициализация происходит после выбора устройства, но музыка включается по клику
   document.addEventListener('click', () => {
@@ -2061,9 +2064,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       startMusic();
     }
   }, { once: true });
-
-  // Включаем отображение меню выбора устройства (оно уже видимо)
-  // Сцена будет создана при выборе устройства
 
 })();
 </script>
