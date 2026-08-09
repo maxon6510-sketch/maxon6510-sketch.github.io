@@ -92,7 +92,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .map-card .mtime { color:#888; font-size:12px; margin:4px 0; }
 .map-card .mstatus { color:#2ed573; font-size:11px; }
 
-/* ===== SKIN SHOP (разделы по типам) ===== */
+/* ===== SKIN SHOP ===== */
 .skin-shop-section {
   margin-bottom:16px;
 }
@@ -194,7 +194,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .case-card button:active { transform:translateY(3px); box-shadow:0 1px 0 #a44f00; }
 .case-card button:disabled { opacity:0.4; cursor:not-allowed; }
 
-/* ===== CASE OPEN ANIMATION (как в Standoff 2) ===== */
+/* ===== CASE OPEN ANIMATION ===== */
 #caseOpenOverlay {
   position:fixed; inset:0; z-index:200; display:none;
   align-items:center; justify-content:center;
@@ -275,15 +275,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   color:#ff8c1a; font-size:20px; font-weight:bold; letter-spacing:2px;
   text-shadow:0 0 10px rgba(255,140,26,0.8); display:none;
 }
-#crosshair {
-  position:fixed; z-index:15; width:18px; height:18px; pointer-events:none;
-  top:50%; left:50%; transform:translate(-50%,-50%); display:none;
-}
-#crosshair::before, #crosshair::after {
-  content:''; position:absolute; background:#ff8c1a;
-}
-#crosshair::before { width:100%; height:2px; top:8px; }
-#crosshair::after { height:100%; width:2px; left:8px; }
+/* Крест (прицел) убран */
 
 /* ===== BUY TIMER IN SHOP ===== */
 #buyTimerWrap {
@@ -477,7 +469,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   </div>
 </div>
 
-<!-- HUD -->
+<!-- HUD (без креста) -->
 <div id="hud">
   <div class="box">
     <div class="stat" id="hpStat">❤️ HP: <span id="hpVal">100</span>
@@ -490,7 +482,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   </div>
 </div>
 <div id="reloadMsg">⏳ ПЕРЕЗАРЯДКА</div>
-<div id="crosshair"></div>
 <div id="pauseBtn">⏸ Пауза</div>
 
 <!-- PAUSE OVERLAY -->
@@ -541,7 +532,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   let audioCtx = null;
   let sfxVolume = 0.5;
   let musicVolume = 0.3;
-  let musicOsc = null;
   let musicGain = null;
   let musicPlaying = false;
 
@@ -567,18 +557,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       osc.frequency.exponentialRampToValueAtTime(200, now+0.06);
       gain.gain.exponentialRampToValueAtTime(0.01, now+0.06);
       osc.start(now); osc.stop(now+0.06);
-    } else if (type === 'shoot_rifle') {
+    } else if (type === 'shoot_rifle' || type === 'shoot_shotgun') {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(1200, now);
       osc.frequency.exponentialRampToValueAtTime(100, now+0.08);
       gain.gain.exponentialRampToValueAtTime(0.01, now+0.08);
       osc.start(now); osc.stop(now+0.08);
     } else if (type === 'shoot_smg') {
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(600, now);
-      osc.frequency.exponentialRampToValueAtTime(300, now+0.04);
-      gain.gain.exponentialRampToValueAtTime(0.01, now+0.04);
-      osc.start(now); osc.stop(now+0.04);
+      // не используется
     } else if (type === 'shoot_sniper') {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(1500, now);
@@ -670,15 +656,19 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     mythic:   { label:'Мифический', class:'rarity-mythic', color:'#e74c3c' }
   };
 
-  // Переименовано оружие на CS-стиль
-  const WEAPON_TYPES = ['pistol','smg','rifle','sniper'];
+  const WEAPON_TYPES = ['pistol', 'shotgun', 'rifle', 'sniper'];
   const WEAPON_NAMES = {
-    pistol: 'Glock-18',
-    smg: 'MP9',
+    pistol: 'Пистолет',
+    shotgun: 'Дробовик',
     rifle: 'AK-47',
     sniper: 'AWP'
   };
-  const WEAPON_EMOJIS = { pistol:'🔫', smg:'💨', rifle:'🎯', sniper:'🔭' };
+  const WEAPON_EMOJIS = {
+    pistol: '🔫',
+    shotgun: '💥',
+    rifle: '🔫',
+    sniper: '🔭'
+  };
 
   const SKINS = {
     pistol: [
@@ -690,12 +680,12 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       { id: 'pistol_void', name: 'Пустота', price: 1200, color: 0x2f2f5a, rarity: 'epic', icon: '🌌' },
       { id: 'pistol_dragon', name: 'Дракон', price: 2000, color: 0x8b0000, rarity: 'legendary', icon: '🐉' },
     ],
-    smg: [
-      { id: 'smg_default', name: 'Стандартный', price: 0, color: 0x445577, rarity: 'common', icon: '🔫' },
-      { id: 'smg_neon', name: 'Неоновый', price: 600, color: 0xff00ff, rarity: 'rare', icon: '💜' },
-      { id: 'smg_camo', name: 'Камуфляж', price: 400, color: 0x556b2f, rarity: 'uncommon', icon: '🌿' },
-      { id: 'smg_ember', name: 'Искра', price: 1000, color: 0xff4500, rarity: 'epic', icon: '🔥' },
-      { id: 'smg_spectre', name: 'Призрак', price: 1800, color: 0x4a4a6a, rarity: 'legendary', icon: '👻' },
+    shotgun: [
+      { id: 'shotgun_default', name: 'Стандартный', price: 0, color: 0x6b4c3b, rarity: 'common', icon: '💥' },
+      { id: 'shotgun_wood', name: 'Деревянный', price: 400, color: 0x8b5a2b, rarity: 'uncommon', icon: '🪵' },
+      { id: 'shotgun_steel', name: 'Стальной', price: 700, color: 0x556677, rarity: 'rare', icon: '⚙️' },
+      { id: 'shotgun_fire', name: 'Огненный', price: 1100, color: 0xff4500, rarity: 'epic', icon: '🔥' },
+      { id: 'shotgun_dragon', name: 'Драконий', price: 2000, color: 0x8b0000, rarity: 'legendary', icon: '🐉' },
     ],
     rifle: [
       { id: 'rifle_default', name: 'Стандартный', price: 0, color: 0x3f4a34, rarity: 'common', icon: '🔫' },
@@ -742,8 +732,8 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       }
     } catch(e) {}
     return {
-      weapons: { pistol: ['pistol_default'], smg: ['smg_default'], rifle: ['rifle_default'], sniper: ['sniper_default'] },
-      equipped: { pistol: 'pistol_default', smg: 'smg_default', rifle: 'rifle_default', sniper: 'sniper_default' },
+      weapons: { pistol: ['pistol_default'], shotgun: ['shotgun_default'], rifle: ['rifle_default'], sniper: ['sniper_default'] },
+      equipped: { pistol: 'pistol_default', shotgun: 'shotgun_default', rifle: 'rifle_default', sniper: 'sniper_default' },
       balance: 0
     };
   }
@@ -836,7 +826,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // ============ RENDER SKIN SHOP (с разделами) ============
+  // ============ RENDER SKIN SHOP ============
   function renderSkinShop() {
     const container = document.getElementById('skinShopContainer');
     container.innerHTML = '';
@@ -910,7 +900,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     renderSkinShop();
   }
 
-  // ============ RENDER INVENTORY (с прокруткой) ============
+  // ============ RENDER INVENTORY ============
   function renderInventory() {
     const container = document.getElementById('inventoryContainer');
     container.innerHTML = '';
@@ -1015,7 +1005,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  // ============ CASE OPEN ANIMATION (Standoff 2 стиль) ============
+  // ============ CASE OPEN ANIMATION ============
   let caseResultCallback = null;
 
   function openCase(caseId) {
@@ -1031,17 +1021,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     updateBalanceDisplay();
     playSound('case_open');
 
-    // Выбираем случайный скин
     const wType = WEAPON_TYPES[Math.floor(Math.random() * WEAPON_TYPES.length)];
     const skins = SKINS[wType];
     const winner = skins[Math.floor(Math.random() * skins.length)];
-    // Добавляем в инвентарь
     if (!inv.weapons[wType].includes(winner.id)) {
       inv.weapons[wType].push(winner.id);
     }
     saveInventory(inv);
 
-    // Показываем анимацию с 5 случайными предметами
     showCaseOpenStandoff(winner, wType);
   }
 
@@ -1057,18 +1044,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     sub.textContent = 'Вращение...';
     closeBtn.style.display = 'none';
 
-    // Собираем 6 случайных скинов (включая победителя)
     const allSkins = [];
     WEAPON_TYPES.forEach(wt => {
       SKINS[wt].forEach(s => allSkins.push({...s, weaponType: wt}));
     });
-    // Перемешиваем и берём 6
     const shuffled = allSkins.sort(() => Math.random() - 0.5);
     const displayItems = shuffled.slice(0, 5);
-    // Добавляем победителя на 6-е место (но в анимации он будет последним)
     displayItems.push({...winner, weaponType: wType});
 
-    // Строим трек
     track.innerHTML = '';
     displayItems.forEach(item => {
       const div = document.createElement('div');
@@ -1082,29 +1065,20 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       track.appendChild(div);
     });
 
-    // Прокрутка: сначала позиция 0, затем ускоряемся и останавливаемся на последнем
-    let pos = 0;
-    const itemWidth = 100; // ширина элемента в пикселях (flex 0 0 100px)
-    const totalWidth = displayItems.length * itemWidth;
-    const containerWidth = document.getElementById('spinContainer').clientWidth;
-    const targetPos = -(totalWidth - containerWidth + 20); // чтобы последний элемент был виден
-
-    let speed = 0;
-    let phase = 0; // 0 - разгон, 1 - замедление
     let startTime = performance.now();
-    const duration = 3000; // 3 секунды
+    const duration = 3000;
+    const containerWidth = document.getElementById('spinContainer').clientWidth;
+    const totalWidth = displayItems.length * 100;
 
     function animateSpin(time) {
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const currentPos = -eased * (totalWidth - containerWidth + 40);
       track.style.transform = `translateX(${currentPos}px)`;
       if (progress < 1) {
         requestAnimationFrame(animateSpin);
       } else {
-        // Финал
         sub.textContent = '🎉 Результат!';
         const colorHex = '#' + winner.color.toString(16).padStart(6,'0');
         const rarity = RARITIES[winner.rarity];
@@ -1120,7 +1094,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         `;
         closeBtn.style.display = 'inline-block';
         playSound('case_open');
-        // Сохраняем результат для кнопки
         caseResultCallback = () => {
           overlay.style.display = 'none';
           showToast(`🎉 Вы получили скин "${winner.name}" для ${WEAPON_NAMES[wType]}!`, winner.color);
@@ -1131,8 +1104,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         closeBtn.onclick = caseResultCallback;
       }
     }
-
-    // Начинаем анимацию
     requestAnimationFrame(animateSpin);
   }
 
@@ -1145,7 +1116,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     }
   });
 
-  // ============ THREE.JS GAME ENGINE (исправлена зависание) ============
+  // ============ THREE.JS GAME ENGINE ============
   let scene, camera, renderer, clock;
   let ground, groundPlaneForRay;
   const obstacles = [];
@@ -1157,13 +1128,15 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   let mouseGroundPoint = new THREE.Vector3();
   let gameRunning = false, shopOpen = false, paused = false, buyPhaseActive = false;
   let buyTimerInterval = null;
+  let buyTimerCounter = 5;
   const BUY_PHASE_DURATION = 5;
   let playerNick = 'Player';
   const MAP_HALF = 15, PLAYER_SPEED = 8.5, BOT_SPEED = 3.2, BOT_DETECT_RADIUS = 10, BOT_SHOOT_INTERVAL = 1.1, BULLET_SPEED = 40, BOT_BULLET_SPEED = 22;
+
   const WEAPONS = {
-    pistol: { id:'pistol', name:'Glock-18', price:0, damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
-    smg: { id:'smg', name:'MP9', price:800, damage:18, ammo:30, cooldown:0.08, reload:1.5, color:0x445577 },
-    rifle: { id:'rifle', name:'AK-47', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
+    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
+    shotgun:{ id:'shotgun', name:'Дробовик', price:800,  damage:50, ammo:8,  cooldown:0.6,  reload:2.0, color:0x6b4c3b },
+    rifle:  { id:'rifle', name:'AK-47', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
     sniper: { id:'sniper', name:'AWP', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111 }
   };
   const VESTS = {
@@ -1209,7 +1182,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     grid.material.opacity = 0.15;
     grid.material.transparent = true;
     scene.add(grid);
-    // Строим выбранную карту
     if (selectedMap === 'sandstone') buildMapSandstone();
     else buildMapDust2();
     window.addEventListener('resize', onResize);
@@ -1266,7 +1238,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     addBoxObstacle(-MAP_HALF-wallT/2, 0, wallT, wallH, 30, wallColor);
     addBoxObstacle(MAP_HALF+wallT/2, 0, wallT, wallH, 30, wallColor);
 
-    // Много зданий с проходами
     const buildings = [
       [-10, -4, 4, 3, 6],
       [8, 2, 5, 3, 5],
@@ -1282,7 +1253,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     buildings.forEach(([cx, cz, w, h, d]) => {
       addBuilding(cx, cz, w, h, d);
     });
-
     addBoxObstacle(-3, 0, 1.2, 1.2, 1.2, 0x8a6a35);
     addBoxObstacle(3, -2, 1.2, 1.2, 1.2, 0x8a6a35);
     addBoxObstacle(0, 5, 1.2, 1.2, 1.2, 0x8a6a35);
@@ -1293,7 +1263,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const gap = 1.2;
     const sides = ['north','south','east','west'];
     const openSides = sides.filter(() => Math.random() < 0.4);
-
     if (!openSides.includes('south')) {
       const w1 = (w - gap) / 2;
       if (w1 > 0) {
@@ -1337,7 +1306,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     return mesh;
   }
 
-  // ============ GAME ENGINE (остальное) ============
+  // ============ GAME ENGINE ============
   function makeNameSprite(text,colorHex){
     const canvas=document.createElement('canvas');
     canvas.width=256; canvas.height=64;
@@ -1504,11 +1473,11 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     playerState.ammo--; playerState.fireTimer=weapon.cooldown; updateHud();
     const dir=playerState.aimDir.clone().normalize();
     spawnBullet(player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7)),dir,true,weapon.damage);
-    const wType = playerState.weaponId;
-    if (wType === 'pistol') playSound('shoot_pistol');
-    else if (wType === 'smg') playSound('shoot_smg');
-    else if (wType === 'rifle') playSound('shoot_rifle');
-    else if (wType === 'sniper') playSound('shoot_sniper');
+    const wType=playerState.weaponId;
+    if(wType==='pistol') playSound('shoot_pistol');
+    else if(wType==='shotgun') playSound('shoot_shotgun');
+    else if(wType==='rifle') playSound('shoot_rifle');
+    else if(wType==='sniper') playSound('shoot_sniper');
   }
 
   function tryReload(){
@@ -1665,7 +1634,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     document.getElementById('finalMoney').textContent=earned;
     document.getElementById('gameOver').style.display='flex';
     document.getElementById('hud').style.display='none';
-    document.getElementById('crosshair').style.display='none';
     document.getElementById('reloadMsg').style.display='none';
     document.getElementById('pauseBtn').style.display='none';
     document.getElementById('pauseOverlay').style.display='none';
@@ -1687,7 +1655,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const timerWrap = document.getElementById('buyTimerWrapInShop');
     if (buyPhaseActive) {
       timerWrap.style.display = 'block';
-      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter || 5;
+      document.getElementById('buyTimerValInShop').textContent = buyTimerCounter;
     } else {
       timerWrap.style.display = 'none';
     }
@@ -1718,30 +1686,35 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     });
   }
 
-  let buyTimerCounter = 5;
   function startBuyPhase(callback){
-    buyPhaseActive=true;
+    buyPhaseActive = true;
     buyTimerCounter = BUY_PHASE_DURATION;
     document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
-    document.getElementById('buyTimerOverlay').style.display='block';
-    shopOpen=true; renderInGameShop(); document.getElementById('shopOverlay').style.display='flex';
-    buyTimerInterval=setInterval(()=>{
+    document.getElementById('buyTimerOverlay').style.display = 'block';
+    shopOpen = true;
+    renderInGameShop();
+    document.getElementById('shopOverlay').style.display = 'flex';
+    if (buyTimerInterval) clearInterval(buyTimerInterval);
+    buyTimerInterval = setInterval(() => {
       buyTimerCounter--;
       document.getElementById('buyTimerDisplay').textContent = buyTimerCounter;
       document.getElementById('buyTimerValInShop').textContent = buyTimerCounter;
-      if(buyTimerCounter<=0){
-        clearInterval(buyTimerInterval); buyTimerInterval=null; buyPhaseActive=false;
-        document.getElementById('buyTimerOverlay').style.display='none';
-        shopOpen=false; document.getElementById('shopOverlay').style.display='none';
-        callback();
+      if (buyTimerCounter <= 0) {
+        clearInterval(buyTimerInterval);
+        buyTimerInterval = null;
+        buyPhaseActive = false;
+        document.getElementById('buyTimerOverlay').style.display = 'none';
+        shopOpen = false;
+        document.getElementById('shopOverlay').style.display = 'none';
+        if (callback) callback();
       }
-    },1000);
+    }, 1000);
   }
 
   function animate(){
     requestAnimationFrame(animate);
     const dt=Math.min(clock.getDelta(),0.1);
-    if(gameRunning&&!shopOpen&&!paused&&!buyPhaseActive){
+    if(gameRunning && !shopOpen && !paused && !buyPhaseActive){
       updateAim(); updatePlayer(dt); updateBots(dt); updateBullets(dt); updateCamera();
     }
     renderer.render(scene,camera);
@@ -1751,22 +1724,27 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     clearDynamicObjects();
     if (selectedMap === 'sandstone') buildMapSandstone();
     else buildMapDust2();
+
     resetPlayerState();
-    player=createPlayer();
+    player = createPlayer();
     applyPlayerLoadout();
     spawnBots();
-    document.getElementById('menu').style.display='none';
-    document.getElementById('gameOver').style.display='none';
-    document.getElementById('shopOverlay').style.display='none';
-    document.getElementById('hud').style.display='flex';
-    document.getElementById('crosshair').style.display='block';
-    document.getElementById('pauseBtn').style.display='flex';
-    document.getElementById('pauseOverlay').style.display='none';
+
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('gameOver').style.display = 'none';
+    document.getElementById('shopOverlay').style.display = 'none';
+    document.getElementById('hud').style.display = 'flex';
+    document.getElementById('pauseBtn').style.display = 'flex';
+    document.getElementById('pauseOverlay').style.display = 'none';
     updateHud();
-    shopOpen=false; paused=false; gameRunning=false;
-    startBuyPhase(()=>{ 
-      gameRunning = true; 
-      clock.getDelta(); // сброс дельты
+
+    shopOpen = false;
+    paused = false;
+    gameRunning = false;
+
+    startBuyPhase(() => {
+      gameRunning = true;
+      clock.getDelta();
     });
   }
 
@@ -1781,7 +1759,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     document.getElementById('pauseOverlay').style.display='none';
     document.getElementById('pauseBtn').style.display='none';
     document.getElementById('hud').style.display='none';
-    document.getElementById('crosshair').style.display='none';
     document.getElementById('reloadMsg').style.display='none';
     document.getElementById('menu').style.display='flex';
     updateBalanceDisplay();
@@ -1828,7 +1805,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   renderInventory();
   renderCases();
 
-  // Инициализация звуков при первом клике
   document.addEventListener('click', () => {
     initAudio();
     if (!musicPlaying && musicVolume > 0) {
