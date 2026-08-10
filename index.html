@@ -640,7 +640,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   <button class="touchBtn shop" id="shopTouchBtn">🛒</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script>
 (function(){
   'use strict';
@@ -2215,6 +2215,21 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   // ============ ВЫБОР УСТРОЙСТВА ============
   function selectDevice(type) {
     device = type;
+
+    // Сначала запускаем графику. Если WebGL/Three.js недоступны,
+    // меню выбора устройства не исчезает и пользователь не получает белый экран.
+    try {
+      if (!window.THREE) {
+        showToast('❌ Не загрузилась графическая библиотека Three.js. Обновите страницу.');
+        return;
+      }
+      if (!scene) initScene();
+    } catch (err) {
+      console.error('Ошибка инициализации 3D-сцены:', err);
+      showToast('❌ Не удалось запустить 3D-графику: ' + (err && err.message ? err.message : 'неизвестная ошибка'));
+      return;
+    }
+
     document.getElementById('deviceMenu').style.display = 'none';
     document.getElementById('menu').style.display = 'flex';
     if (device === 'phone') {
@@ -2241,13 +2256,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       }
     } else {
       document.getElementById('touchControls').style.display = 'none';
-    }
-    // Инициализируем игру, если ещё не
-    try {
-      if (!scene) initScene();
-    } catch (err) {
-      console.error('Ошибка инициализации 3D-сцены:', err);
-      showToast('❌ Не удалось запустить графику на этом устройстве');
     }
     updateBalanceDisplay();
     renderMaps();
