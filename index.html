@@ -179,6 +179,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .inv-list::-webkit-scrollbar { width:4px; }
 .inv-list::-webkit-scrollbar-track { background:#1a1a1a; }
 .inv-list::-webkit-scrollbar-thumb { background:#ff8c1a; border-radius:2px; }
+#skinShopContainer {
+  max-height:400px; overflow-y:auto; padding-right:8px;
+  scrollbar-width:thin; scrollbar-color:#ff8c1a #1a1a1a;
+}
+#skinShopContainer::-webkit-scrollbar { width:4px; }
+#skinShopContainer::-webkit-scrollbar-track { background:#1a1a1a; }
+#skinShopContainer::-webkit-scrollbar-thumb { background:#ff8c1a; border-radius:2px; }
 .inv-item {
   display:flex; align-items:center; gap:10px;
   background:rgba(20,18,14,0.6); border:1px solid #2a2620; border-radius:6px;
@@ -405,6 +412,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 #joystickArea {
   position:absolute; bottom:30px; left:30px; width:140px; height:140px; pointer-events:auto; touch-action:none;
+  z-index:6;
 }
 #joystickBase {
   width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.3);
@@ -415,29 +423,40 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
   box-shadow:0 0 20px rgba(255,165,0,0.4); pointer-events:none;
 }
+
+/* Джойстик прицеливания/стрельбы (в стиле Brawl Stars): наводишь — отпускаешь — выстрел */
+#aimJoystickArea {
+  position:absolute; bottom:30px; right:30px; width:150px; height:150px; pointer-events:auto; touch-action:none;
+  z-index:6;
+}
+#aimJoystickBase {
+  width:140px; height:140px; border-radius:50%; background:rgba(255,60,60,0.12); border:2px solid rgba(255,80,80,0.4);
+  position:relative; box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+#aimJoystickThumb {
+  width:58px; height:58px; border-radius:50%; background:radial-gradient(circle,#ff6b5a,#c0392b);
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  box-shadow:0 0 20px rgba(255,80,80,0.5); pointer-events:none;
+  display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+}
+
 #actionButtons {
-  position:absolute; bottom:50px; right:30px; display:flex; flex-direction:column; gap:15px; pointer-events:none; align-items:flex-end;
+  position:absolute; bottom:190px; right:44px; display:flex; flex-direction:column; gap:15px; pointer-events:none; align-items:flex-end;
+  z-index:6;
 }
 .touchBtn {
-  pointer-events:auto; width:70px; height:70px; border-radius:50%; border:none; font-size:1.8rem;
+  pointer-events:auto; width:60px; height:60px; border-radius:50%; border:none; font-size:1.5rem;
   color:#fff; background:rgba(255,255,255,0.15); backdrop-filter:blur(4px);
   border:2px solid rgba(255,255,255,0.3); box-shadow:0 4px 20px rgba(0,0,0,0.5);
   touch-action:manipulation; display:flex; justify-content:center; align-items:center;
   transition:0.1s;
 }
 .touchBtn:active { transform:scale(0.92); background:rgba(255,255,255,0.3); }
-.touchBtn.fire {
-  width:90px; height:90px; background:rgba(255,50,50,0.3); border-color:#ff4757; font-size:2.2rem;
-}
 .touchBtn.reload { background:rgba(255,165,0,0.2); border-color:#ffa502; }
 .touchBtn.shop {
   position:absolute; top:20px; right:20px; width:60px; height:60px;
   background:rgba(255,165,0,0.2); border-color:#ffa502; font-size:1.6rem;
-  pointer-events:auto;
-}
-#touchAim {
-  position:absolute; inset:0; pointer-events:auto; touch-action:none;
-  z-index:5;
+  pointer-events:auto; z-index:6;
 }
 
 @media (max-width: 768px) {
@@ -446,15 +465,18 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   .tabs button { font-size:10px; padding:4px 8px; }
   .inv-container { flex-direction:column; }
   .inv-preview { flex:none; width:100%; position:static; }
+  #skinShopContainer { max-height:300px; }
   #hpStat { margin-left: 0; }
   .map-card, .skin-shop-card, .case-card { width:120px; }
   #shopHeader { flex-wrap:wrap; gap:8px; justify-content:center; }
   #joystickArea { width:110px; height:110px; left:10px; bottom:10px; }
   #joystickBase { width:100px; height:100px; }
   #joystickThumb { width:48px; height:48px; }
-  .touchBtn { width:60px; height:60px; font-size:1.4rem; }
-  .touchBtn.fire { width:75px; height:75px; font-size:1.8rem; }
-  #actionButtons { right:15px; bottom:20px; gap:12px; }
+  #aimJoystickArea { width:120px; height:120px; right:10px; bottom:10px; }
+  #aimJoystickBase { width:110px; height:110px; }
+  #aimJoystickThumb { width:48px; height:48px; }
+  #actionButtons { right:24px; bottom:150px; gap:10px; }
+  .touchBtn { width:52px; height:52px; font-size:1.3rem; }
   .device-btn { padding:1rem 1.5rem; font-size:1.5rem; min-width:140px; }
   .device-content h1 { font-size:2.8rem; }
 }
@@ -609,10 +631,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   </div>
   <div id="actionButtons">
     <button class="touchBtn reload" id="reloadBtn">🔄</button>
-    <button class="touchBtn fire" id="fireBtn">🔥</button>
+  </div>
+  <div id="aimJoystickArea">
+    <div id="aimJoystickBase">
+      <div id="aimJoystickThumb">🎯</div>
+    </div>
   </div>
   <button class="touchBtn shop" id="shopTouchBtn">🛒</button>
-  <div id="touchAim"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -623,6 +648,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   // ============ НОВЫЕ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ============
   let device = 'pc'; // 'pc' или 'phone'
   let joystick = { active: false, dx: 0, dy: 0, touchId: null };
+  let aimJoystick = { active: false, dx: 0, dy: 0, touchId: null };
+  const AIM_GUIDE_RANGE = 8;
+  let aimGuideLine = null, aimGuideRing = null;
 
   // ============ СТАРЫЕ ПЕРЕМЕННЫЕ (звук, скины, инвентарь, etc.) ============
   let audioCtx = null;
@@ -707,28 +735,60 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     musicGain = audioCtx.createGain();
     musicGain.gain.value = musicVolume * 0.15;
     musicGain.connect(audioCtx.destination);
-    const notes = [130, 146, 164, 174, 196, 220, 246, 261];
-    let idx = 0;
-    function playNote() {
-      if (!musicPlaying) return;
+
+    // Тактическая тема: ведущая мелодия + бас-линия + лёгкий хай-хэт для ритма
+    const leadNotes = [130.81,146.83,164.81,130.81,174.61,164.81,146.83,196.00];
+    const bassNotes  = [65.41, 65.41, 87.31, 87.31];
+    let step = 0;
+
+    function playLead(){
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(musicGain);
-      const freq = notes[idx % notes.length];
-      osc.frequency.value = freq;
-      osc.type = 'sine';
-      gain.gain.value = 0.15;
+      osc.connect(gain); gain.connect(musicGain);
+      osc.type = 'triangle';
+      osc.frequency.value = leadNotes[step % leadNotes.length];
       const now = audioCtx.currentTime;
-      osc.start(now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now+0.3);
-      osc.stop(now+0.3);
-      idx++;
-      setTimeout(playNote, 300);
+      gain.gain.value = 0.18;
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.28);
+      osc.start(now); osc.stop(now+0.28);
     }
+
+    function playBass(){
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(musicGain);
+      osc.type = 'sawtooth';
+      osc.frequency.value = bassNotes[Math.floor(step/2) % bassNotes.length];
+      const now = audioCtx.currentTime;
+      gain.gain.value = 0.22;
+      gain.gain.exponentialRampToValueAtTime(0.01, now+0.55);
+      osc.start(now); osc.stop(now+0.55);
+    }
+
+    function playHat(){
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(musicGain);
+      osc.type = 'square';
+      osc.frequency.value = 4200;
+      const now = audioCtx.currentTime;
+      gain.gain.value = 0.035;
+      gain.gain.exponentialRampToValueAtTime(0.001, now+0.035);
+      osc.start(now); osc.stop(now+0.035);
+    }
+
+    function tick(){
+      if (!musicPlaying) return;
+      playLead();
+      if (step % 2 === 0) playBass();
+      playHat();
+      step++;
+      setTimeout(tick, 300);
+    }
+
     musicPlaying = true;
-    playNote();
-    document.getElementById('toggleMusicBtn').textContent = '🔊 Включить музыку';
+    tick();
+    document.getElementById('toggleMusicBtn').textContent = '🔇 Выключить музыку';
   }
 
   function stopMusic() {
@@ -737,7 +797,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       musicGain.disconnect();
       musicGain = null;
     }
-    document.getElementById('toggleMusicBtn').textContent = '🔇 Выключить музыку';
+    document.getElementById('toggleMusicBtn').textContent = '🔊 Включить музыку';
   }
 
   // ============ SKINS DATA ============
@@ -924,6 +984,98 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     return isNaN(saved) || saved < 0 || saved > 3 ? 0 : saved;
   }
 
+  // ===== ГЕНЕРАЦИЯ "ФОТО" СКИНОВ =====
+  // Рисуем стилизованный силуэт оружия нужного типа в цвете скина на canvas
+  // и кешируем как data URL — используется вместо цветных квадратиков и эмодзи.
+  const _skinImageCache = {};
+
+  function _shadeHex(hexNum, percent) {
+    let r = (hexNum >> 16) & 0xff, g = (hexNum >> 8) & 0xff, b = hexNum & 0xff;
+    r = Math.min(255, Math.max(0, r + Math.round(255 * (percent/100))));
+    g = Math.min(255, Math.max(0, g + Math.round(255 * (percent/100))));
+    b = Math.min(255, Math.max(0, b + Math.round(255 * (percent/100))));
+    return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+  }
+
+  function _drawWeaponSilhouette(ctx, wType) {
+    switch (wType) {
+      case 'pistol':
+        ctx.fillRect(-8, -22, 40, 12);
+        ctx.fillRect(2, -26, 8, 6);
+        ctx.save(); ctx.translate(-20, -10); ctx.rotate(0.28);
+        ctx.fillRect(-6, 0, 14, 30);
+        ctx.restore();
+        ctx.strokeRect(-8, -22, 40, 12);
+        break;
+      case 'shotgun':
+        ctx.fillRect(-45, -8, 90, 12);
+        ctx.fillRect(-45, -16, 30, 8);
+        ctx.save(); ctx.translate(-45, -2); ctx.rotate(0.35);
+        ctx.fillRect(-30, 0, 32, 16);
+        ctx.restore();
+        ctx.strokeRect(-45, -8, 90, 12);
+        break;
+      case 'rifle':
+        ctx.fillRect(-40, -8, 85, 10);
+        ctx.fillRect(-8, -17, 10, 9);
+        ctx.save(); ctx.translate(-6, 2); ctx.rotate(0.55);
+        ctx.fillRect(0, 0, 10, 28);
+        ctx.restore();
+        ctx.save(); ctx.translate(-40, -3); ctx.rotate(0.3);
+        ctx.fillRect(-28, 0, 30, 16);
+        ctx.restore();
+        ctx.strokeRect(-40, -8, 85, 10);
+        break;
+      case 'sniper':
+        ctx.fillRect(-55, -5, 100, 7);
+        ctx.beginPath(); ctx.arc(-8, -15, 7, 0, Math.PI*2); ctx.fill();
+        ctx.fillRect(-18, -13, 24, 4);
+        ctx.save(); ctx.translate(-55, -2); ctx.rotate(0.25);
+        ctx.fillRect(-30, 0, 32, 14);
+        ctx.restore();
+        ctx.strokeRect(-55, -5, 100, 7);
+        break;
+    }
+  }
+
+  function getSkinImage(wType, colorHexNum) {
+    const key = wType + '_' + colorHexNum;
+    if (_skinImageCache[key]) return _skinImageCache[key];
+
+    const size = 128;
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // тёмный радиальный фон — как карточка предмета в играх
+    const bg = ctx.createRadialGradient(size/2, size/2, 6, size/2, size/2, size/2);
+    bg.addColorStop(0, '#2c2820');
+    bg.addColorStop(1, '#100e0a');
+    ctx.fillStyle = bg;
+    ctx.beginPath(); ctx.arc(size/2, size/2, size/2, 0, Math.PI*2); ctx.fill();
+
+    ctx.save();
+    ctx.translate(size/2, size/2 + 4);
+    ctx.rotate(-0.22);
+
+    const base = _shadeHex(colorHexNum, -25);
+    const mid = _shadeHex(colorHexNum, 20);
+    const grad = ctx.createLinearGradient(-40, -20, 40, 20);
+    grad.addColorStop(0, base);
+    grad.addColorStop(0.5, mid);
+    grad.addColorStop(1, base);
+    ctx.fillStyle = grad;
+    ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+    ctx.lineWidth = 1.5;
+
+    _drawWeaponSilhouette(ctx, wType);
+    ctx.restore();
+
+    const dataUrl = canvas.toDataURL('image/png');
+    _skinImageCache[key] = dataUrl;
+    return dataUrl;
+  }
+
   function renderSkinShop() {
     const container = document.getElementById('skinShopContainer');
     container.innerHTML = '';
@@ -972,8 +1124,8 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         const rarity = RARITIES[skin.rarity];
         const colorHex = '#' + skin.color.toString(16).padStart(6,'0');
         card.innerHTML = `
-          <div class="scolor" style="background:${colorHex};"></div>
-          <div class="sname">${skin.icon} ${skin.name}</div>
+          <img class="scolor" src="${getSkinImage(wType, skin.color)}" alt="${skin.name}">
+          <div class="sname">${skin.name}</div>
           <div class="srarity ${rarity.class}">${rarity.label}</div>
           <div class="sprice">${skin.price === 0 ? 'Бесплатно' : '$'+skin.price}</div>
           <button data-w="${wType}" data-id="${skin.id}" ${equipped ? 'disabled' : ''}>
@@ -1045,8 +1197,8 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
         const row = document.createElement('div');
         row.className = 'inv-item';
         row.innerHTML = `
-          <span class="icolor" style="background:${colorHex};"></span>
-          <span class="iname">${skin.icon} ${skin.name}</span>
+          <img class="icolor" src="${getSkinImage(wType, skin.color)}" alt="${skin.name}">
+          <span class="iname">${skin.name}</span>
           <span style="color:#888; font-size:11px;">${WEAPON_NAMES[wType]}</span>
           <span class="irarity ${rarity.class}">${rarity.label}</span>
           ${isEquipped ? '<span class="iequipped">✅ Экипирован</span>' : `<span class="iapply" data-w="${wType}" data-id="${skinId}">Применить</span>`}
@@ -1242,6 +1394,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   let ground, groundPlaneForRay;
   const obstacles = [];
   let player = null, playerParts = null, playerState = null;
+  let playerWalkState = null;
   const bots = [], bullets = [], botBullets = [];
   const keys = {};
   const mouse = new THREE.Vector2(0,0);
@@ -1252,10 +1405,10 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   const MAP_HALF = 15, PLAYER_SPEED = 8.5, BOT_SPEED = 3.2, BOT_DETECT_RADIUS = 10, BOT_SHOOT_INTERVAL = 1.1, BULLET_SPEED = 40, BOT_BULLET_SPEED = 22;
 
   const WEAPONS = {
-    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:30, ammo:12, cooldown:0.25, reload:1.2, color:0x2b2b2b },
-    shotgun:{ id:'shotgun', name:'Дробовик', price:800,  damage:50, ammo:8,  cooldown:0.6,  reload:2.0, color:0x6b4c3b },
-    rifle:  { id:'rifle', name:'AK-47', price:1500, damage:35, ammo:30, cooldown:0.15, reload:2.0, color:0x3f4a34 },
-    sniper: { id:'sniper', name:'AWP', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111 }
+    pistol: { id:'pistol', name:'Пистолет', price:0,    damage:28, ammo:12, cooldown:0.4,  reload:1.2, color:0x2b2b2b, pellets:1, spreadDeg:0, burst:2, burstDelay:0.09 },
+    shotgun:{ id:'shotgun', name:'Дробовик', price:800,  damage:14, ammo:8,  cooldown:0.6,  reload:2.0, color:0x6b4c3b, pellets:6, spreadDeg:15, burst:1, burstDelay:0 },
+    rifle:  { id:'rifle', name:'AK-47', price:1500, damage:30, ammo:30, cooldown:0.45, reload:2.0, color:0x3f4a34, pellets:1, spreadDeg:0, burst:3, burstDelay:0.07 },
+    sniper: { id:'sniper', name:'AWP', price:2500, damage:100, ammo:5, cooldown:0.9, reload:2.5, color:0x111111, pellets:1, spreadDeg:0, burst:1, burstDelay:0 }
   };
   const VESTS = {
     none: { id:'none', name:'Без бронежилета', price:0, reduction:0, color:null },
@@ -1451,20 +1604,39 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const group=new THREE.Group(), parts={};
     const legMat=new THREE.MeshStandardMaterial({color:0x22262e, roughness:0.8});
     const legGeo=new THREE.BoxGeometry(0.2,0.75,0.22);
+    // ноги крепим через pivot-группу, смещённую к бедру, чтобы вращение при ходьбе
+    // качало ногу от бедра, а не от центра меша (иначе шаг выглядел бы неестественно)
     const legL=new THREE.Mesh(legGeo,legMat);
-    legL.position.set(-0.15,0.375,0); legL.castShadow=true;
-    const legR=legL.clone(); legR.position.x=0.15;
-    group.add(legL,legR);
+    legL.position.y=-0.375; legL.castShadow=true;
+    const legLPivot=new THREE.Group();
+    legLPivot.position.set(-0.15,0.75,0);
+    legLPivot.add(legL);
+    const legR=new THREE.Mesh(legGeo,legMat.clone());
+    legR.position.y=-0.375; legR.castShadow=true;
+    const legRPivot=new THREE.Group();
+    legRPivot.position.set(0.15,0.75,0);
+    legRPivot.add(legR);
+    group.add(legLPivot,legRPivot);
+    parts.legL=legLPivot; parts.legR=legRPivot;
     const torsoMat=new THREE.MeshStandardMaterial({color:uniformColor, roughness:0.7});
     const torso=new THREE.Mesh(new THREE.BoxGeometry(0.56,0.62,0.32),torsoMat);
     torso.position.y=1.06; torso.castShadow=true;
     group.add(torso); parts.torso=torso;
     const armMat=new THREE.MeshStandardMaterial({color:uniformColor, roughness:0.7});
     const armGeo=new THREE.BoxGeometry(0.16,0.6,0.18);
+    // руки тоже через pivot у плеча, для естественного взмаха при ходьбе
     const armL=new THREE.Mesh(armGeo,armMat);
-    armL.position.set(-0.38,1.05,0); armL.castShadow=true;
-    const armR=armL.clone(); armR.position.x=0.38;
-    group.add(armL,armR); parts.armR=armR;
+    armL.position.y=-0.3; armL.castShadow=true;
+    const armLPivot=new THREE.Group();
+    armLPivot.position.set(-0.38,1.35,0);
+    armLPivot.add(armL);
+    const armR=new THREE.Mesh(armGeo,armMat.clone());
+    armR.position.y=-0.3; armR.castShadow=true;
+    const armRPivot=new THREE.Group();
+    armRPivot.position.set(0.38,1.35,0);
+    armRPivot.add(armR);
+    group.add(armLPivot,armRPivot);
+    parts.armL=armLPivot; parts.armR=armRPivot;
     const headMat=new THREE.MeshStandardMaterial({color:skinColor, roughness:0.75});
     const head=new THREE.Mesh(new THREE.SphereGeometry(0.22,14,14),headMat);
     head.position.y=1.62; head.castShadow=true;
@@ -1484,10 +1656,39 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     return {group, parts};
   }
 
+  // Простая процедурная анимация ходьбы: ноги и руки качаются в противофазе
+  // (левая нога вперёд — правая рука вперёд), при остановке плавно возвращаются в нейтраль
+  function animateWalk(parts, walkState, isMoving, dt){
+    if(!parts || !parts.legL) return;
+    const SWING_SPEED = 9;
+    const LEG_AMP = 0.5;
+    const ARM_AMP = 0.32;
+    if(isMoving){
+      walkState.t += dt * SWING_SPEED;
+      const s = Math.sin(walkState.t);
+      parts.legL.rotation.x = s * LEG_AMP;
+      parts.legR.rotation.x = -s * LEG_AMP;
+      if(parts.armL) parts.armL.rotation.x = -s * ARM_AMP;
+      if(parts.armR) parts.armR.rotation.x = s * ARM_AMP * 0.6; // правая рука держит оружие, качается меньше
+    } else {
+      parts.legL.rotation.x *= 0.75;
+      parts.legR.rotation.x *= 0.75;
+      if(parts.armL) parts.armL.rotation.x *= 0.75;
+      if(parts.armR) parts.armR.rotation.x *= 0.75;
+      if(Math.abs(parts.legL.rotation.x) < 0.01){
+        parts.legL.rotation.x = 0; parts.legR.rotation.x = 0;
+        if(parts.armL) parts.armL.rotation.x = 0;
+        if(parts.armR) parts.armR.rotation.x = 0;
+        walkState.t = 0;
+      }
+    }
+  }
+
   function createPlayer(){
     const built=createHumanoid(0xe0a878,0x2b5bd6,true);
     const group=built.group;
     playerParts=built.parts;
+    playerWalkState = { t: 0 };
     const tag=makeNameSprite(playerNick,'#7ec8ff');
     group.add(tag);
     group.position.set(0,0,0);
@@ -1519,7 +1720,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       owned:{ weapons:['pistol'], vests:['none','light'], helmets:['none'] },
       ammo:weapon.ammo, maxAmmo:weapon.ammo,
       reloading:false, reloadTimer:0, fireTimer:0, kills:0, alive:true,
-      money:START_MONEY, aimDir:new THREE.Vector3(0,0,1)
+      money:START_MONEY, aimDir:new THREE.Vector3(0,0,1), burstQueue:null
     };
   }
 
@@ -1543,7 +1744,8 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     return {
       mesh:group, parts:built.parts, hp:30, maxHp:30, alive:true,
       state:'patrol', target:randomFreeSpot(),
-      shootTimer:Math.random()*BOT_SHOOT_INTERVAL, respawnTimer:0, vestId, helmetId
+      shootTimer:Math.random()*BOT_SHOOT_INTERVAL, respawnTimer:0, vestId, helmetId,
+      walkState:{ t: Math.random()*10 }
     };
   }
 
@@ -1591,18 +1793,57 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     if(hit) mouseGroundPoint.copy(hit);
   }
 
-  function tryShoot(){
-    if(!playerState.alive||playerState.reloading||playerState.fireTimer>0) return;
-    if(playerState.ammo<=0){ tryReload(); return; }
-    const weapon=WEAPONS[playerState.weaponId];
-    playerState.ammo--; playerState.fireTimer=weapon.cooldown; updateHud();
-    const dir=playerState.aimDir.clone().normalize();
-    spawnBullet(player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7)),dir,true,weapon.damage);
-    const wType=playerState.weaponId;
+  // Один "залп" оружия: либо одна точная пуля, либо веер дроби (для дробовика).
+  // Используется и первым выстрелом очереди, и последующими выстрелами очереди из updatePlayer().
+  function fireWeaponShot(weapon, dir, wType){
+    const origin=player.position.clone().add(new THREE.Vector3(0,1.0,0)).add(dir.clone().multiplyScalar(0.7));
+    const pellets = weapon.pellets || 1;
+    if (pellets <= 1) {
+      spawnBullet(origin, dir, true, weapon.damage);
+    } else {
+      // дробовик: несколько пуль веером внутри конуса прицеливания,
+      // как выстрел Шелли в Brawl Stars — несколько дробинок вместо одной пули
+      const spreadRad = THREE.MathUtils.degToRad(weapon.spreadDeg || 15);
+      for (let i = 0; i < pellets; i++) {
+        // равномерно распределяем дробинки по сектору + небольшая случайность для естественного разброса
+        const t = pellets === 1 ? 0 : (i/(pellets-1))*2 - 1; // от -1 до 1
+        const angle = t * spreadRad + (Math.random()-0.5) * spreadRad * 0.15;
+        const cos = Math.cos(angle), sin = Math.sin(angle);
+        const pelletDir = new THREE.Vector3(dir.x*cos - dir.z*sin, 0, dir.x*sin + dir.z*cos).normalize();
+        spawnBullet(origin.clone(), pelletDir, true, weapon.damage);
+      }
+    }
     if(wType==='pistol') playSound('shoot_pistol');
     else if(wType==='shotgun') playSound('shoot_shotgun');
     else if(wType==='rifle') playSound('shoot_rifle');
     else if(wType==='sniper') playSound('shoot_sniper');
+  }
+
+  function tryShoot(){
+    if(!playerState.alive||playerState.reloading||playerState.fireTimer>0) return;
+    if(playerState.ammo<=0){ tryReload(); return; }
+    const weapon=WEAPONS[playerState.weaponId];
+    const wType=playerState.weaponId;
+    const dir=playerState.aimDir.clone().normalize();
+
+    // очередь: пистолет и АК выпускают несколько пуль подряд за один "выстрел",
+    // дробовик и снайперка — как раньше, один залп
+    const burstTotal = weapon.burst || 1;
+    const shotsToFire = Math.min(burstTotal, playerState.ammo);
+    playerState.ammo -= shotsToFire;
+    playerState.fireTimer = weapon.cooldown;
+    updateHud();
+
+    fireWeaponShot(weapon, dir, wType);
+
+    if (shotsToFire > 1) {
+      playerState.burstQueue = {
+        remaining: shotsToFire - 1,
+        dir: dir.clone(),
+        weapon, wType,
+        timer: weapon.burstDelay || 0.08
+      };
+    }
   }
 
   function tryReload(){
@@ -1705,14 +1946,15 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       const distToPlayer=playerState.alive?bot.mesh.position.distanceTo(new THREE.Vector3(player.position.x,0,player.position.z)):Infinity;
       if(distToPlayer<BOT_DETECT_RADIUS&&playerState.alive) bot.state='attack';
       else if(distToPlayer>BOT_DETECT_RADIUS*1.3) bot.state='patrol';
+      let botIsMoving=false;
       if(bot.state==='patrol'){
         const toTarget=bot.target.clone().sub(bot.mesh.position); toTarget.y=0;
         if(toTarget.length()<0.5){ bot.target=randomFreeSpot(); }
-        else { toTarget.normalize(); const newPos=bot.mesh.position.clone().add(toTarget.multiplyScalar(BOT_SPEED*0.5*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); bot.mesh.rotation.y=Math.atan2(toTarget.x,toTarget.z); }
+        else { botIsMoving=true; toTarget.normalize(); const newPos=bot.mesh.position.clone().add(toTarget.multiplyScalar(BOT_SPEED*0.5*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); bot.mesh.rotation.y=Math.atan2(toTarget.x,toTarget.z); }
       } else if(bot.state==='attack'){
         const toPlayer=new THREE.Vector3(player.position.x-bot.mesh.position.x,0,player.position.z-bot.mesh.position.z);
         const dist=toPlayer.length(); toPlayer.normalize(); bot.mesh.rotation.y=Math.atan2(toPlayer.x,toPlayer.z);
-        if(dist>5){ const newPos=bot.mesh.position.clone().add(toPlayer.clone().multiplyScalar(BOT_SPEED*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); }
+        if(dist>5){ botIsMoving=true; const newPos=bot.mesh.position.clone().add(toPlayer.clone().multiplyScalar(BOT_SPEED*dt)); resolveCollisions(newPos,0.45); bot.mesh.position.copy(newPos); }
         bot.shootTimer-=dt;
         if(bot.shootTimer<=0){
           bot.shootTimer=BOT_SHOOT_INTERVAL+(Math.random()*0.4-0.2);
@@ -1720,6 +1962,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
           spawnBullet(origin,toPlayer,false,10);
         }
       }
+      animateWalk(bot.parts, bot.walkState, botIsMoving, dt);
     }
   }
 
@@ -1727,33 +1970,68 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   function updatePlayer(dt){
     if(!playerState.alive) return;
     const move = new THREE.Vector3(0,0,0);
+    let joystickMove = false;
     if (device === 'pc') {
       if(keys['KeyW']) move.z-=1;
       if(keys['KeyS']) move.z+=1;
       if(keys['KeyA']) move.x-=1;
       if(keys['KeyD']) move.x+=1;
     } else {
-      // управление джойстиком
+      // управление джойстиком: аналоговое, пропорциональное отклонению стика,
+      // с небольшой мёртвой зоной у центра
       if (joystick.active) {
         const jx = joystick.dx, jy = joystick.dy;
         const len = Math.sqrt(jx*jx + jy*jy);
-        if (len > 0.2) {
-          const norm = Math.min(1, len);
-          move.x = (jx / len) * PLAYER_SPEED * norm * dt * 5;
-          move.z = -(jy / len) * PLAYER_SPEED * norm * dt * 5;
+        const DEADZONE = 0.15;
+        if (len > DEADZONE) {
+          joystickMove = true;
+          // сила отклонения от 0 (на краю мёртвой зоны) до 1 (полное отклонение стика)
+          const strength = Math.min(1, (len - DEADZONE) / (1 - DEADZONE));
+          // dy на экране положителен, когда палец ниже центра (вниз) —
+          // это соответствует "назад" (move.z += 1), поэтому знак НЕ инвертируем
+          move.x = (jx / len) * strength;
+          move.z = (jy / len) * strength;
         }
       }
     }
     if (move.lengthSq() > 0) {
-      move.normalize().multiplyScalar(PLAYER_SPEED * dt);
-      const newPos = player.position.clone().add(move);
-      resolveCollisions(newPos, 0.45);
-      player.position.copy(newPos);
+      if (joystickMove) {
+        // джойстик уже даёт нормированное направление + аналоговую силу — применяем как есть,
+        // без normalize(), чтобы лёгкое отклонение стика двигало персонажа медленно и плавно
+        const newPos = player.position.clone().add(move.clone().multiplyScalar(PLAYER_SPEED * dt));
+        resolveCollisions(newPos, 0.45);
+        player.position.copy(newPos);
+      } else {
+        move.normalize().multiplyScalar(PLAYER_SPEED * dt);
+        const newPos = player.position.clone().add(move);
+        resolveCollisions(newPos, 0.45);
+        player.position.copy(newPos);
+      }
     }
-    const dir = new THREE.Vector3(mouseGroundPoint.x - player.position.x, 0, mouseGroundPoint.z - player.position.z);
-    if(dir.lengthSq()>0.0001){ dir.normalize(); playerState.aimDir.copy(dir); player.rotation.y=Math.atan2(dir.x,dir.z); }
+    if (device === 'pc') {
+      const dir = new THREE.Vector3(mouseGroundPoint.x - player.position.x, 0, mouseGroundPoint.z - player.position.z);
+      if(dir.lengthSq()>0.0001){ dir.normalize(); playerState.aimDir.copy(dir); player.rotation.y=Math.atan2(dir.x,dir.z); }
+    }
+    // на телефоне направление прицеливания и поворот персонажа обновляются
+    // напрямую из джойстика прицеливания (см. updateAimJoystick), здесь не трогаем
     if(playerState.fireTimer>0) playerState.fireTimer-=dt;
     if(playerState.reloading){ playerState.reloadTimer-=dt; if(playerState.reloadTimer<=0){ playerState.reloading=false; playerState.ammo=playerState.maxAmmo; document.getElementById('reloadMsg').style.display='none'; updateHud(); } }
+
+    // очередь: остальные пули очереди (пистолет/АК) вылетают одна за другой с небольшой задержкой
+    if (playerState.burstQueue && playerState.burstQueue.remaining > 0) {
+      const bq = playerState.burstQueue;
+      bq.timer -= dt;
+      if (bq.timer <= 0) {
+        fireWeaponShot(bq.weapon, bq.dir, bq.wType);
+        bq.remaining--;
+        bq.timer = bq.weapon.burstDelay || 0.08;
+        if (bq.remaining <= 0) playerState.burstQueue = null;
+      }
+    }
+
+    // анимация ходьбы: ноги и руки качаются, пока персонаж реально перемещается
+    if (!playerWalkState) playerWalkState = { t: 0 };
+    animateWalk(playerParts, playerWalkState, move.lengthSq() > 0.0001, dt);
   }
 
   const camOffset=new THREE.Vector3(0,17,13);
@@ -1774,6 +2052,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
   function onPlayerDeath(){
     gameRunning=false; paused=false;
+    aimJoystick.active = false; aimJoystick.touchId = null; aimJoystick.dx = 0; aimJoystick.dy = 0;
+    hideAimGuide();
+    if (playerState) playerState.burstQueue = null;
     const earned=playerState.kills*KILL_REWARD;
     addGlobalBalance(earned);
     document.getElementById('finalKills').textContent=playerState.kills;
@@ -1871,12 +2152,19 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     paused = false;
     gameRunning = true;
     clock.getDelta();
+
+    // гарантируем, что музыка звучит во время боя, даже если первый клик
+    // по странице ещё не запустил её (например, игрок сразу нажал Enter)
+    initAudio();
+    if (!musicPlaying && musicVolume > 0) startMusic();
   }
 
   function returnToMenu(){
     gameRunning = false;
     shopOpen = false;
     paused = false;
+    aimJoystick.active = false; aimJoystick.touchId = null; aimJoystick.dx = 0; aimJoystick.dy = 0;
+    hideAimGuide();
     document.getElementById('gameOver').style.display = 'none';
     document.getElementById('shopOverlay').style.display = 'none';
     document.getElementById('pauseOverlay').style.display = 'none';
@@ -1930,16 +2218,37 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     document.getElementById('deviceMenu').style.display = 'none';
     document.getElementById('menu').style.display = 'flex';
     if (device === 'phone') {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(() => {});
+      // ВАЖНО: screen.orientation.lock() на многих мобильных браузерах (особенно iOS Safari)
+      // выбрасывает СИНХРОННУЮ ошибку вместо отклонённого промиса, если вызван вне
+      // полноэкранного режима или не поддерживается вовсе. Без try/catch это обрывало
+      // всю функцию selectDevice() и игра не запускалась. Оборачиваем в try/catch,
+      // чтобы сбой блокировки ориентации никогда не мешал остальной инициализации.
+      try {
+        if (screen.orientation && screen.orientation.lock) {
+          const lockPromise = screen.orientation.lock('landscape');
+          if (lockPromise && typeof lockPromise.catch === 'function') {
+            lockPromise.catch(() => {});
+          }
+        }
+      } catch (err) {
+        console.warn('Блокировка ориентации экрана недоступна на этом устройстве:', err);
       }
       document.getElementById('touchControls').style.display = 'block';
-      initTouchControls();
+      try {
+        initTouchControls();
+      } catch (err) {
+        console.error('Ошибка инициализации сенсорного управления:', err);
+      }
     } else {
       document.getElementById('touchControls').style.display = 'none';
     }
     // Инициализируем игру, если ещё не
-    if (!scene) initScene();
+    try {
+      if (!scene) initScene();
+    } catch (err) {
+      console.error('Ошибка инициализации 3D-сцены:', err);
+      showToast('❌ Не удалось запустить графику на этом устройстве');
+    }
     updateBalanceDisplay();
     renderMaps();
     renderSkinShop();
@@ -1951,7 +2260,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   function initTouchControls() {
     const joystickBase = document.getElementById('joystickBase');
     const joystickThumb = document.getElementById('joystickThumb');
-    const touchAim = document.getElementById('touchAim');
 
     joystickBase.addEventListener('touchstart', (e) => {
       e.preventDefault();
@@ -1997,30 +2305,89 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       joystickThumb.style.transform = `translate(${-50 + normX*50}%, ${-50 + normY*50}%)`;
     }
 
-    // Прицеливание касанием
-    touchAim.addEventListener('touchstart', (e) => {
-      if (device !== 'phone') return;
-      const t = e.changedTouches[0];
-      const rect = touchAim.getBoundingClientRect();
-      const mx = (t.clientX - rect.left) / rect.width * 2 - 1;
-      const my = -(t.clientY - rect.top) / rect.height * 2 + 1;
-      mouse.x = mx; mouse.y = my;
-    }, { passive: true });
+    // ===== Джойстик прицеливания/стрельбы (в стиле Brawl Stars) =====
+    // Тянешь стик в сторону цели — на земле рисуется "поле" (линия + кольцо-прицел),
+    // показывающее направление и дальность. Отпускаешь палец — происходит выстрел
+    // именно в том направлении, куда был оттянут стик.
+    const aimBase = document.getElementById('aimJoystickBase');
+    const aimThumb = document.getElementById('aimJoystickThumb');
 
-    touchAim.addEventListener('touchmove', (e) => {
+    aimBase.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       if (device !== 'phone') return;
       const t = e.changedTouches[0];
-      const rect = touchAim.getBoundingClientRect();
-      const mx = (t.clientX - rect.left) / rect.width * 2 - 1;
-      const my = -(t.clientY - rect.top) / rect.height * 2 + 1;
-      mouse.x = mx; mouse.y = my;
-    }, { passive: true });
+      aimJoystick.touchId = t.identifier;
+      aimJoystick.active = true;
+      updateAimJoystick(t.clientX, t.clientY);
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!aimJoystick.active) return;
+      for (let t of e.changedTouches) {
+        if (t.identifier === aimJoystick.touchId) {
+          updateAimJoystick(t.clientX, t.clientY);
+        }
+      }
+    }, { passive: false });
+
+    document.addEventListener('touchend', (e) => {
+      for (let t of e.changedTouches) {
+        if (t.identifier === aimJoystick.touchId) {
+          releaseAimJoystick();
+        }
+      }
+    }, { passive: false });
+
+    document.addEventListener('touchcancel', (e) => {
+      for (let t of e.changedTouches) {
+        if (t.identifier === aimJoystick.touchId) {
+          releaseAimJoystick();
+        }
+      }
+    }, { passive: false });
+
+    function updateAimJoystick(cx, cy) {
+      const rect = aimBase.getBoundingClientRect();
+      const centerX = rect.left + rect.width/2;
+      const centerY = rect.top + rect.height/2;
+      let dx = cx - centerX;
+      let dy = cy - centerY;
+      const maxR = rect.width/2 - 18;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist > maxR) { dx = dx/dist*maxR; dy = dy/dist*maxR; }
+      const normX = dx / maxR;
+      const normY = dy / maxR;
+      aimJoystick.dx = normX;
+      aimJoystick.dy = normY;
+      aimThumb.style.transform = `translate(${-50 + normX*50}%, ${-50 + normY*50}%)`;
+
+      const len = Math.sqrt(normX*normX + normY*normY);
+      if (len > 0.05 && playerState && playerState.alive && player) {
+        // экранные dx/dy соответствуют мировым осям x/z точно так же, как у джойстика
+        // движения (тот же принцип наведения камеры сверху), поэтому знак не инвертируем
+        const dirX = normX / len, dirZ = normY / len;
+        playerState.aimDir.set(dirX, 0, dirZ).normalize();
+        player.rotation.y = Math.atan2(dirX, dirZ);
+        const strength = Math.min(1, len);
+        showAimGuide(player.position, playerState.aimDir, strength * AIM_GUIDE_RANGE);
+      }
+    }
+
+    function releaseAimJoystick() {
+      if (!aimJoystick.active) return;
+      aimJoystick.active = false;
+      aimJoystick.dx = 0; aimJoystick.dy = 0;
+      aimJoystick.touchId = null;
+      aimThumb.style.transform = 'translate(-50%, -50%)';
+      hideAimGuide();
+      // выстрел при отпускании стика — если стик почти не тянули, стреляем
+      // в том направлении, куда персонаж уже смотрит
+      if (device === 'phone' && gameRunning && !shopOpen && !paused) {
+        tryShoot();
+      }
+    }
 
     // Кнопки
-    document.getElementById('fireBtn').addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      if (device === 'phone') tryShoot();
-    }, { passive: false });
     document.getElementById('reloadBtn').addEventListener('touchstart', (e) => {
       e.preventDefault();
       tryReload();
@@ -2029,6 +2396,68 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       e.preventDefault();
       toggleShop();
     }, { passive: false });
+  }
+
+  // ===== 3D-индикатор прицела на земле: белый полупрозрачный треугольник-конус,
+  // как сектор поражения у Шелли в Brawl Stars =====
+  const AIM_CONE_HALF_ANGLE = THREE.MathUtils ? THREE.MathUtils.degToRad(15) : (15 * Math.PI/180);
+
+  function initAimGuide() {
+    if (aimGuideLine) return;
+    const fillGeo = new THREE.BufferGeometry();
+    fillGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(9), 3));
+    const fillMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff, transparent: true, opacity: 0.32,
+      side: THREE.DoubleSide, depthWrite: false
+    });
+    aimGuideLine = new THREE.Mesh(fillGeo, fillMat); // переиспользуем переменную под треугольник-заливку
+    aimGuideLine.visible = false;
+    aimGuideLine.renderOrder = 1;
+    scene.add(aimGuideLine);
+
+    const outlineGeo = new THREE.BufferGeometry();
+    outlineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(12), 3));
+    const outlineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
+    aimGuideRing = new THREE.LineLoop(outlineGeo, outlineMat); // переиспользуем переменную под контур
+    aimGuideRing.visible = false;
+    scene.add(aimGuideRing);
+  }
+
+  function showAimGuide(originVec3, dirVec3, length) {
+    if (!aimGuideLine) initAimGuide();
+
+    const dx = dirVec3.x, dz = dirVec3.z;
+    const cos = Math.cos(AIM_CONE_HALF_ANGLE), sin = Math.sin(AIM_CONE_HALF_ANGLE);
+    // поворот вектора направления на +/- половину угла раствора конуса (вокруг оси Y)
+    const leftX = dx*cos - dz*sin,  leftZ = dx*sin + dz*cos;
+    const rightX = dx*cos + dz*sin, rightZ = -dx*sin + dz*cos;
+
+    const y = 0.06;
+    const ax = originVec3.x, az = originVec3.z;
+    const lx = originVec3.x + leftX*length,  lz = originVec3.z + leftZ*length;
+    const rx = originVec3.x + rightX*length, rz = originVec3.z + rightZ*length;
+
+    const fillPos = aimGuideLine.geometry.attributes.position.array;
+    fillPos[0]=ax; fillPos[1]=y; fillPos[2]=az;
+    fillPos[3]=lx; fillPos[4]=y; fillPos[5]=lz;
+    fillPos[6]=rx; fillPos[7]=y; fillPos[8]=rz;
+    aimGuideLine.geometry.attributes.position.needsUpdate = true;
+    aimGuideLine.geometry.computeBoundingSphere();
+    aimGuideLine.visible = true;
+
+    const outPos = aimGuideRing.geometry.attributes.position.array;
+    outPos[0]=ax; outPos[1]=y; outPos[2]=az;
+    outPos[3]=lx; outPos[4]=y; outPos[5]=lz;
+    outPos[6]=rx; outPos[7]=y; outPos[8]=rz;
+    outPos[9]=ax; outPos[10]=y; outPos[11]=az;
+    aimGuideRing.geometry.attributes.position.needsUpdate = true;
+    aimGuideRing.geometry.computeBoundingSphere();
+    aimGuideRing.visible = true;
+  }
+
+  function hideAimGuide() {
+    if (aimGuideLine) aimGuideLine.visible = false;
+    if (aimGuideRing) aimGuideRing.visible = false;
   }
 
   // ============ UI HOOKS ============
