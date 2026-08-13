@@ -146,6 +146,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .skin-shop-card:hover { border-color:#ff8c1a; }
 .skin-shop-card .scolor {
   width:40px; height:40px; border-radius:8px; border:2px solid #444; margin:0 auto 6px;
+  object-fit:cover; display:block;
 }
 .skin-shop-card .sname { color:#fff; font-size:14px; font-weight:bold; }
 .skin-shop-card .srarity {
@@ -194,6 +195,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 .inv-item:hover { border-color:#ff8c1a; background:rgba(30,25,18,0.8); }
 .inv-item .icolor {
   width:24px; height:24px; border-radius:4px; border:1px solid #444; flex-shrink:0;
+  object-fit:cover; display:block;
 }
 .inv-item .iname { color:#fff; font-size:13px; flex:1; text-align:left; }
 .inv-item .irarity { font-size:10px; font-weight:bold; }
@@ -203,6 +205,11 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 .inv-item .iapply:hover { background:#2a4a2a; color:#b6ff9e; }
 .inv-item .iequipped { color:#ff8c1a; font-size:11px; font-weight:bold; }
+.inv-item .isell {
+  color:#ff8080; font-size:11px; cursor:pointer; padding:2px 10px;
+  border:1px solid #4a2a2a; border-radius:4px; background:rgba(50,25,25,0.3); margin-left:4px;
+}
+.inv-item .isell:hover { background:#4a2a2a; color:#ffb0b0; }
 .inv-preview {
   flex:0 0 160px; background:rgba(10,9,8,0.8); border:1px solid #2a2620; border-radius:8px;
   padding:12px; text-align:center;
@@ -210,10 +217,30 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 .inv-preview .pcolor {
   width:70px; height:70px; border-radius:8px; border:2px solid #555; margin:0 auto 6px;
+  object-fit:cover; display:block;
 }
 .inv-preview .pname { color:#fff; font-size:14px; font-weight:bold; }
 .inv-preview .pweapon { color:#888; font-size:12px; }
 .inv-empty { color:#666; font-size:14px; padding:16px 0; text-align:center; }
+
+/* ===== LEADERBOARD ===== */
+.leaderboard-list {
+  display:flex; flex-direction:column; gap:6px;
+  max-height:360px; overflow-y:auto; padding-right:6px;
+  scrollbar-width:thin; scrollbar-color:#ff8c1a #1a1a1a;
+}
+.leaderboard-list::-webkit-scrollbar { width:4px; }
+.leaderboard-list::-webkit-scrollbar-track { background:#1a1a1a; }
+.leaderboard-list::-webkit-scrollbar-thumb { background:#ff8c1a; border-radius:2px; }
+.leaderboard-row {
+  display:flex; align-items:center; gap:12px;
+  background:rgba(20,18,14,0.6); border:1px solid #2a2620; border-radius:6px;
+  padding:10px 16px;
+}
+.leaderboard-row.lb-you { border-color:#ff8c1a; background:rgba(255,140,26,0.1); }
+.leaderboard-row .lb-rank { font-size:16px; font-weight:bold; color:#ffb86b; min-width:34px; text-align:center; }
+.leaderboard-row .lb-name { flex:1; color:#fff; font-size:14px; text-align:left; }
+.leaderboard-row .lb-kills { color:#ff8c8c; font-size:13px; font-weight:bold; }
 
 /* ===== CASE SHOP ===== */
 .case-shop-grid {
@@ -245,7 +272,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 }
 #caseOpenBox {
   background:#1a1713; border:2px solid #ff8c1a; border-radius:16px;
-  padding:30px 40px; max-width:540px; width:92%; text-align:center;
+  padding:30px 40px; max-width:640px; width:94%; text-align:center;
   box-shadow:0 0 80px rgba(255,140,26,0.3);
 }
 #caseOpenBox .title {
@@ -256,26 +283,50 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   color:#999; font-size:14px; margin-bottom:12px;
 }
 #caseOpenBox .spin-container {
-  position:relative; height:100px; overflow:hidden; margin:10px 0;
+  position:relative; height:132px; overflow:hidden; margin:10px 0;
   border-top:2px solid #333; border-bottom:2px solid #333;
-  background:rgba(0,0,0,0.4);
+  background:linear-gradient(180deg,#0c0b09,#161310);
 }
+#caseOpenBox .spin-container::before,
+#caseOpenBox .spin-container::after {
+  content:''; position:absolute; top:0; bottom:0; width:60px; z-index:3; pointer-events:none;
+}
+#caseOpenBox .spin-container::before { left:0; background:linear-gradient(90deg, #1a1713 0%, transparent 100%); }
+#caseOpenBox .spin-container::after { right:0; background:linear-gradient(270deg, #1a1713 0%, transparent 100%); }
+#caseOpenBox .spin-pointer {
+  position:absolute; left:50%; top:0; bottom:0; width:3px; margin-left:-1.5px;
+  background:#ff8c1a; z-index:4; box-shadow:0 0 12px rgba(255,140,26,0.9); pointer-events:none;
+}
+#caseOpenBox .spin-pointer::before,
+#caseOpenBox .spin-pointer::after {
+  content:''; position:absolute; left:50%; margin-left:-8px; width:0; height:0;
+  border-left:8px solid transparent; border-right:8px solid transparent;
+}
+#caseOpenBox .spin-pointer::before { top:-2px; border-top:10px solid #ff8c1a; }
+#caseOpenBox .spin-pointer::after { bottom:-2px; border-bottom:10px solid #ff8c1a; }
 #caseOpenBox .spin-track {
-  display:flex; transition:transform 0.1s; height:100px; align-items:center;
+  display:flex; height:132px; align-items:center; will-change:transform;
 }
 #caseOpenBox .spin-item {
-  flex:0 0 100px; text-align:center; font-size:28px; color:#fff;
+  flex:0 0 108px; width:108px; margin:0 6px; text-align:center; color:#fff;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.03); border-radius:8px; padding:8px 4px;
+  border:2px solid #444; box-sizing:border-box;
 }
-#caseOpenBox .spin-item .sname { font-size:11px; color:#ccc; margin-top:2px; }
+#caseOpenBox .spin-item.spin-winner {
+  box-shadow:0 0 20px currentColor; animation:winnerPulse 0.6s ease-in-out 2;
+}
+@keyframes winnerPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.08); } }
+#caseOpenBox .spin-item .sname { font-size:10.5px; color:#ccc; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
 #caseOpenBox .spin-item .scolor {
-  width:30px; height:30px; border-radius:4px; border:1px solid #555; margin-bottom:2px;
+  width:64px; height:64px; border-radius:6px; object-fit:cover; display:block;
 }
 #caseOpenBox .result {
   margin-top:16px; font-size:18px; font-weight:bold; color:#fff;
 }
 #caseOpenBox .result .rcolor {
-  display:inline-block; width:24px; height:24px; border-radius:4px; vertical-align:middle; margin-right:8px;
+  display:inline-block; width:40px; height:40px; border-radius:6px; vertical-align:middle; margin-right:8px;
+  object-fit:cover;
 }
 #caseOpenBox .result .rrarity { font-weight:bold; }
 #caseOpenBox .close-case-btn {
@@ -517,6 +568,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       <button class="tab" data-tab="shop">Магазин</button>
       <button class="tab" data-tab="inventory">Инвентарь</button>
       <button class="tab" data-tab="cases">Кейсы</button>
+      <button class="tab" data-tab="leaderboard">Лидеры</button>
       <button class="tab" data-tab="settings">Настройки</button>
     </div>
     <div id="tab-play" class="tab-panel active">
@@ -538,6 +590,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     </div>
     <div id="tab-cases" class="tab-panel">
       <div id="caseContainer" class="case-shop-grid"></div>
+    </div>
+    <div id="tab-leaderboard" class="tab-panel">
+      <div id="leaderboardContainer" class="leaderboard-list"></div>
     </div>
     <div id="tab-settings" class="tab-panel">
       <div id="settingsPanel">
@@ -566,6 +621,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     <div class="sub" id="caseSub">Вращение...</div>
     <div class="spin-container" id="spinContainer">
       <div class="spin-track" id="spinTrack"></div>
+      <div class="spin-pointer"></div>
     </div>
     <div class="result" id="caseResult"></div>
     <button class="close-case-btn" id="closeCaseBtn">Отлично!</button>
@@ -640,7 +696,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   <button class="touchBtn shop" id="shopTouchBtn">🛒</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
   'use strict';
@@ -900,6 +956,49 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     updateBalanceDisplay();
   }
 
+  // ============ ТАБЛИЦА ЛИДЕРОВ (по убийствам ботов) ============
+  function loadLeaderboard() {
+    try {
+      const raw = localStorage.getItem('contra_leaderboard');
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+  function saveLeaderboard(data) {
+    localStorage.setItem('contra_leaderboard', JSON.stringify(data));
+  }
+  function recordLeaderboardKills(nick, kills) {
+    if (!kills || kills <= 0) return;
+    const data = loadLeaderboard();
+    const key = nick || 'Player';
+    data[key] = (data[key] || 0) + kills;
+    saveLeaderboard(data);
+  }
+  function renderLeaderboard() {
+    const container = document.getElementById('leaderboardContainer');
+    container.innerHTML = '';
+    const data = loadLeaderboard();
+    const entries = Object.keys(data)
+      .map(nick => ({ nick, kills: data[nick] }))
+      .sort((a, b) => b.kills - a.kills);
+
+    if (entries.length === 0) {
+      container.innerHTML = '<div class="inv-empty">Пока никто не убил ни одного бота. Сыграйте матч, чтобы попасть в таблицу!</div>';
+      return;
+    }
+
+    entries.forEach((e, i) => {
+      const row = document.createElement('div');
+      row.className = 'leaderboard-row' + (e.nick === playerNick ? ' lb-you' : '');
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+      row.innerHTML = `
+        <span class="lb-rank">${medal}</span>
+        <span class="lb-name">${e.nick}</span>
+        <span class="lb-kills">💀 ${e.kills}</span>
+      `;
+      container.appendChild(row);
+    });
+  }
+
   // ============ UI ============
   function updateBalanceDisplay() {
     document.getElementById('globalBalance').textContent = getGlobalBalance();
@@ -925,6 +1024,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     shop: document.getElementById('tab-shop'),
     inventory: document.getElementById('tab-inventory'),
     cases: document.getElementById('tab-cases'),
+    leaderboard: document.getElementById('tab-leaderboard'),
     settings: document.getElementById('tab-settings')
   };
   tabs.forEach(btn => {
@@ -937,6 +1037,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       if (tab === 'inventory') renderInventory();
       if (tab === 'cases') renderCases();
       if (tab === 'maps') renderMaps();
+      if (tab === 'leaderboard') renderLeaderboard();
     });
   });
 
@@ -1165,12 +1266,36 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const inv = loadInventory();
     inv.equipped[wType] = skinId;
     saveInventory(inv);
-    if (gameRunning && playerParts) {
-      const skin = SKINS[wType].find(s => s.id === skinId);
-      if (skin) playerParts.gun.material.color.setHex(skin.color);
+    if (gameRunning && playerParts && playerState && playerState.weaponId === wType) {
+      applyPlayerLoadout();
     }
     const skin = SKINS[wType].find(s => s.id === skinId);
     showToast(`🎨 Скин "${skin.name}" применён к ${WEAPON_NAMES[wType]}`, skin.color);
+    renderInventory();
+    renderSkinShop();
+  }
+
+  function sellSkin(wType, skinId, price, name) {
+    const inv = loadInventory();
+    const idx = (inv.weapons[wType] || []).indexOf(skinId);
+    if (idx === -1) return;
+
+    const sellPrice = Math.round(price * 0.5);
+    inv.weapons[wType].splice(idx, 1);
+
+    // если продаваемый скин был экипирован — возвращаем стандартный
+    if (inv.equipped[wType] === skinId) {
+      const defaultSkin = SKINS[wType].find(s => s.price === 0) || SKINS[wType][0];
+      inv.equipped[wType] = defaultSkin.id;
+      if (gameRunning && playerParts && playerState && playerState.weaponId === wType) {
+        applyPlayerLoadout();
+      }
+    }
+
+    inv.balance += sellPrice;
+    saveInventory(inv);
+    updateBalanceDisplay();
+    showToast(`💵 Продан скин "${name}" за $${sellPrice}`);
     renderInventory();
     renderSkinShop();
   }
@@ -1196,18 +1321,26 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
 
         const row = document.createElement('div');
         row.className = 'inv-item';
+        const isDefault = skin.price === 0;
         row.innerHTML = `
           <img class="icolor" src="${getSkinImage(wType, skin.color)}" alt="${skin.name}">
           <span class="iname">${skin.name}</span>
           <span style="color:#888; font-size:11px;">${WEAPON_NAMES[wType]}</span>
           <span class="irarity ${rarity.class}">${rarity.label}</span>
           ${isEquipped ? '<span class="iequipped">✅ Экипирован</span>' : `<span class="iapply" data-w="${wType}" data-id="${skinId}">Применить</span>`}
+          ${!isDefault ? `<span class="isell" data-w="${wType}" data-id="${skinId}" data-price="${skin.price}">💵 Продать</span>` : ''}
         `;
         if (!isEquipped) {
           row.querySelector('.iapply').addEventListener('click', (e) => {
             e.stopPropagation();
             applySkin(wType, skinId);
             renderInventory();
+          });
+        }
+        if (!isDefault) {
+          row.querySelector('.isell').addEventListener('click', (e) => {
+            e.stopPropagation();
+            sellSkin(wType, skinId, skin.price, skin.name);
           });
         }
         listDiv.appendChild(row);
@@ -1243,11 +1376,10 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       }
     }
     if (previewSkin) {
-      const colorHex = '#' + previewSkin.color.toString(16).padStart(6,'0');
       const rarity = RARITIES[previewSkin.rarity];
       previewDiv.innerHTML = `
-        <div class="pcolor" style="background:${colorHex};"></div>
-        <div class="pname">${previewSkin.icon} ${previewSkin.name}</div>
+        <img class="pcolor" src="${getSkinImage(previewWeapon, previewSkin.color)}" alt="${previewSkin.name}">
+        <div class="pname">${previewSkin.name}</div>
         <div class="pweapon">${WEAPON_NAMES[previewWeapon]} · <span class="${rarity.class}">${rarity.label}</span></div>
       `;
     } else {
@@ -1321,47 +1453,73 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     WEAPON_TYPES.forEach(wt => {
       SKINS[wt].forEach(s => allSkins.push({...s, weaponType: wt}));
     });
-    const shuffled = allSkins.sort(() => Math.random() - 0.5);
-    const displayItems = shuffled.slice(0, 5);
-    displayItems.push({...winner, weaponType: wType});
+
+    // длинная лента, как в CS:GO — много случайных предметов, победитель
+    // размещён не в самом конце, а чуть раньше, чтобы лента "проезжала" дальше
+    // и плавно тормозила точно на нём
+    const REEL_LENGTH = 60;
+    const WINNER_INDEX = 50;
+    const displayItems = [];
+    for (let i = 0; i < REEL_LENGTH; i++) {
+      if (i === WINNER_INDEX) {
+        displayItems.push({ ...winner, weaponType: wType });
+      } else {
+        const rnd = allSkins[Math.floor(Math.random() * allSkins.length)];
+        displayItems.push(rnd);
+      }
+    }
 
     track.innerHTML = '';
-    displayItems.forEach(item => {
+    displayItems.forEach((item, idx) => {
       const div = document.createElement('div');
       div.className = 'spin-item';
-      const colorHex = '#' + item.color.toString(16).padStart(6,'0');
+      const rarity = RARITIES[item.rarity];
+      div.style.borderColor = rarity.color;
+      div.dataset.idx = idx;
       div.innerHTML = `
-        <div class="scolor" style="background:${colorHex};"></div>
-        <span style="font-size:24px;">${item.icon}</span>
+        <img class="scolor" src="${getSkinImage(item.weaponType, item.color)}" alt="${item.name}">
         <div class="sname">${item.name}</div>
       `;
       track.appendChild(div);
     });
 
-    let startTime = performance.now();
-    const duration = 3000;
+    // ширина одного слота = ширина карточки (108) + отступы (6+6)
+    const ITEM_WIDTH = 120;
     const containerWidth = document.getElementById('spinContainer').clientWidth;
-    const totalWidth = displayItems.length * 100;
+    // небольшое случайное смещение внутри слота победителя — как будто лента
+    // останавливается не идеально по центру предмета, а чуть сбоку (реализм)
+    const jitter = (Math.random() - 0.5) * ITEM_WIDTH * 0.4;
+    const winnerCenter = WINNER_INDEX * ITEM_WIDTH + ITEM_WIDTH / 2;
+    const targetX = -(winnerCenter - containerWidth / 2 + jitter);
+
+    let startTime = performance.now();
+    const duration = 5200;
 
     function animateSpin(time) {
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const currentPos = -eased * (totalWidth - containerWidth + 40);
+      const eased = 1 - Math.pow(1 - progress, 5); // сильное замедление в конце, как в CS:GO
+      const currentPos = eased * targetX;
       track.style.transform = `translateX(${currentPos}px)`;
       if (progress < 1) {
         requestAnimationFrame(animateSpin);
       } else {
+        track.style.transform = `translateX(${targetX}px)`;
+        const winnerEl = track.querySelector(`[data-idx="${WINNER_INDEX}"]`);
+        if (winnerEl) {
+          const rarityW = RARITIES[winner.rarity];
+          winnerEl.style.color = rarityW.color;
+          winnerEl.classList.add('spin-winner');
+        }
+
         sub.textContent = '🎉 Результат!';
-        const colorHex = '#' + winner.color.toString(16).padStart(6,'0');
         const rarity = RARITIES[winner.rarity];
         resultDiv.innerHTML = `
           <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
-            <span style="font-size:32px;">${winner.icon}</span>
+            <img class="rcolor" src="${getSkinImage(wType, winner.color)}" alt="${winner.name}">
             <span>Вы получили <strong style="color:#ff8c1a;">${winner.name}</strong> для ${WEAPON_NAMES[wType]}</span>
           </div>
           <div style="margin-top:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
-            <span class="rcolor" style="background:${colorHex};"></span>
             <span class="rrarity ${rarity.class}">${rarity.label}</span>
           </div>
         `;
@@ -1649,10 +1807,19 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const helmet=new THREE.Mesh(new THREE.SphereGeometry(0.26,14,14,0,Math.PI*2,0,Math.PI*0.62),helmetMat);
     helmet.position.y=1.7; helmet.castShadow=true; helmet.visible=false;
     group.add(helmet); parts.helmet=helmet;
-    const gunMat=new THREE.MeshStandardMaterial({color:0x2b2b2b, roughness:0.4});
-    const gun=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.12,0.55),gunMat);
-    gun.position.set(0.38,1.0,0.45); gun.castShadow=true;
+    // ствол крупнее + собственное свечение (emissive) в цвете скина —
+    // так скин чётко виден на любом экране и с любого расстояния камеры,
+    // даже если основной свет сцены падает не на него
+    const gunMat=new THREE.MeshStandardMaterial({color:0x2b2b2b, emissive:0x2b2b2b, emissiveIntensity:0.35, roughness:0.35, metalness:0.4});
+    const gun=new THREE.Mesh(new THREE.BoxGeometry(0.17,0.17,0.66),gunMat);
+    gun.position.set(0.4,1.02,0.5); gun.castShadow=true;
     group.add(gun); parts.gun=gun;
+    // яркий наконечник ствола в цвете скина — маленький акцент, который
+    // хорошо считывается издалека даже когда сам ствол в тени
+    const gunTipMat=new THREE.MeshStandardMaterial({color:0x2b2b2b, emissive:0x2b2b2b, emissiveIntensity:0.6, roughness:0.3});
+    const gunTip=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.2,0.1),gunTipMat);
+    gunTip.position.set(0.4,1.02,0.85); gunTip.castShadow=true;
+    group.add(gunTip); parts.gunTip=gunTip;
     return {group, parts};
   }
 
@@ -1702,7 +1869,14 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     const skinId=equipped[wType]||(SKINS[wType]&&SKINS[wType][0]?.id);
     const skin=SKINS[wType]?.find(s=>s.id===skinId);
     const color=skin?skin.color:0x2b2b2b;
-    if(playerParts) playerParts.gun.material.color.setHex(color);
+    if(playerParts){
+      playerParts.gun.material.color.setHex(color);
+      playerParts.gun.material.emissive.setHex(color);
+      if(playerParts.gunTip){
+        playerParts.gunTip.material.color.setHex(color);
+        playerParts.gunTip.material.emissive.setHex(color);
+      }
+    }
     const v=VESTS[playerState.vestId], h=HELMETS[playerState.helmetId];
     if(v.color){ playerParts.vest.visible=true; playerParts.vest.material.color.setHex(v.color); }
     else playerParts.vest.visible=false;
@@ -2057,6 +2231,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
     if (playerState) playerState.burstQueue = null;
     const earned=playerState.kills*KILL_REWARD;
     addGlobalBalance(earned);
+    recordLeaderboardKills(playerNick, playerState.kills);
     document.getElementById('finalKills').textContent=playerState.kills;
     document.getElementById('finalMoney').textContent=earned;
     document.getElementById('gameOver').style.display='flex';
@@ -2215,21 +2390,6 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
   // ============ ВЫБОР УСТРОЙСТВА ============
   function selectDevice(type) {
     device = type;
-
-    // Сначала запускаем графику. Если WebGL/Three.js недоступны,
-    // меню выбора устройства не исчезает и пользователь не получает белый экран.
-    try {
-      if (!window.THREE) {
-        showToast('❌ Не загрузилась графическая библиотека Three.js. Обновите страницу.');
-        return;
-      }
-      if (!scene) initScene();
-    } catch (err) {
-      console.error('Ошибка инициализации 3D-сцены:', err);
-      showToast('❌ Не удалось запустить 3D-графику: ' + (err && err.message ? err.message : 'неизвестная ошибка'));
-      return;
-    }
-
     document.getElementById('deviceMenu').style.display = 'none';
     document.getElementById('menu').style.display = 'flex';
     if (device === 'phone') {
@@ -2256,6 +2416,13 @@ html, body { width:100%; height:100%; overflow:hidden; background:#0a0a0a; font-
       }
     } else {
       document.getElementById('touchControls').style.display = 'none';
+    }
+    // Инициализируем игру, если ещё не
+    try {
+      if (!scene) initScene();
+    } catch (err) {
+      console.error('Ошибка инициализации 3D-сцены:', err);
+      showToast('❌ Не удалось запустить графику на этом устройстве');
     }
     updateBalanceDisplay();
     renderMaps();
